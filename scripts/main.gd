@@ -35,7 +35,9 @@ func _try_start() -> void:
 	_player.velocity = Vector3.ZERO
 	if _companion.has_method("snap_to"):
 		_companion.snap_to(_player)
-	if _camera.has_method("snap"):
+	if not _shot_path.is_empty() and _camera.has_method("frame_companion"):
+		_camera.frame_companion()
+	elif _camera.has_method("snap"):
 		_camera.snap()
 	_player.enable_play()
 	_started = true
@@ -46,7 +48,7 @@ func _tick_screenshot() -> void:
 		return
 	_shot_frames += 1
 	var ring_ready := _world.is_ring_ready()
-	if ring_ready and _shot_frames > 24:
+	if ring_ready and _shot_frames > 48:
 		_shot_started = true
 		_capture_screenshot()
 	elif _shot_frames > 900:

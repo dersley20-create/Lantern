@@ -44,6 +44,21 @@ func _ready() -> void:
 	_distance_target = _distance
 
 
+## Pulls in for a companion portrait. Gameplay zoom limits stay as exported.
+func frame_companion() -> void:
+	min_distance = 2.8
+	pitch_degrees = 42.0
+	look_height = 0.5
+	look_ahead = -0.15
+	fov = 36.0
+	_distance = 5.4
+	_distance_target = 5.4
+	if _camera != null:
+		_camera.fov = fov
+		_camera.near = 0.05
+	snap()
+
+
 func snap() -> void:
 	var player := _player()
 	if player == null:

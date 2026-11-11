@@ -81,11 +81,7 @@ Export **glTF binary (`.glb`)**.
 
 **Props.** Add a `PropDef` under `resources/props/` that points `scene` at the `.glb`, and list it on the biome. Several surfaces (bark and leaves) stay on one mesh and become one MultiMesh. Set `collision_kind` to `cylinder` for a trunk or `sphere` for a rock. Set `instance_as_scene` only when the model needs real nodes (Wellstones). Fences and crop patches are not sprinkled through the meadow; the spawn chunk builds one fenced plot from the 2 m tiles.
 
-**Creatures.** Assign `visual_scene` on the Player or on `FirstRaised`. The placeholder hides. Keep the origin at the feet.
-
-**Creatures.** Put the file in `assets/models/creatures/`. On the Player or on `FirstRaised` (the companion), assign `visual_scene`. The placeholder hides and the imported scene is parented under `VisualRoot`, which already faces movement. Keep the origin at the feet so they stand on the terrain. The player's collision stays a capsule until you replace it on purpose.
-
-`FirstRaised` is the player's **first raised creature**, not a separate pet. Swap that one scene when the real model exists.
+**Creatures.** Put the file in `assets/models/creatures/`. `FirstRaised` is Pyreleaf, the player's first raised Nestkin (Hearthvale and the Glimmerwood): `assets/models/creatures/pyreleaf.glb`, Y-up, faces +Z, origin at the feet. It plays `Idle` and hops a little while following. Emissive parts (`PY_EyeHighlight`, `PY_SeedGlow`, `PY_Glimmer`, `PY_GlimmerLine`) stay glowing; the fur and the rest use the project toon shader. Assign `visual_scene` to swap another creature in. The player's collision stays a capsule.
 
 ## World
 

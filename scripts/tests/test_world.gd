@@ -35,6 +35,7 @@ func _run() -> int:
 	_check_slope_and_coverage(params, noises, failures)
 	_check_props(params, noises, failures)
 	_check_stick(failures)
+	_check_pyreleaf(failures)
 	_finish(failures)
 	return 0 if failures.is_empty() else 1
 
@@ -219,6 +220,48 @@ func _check_props(params: TerrainParams, noises: Dictionary, failures: Array[Str
 		var placed: Array = first.props[key]
 		if String(key) == "wellstone" or String(key) == "dull_stone":
 			_expect(failures, placed.size() <= 1, "%s stays a landmark" % String(key))
+
+
+func _check_pyreleaf(failures: Array[String]) -> void:
+	var path := "res://assets/models/creatures/pyreleaf.glb"
+	_expect(failures, FileAccess.file_exists(path), "pyreleaf file exists")
+	var packed := load(path) as PackedScene
+	_expect(failures, packed != null, "pyreleaf scene loads")
+	if packed == null:
+		return
+	var root := packed.instantiate()
+	get_root().add_child(root)
+	var anim := _find_named(root, "AnimationPlayer") as AnimationPlayer
+	var names: PackedStringArray = anim.get_animation_list() if anim != null else PackedStringArray()
+	_expect(failures, anim != null and names.has("Idle"), "pyreleaf plays Idle")
+	var materials: Array[String] = []
+	_collect_materials(root, materials)
+	_expect(failures, materials.size() >= 8, "pyreleaf has its material surfaces")
+	for needed in ["PY_EyeHighlight", "PY_SeedGlow", "PY_Glimmer", "PY_GlimmerLine", "PY_Fur"]:
+		_expect(failures, materials.has(needed), "pyreleaf material %s" % needed)
+	root.free()
+
+
+func _find_named(node: Node, type_name: String) -> Node:
+	if node.get_class() == type_name:
+		return node
+	for child in node.get_children():
+		var found := _find_named(child, type_name)
+		if found != null:
+			return found
+	return null
+
+
+func _collect_materials(node: Node, materials: Array[String]) -> void:
+	if node is MeshInstance3D:
+		var mesh_instance := node as MeshInstance3D
+		if mesh_instance.mesh != null:
+			for index in mesh_instance.mesh.get_surface_count():
+				var material := mesh_instance.mesh.surface_get_material(index)
+				if material != null and not String(material.resource_name).is_empty():
+					materials.append(String(material.resource_name))
+	for child in node.get_children():
+		_collect_materials(child, materials)
 
 
 func _check_stick(failures: Array[String]) -> void:
