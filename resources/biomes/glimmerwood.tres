@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="BiomeDef" load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/biome_def.gd" id="1_script"]
+[ext_resource type="Script" path="res://scripts/world/prop_def.gd" id="2_prop"]
+[ext_resource type="Resource" path="res://resources/props/glimmer_tree.tres" id="3_tree"]
+[ext_resource type="Resource" path="res://resources/props/rock.tres" id="4_rock"]
+[ext_resource type="Resource" path="res://resources/props/glimmer_flower.tres" id="5_flower"]
+[ext_resource type="Resource" path="res://resources/props/wellstone.tres" id="6_well"]
+
+[resource]
+script = ExtResource("1_script")
+id = &"glimmerwood"
+display_name = "The Glimmerwood"
+ground_color = Color(0.16, 0.4, 0.36, 1)
+ground_color_variance = 0.08
+ground_glow = 0.22
+surface_enabled = true
+lore_note = "Forest where the ancient terraforming machines still run. What looks like foxfire is glimmer: nanomachine light along living wood and active Wellstones."
+props = Array[ExtResource("2_prop")]([ExtResource("3_tree"), ExtResource("4_rock"), ExtResource("5_flower"), ExtResource("6_well")])

@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="PropDef" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/prop_def.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://scenes/props/rock.tscn" id="2_scene"]
+
+[resource]
+script = ExtResource("1_script")
+id = &"highland_rock"
+scene = ExtResource("2_scene")
+density = 0.26
+min_scale = 0.75
+max_scale = 1.6
+max_slope_degrees = 42.0
+max_per_chunk = 10
+tint = Color(0.78, 0.8, 0.88, 1)

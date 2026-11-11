@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="PropDef" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/prop_def.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://scenes/props/tree.tscn" id="2_scene"]
+
+[resource]
+script = ExtResource("1_script")
+id = &"glimmer_tree"
+scene = ExtResource("2_scene")
+density = 0.4
+min_scale = 0.9
+max_scale = 1.4
+max_slope_degrees = 24.0
+max_per_chunk = 14
+tint = Color(0.45, 0.92, 0.84, 1)
+override_emission = true
+emission_color = Color(0.35, 0.9, 0.75, 1)
+emission_energy = 0.55
+emission_surface_names = PackedStringArray("Canopy")

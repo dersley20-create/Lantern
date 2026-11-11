@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="PropDef" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/prop_def.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://scenes/props/wellstone.tscn" id="2_scene"]
+
+[resource]
+script = ExtResource("1_script")
+id = &"wellstone"
+scene = ExtResource("2_scene")
+instance_as_scene = true
+once_per_chunk = true
+density = 0.28
+min_scale = 0.9
+max_scale = 1.25
+max_slope_degrees = 18.0
+min_wellstone = 0.58
+max_per_chunk = 1

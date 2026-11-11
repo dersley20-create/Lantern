@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="PropDef" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/prop_def.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://scenes/props/flower.tscn" id="2_scene"]
+
+[resource]
+script = ExtResource("1_script")
+id = &"sparse_flower"
+scene = ExtResource("2_scene")
+density = 0.05
+min_scale = 0.7
+max_scale = 1.05
+max_slope_degrees = 24.0
+max_per_chunk = 4
+tint = Color(0.9, 0.86, 0.95, 1)

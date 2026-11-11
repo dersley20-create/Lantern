@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3]
+
+[sub_resource type="StandardMaterial3D" id="Mat_rock"]
+albedo_color = Color(0.55, 0.52, 0.48, 1)
+roughness = 1.0
+specular_mode = 2
+metallic = 0.0
+
+[sub_resource type="SphereMesh" id="Mesh_rock"]
+radius = 0.48
+height = 0.62
+radial_segments = 7
+rings = 5
+
+[node name="Rock" type="Node3D"]
+
+[node name="Stone" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.15, 0, 0, 0, 0.8, 0, 0, 0, 0.95, 0, 0.26, 0)
+mesh = SubResource("Mesh_rock")
+surface_material_override/0 = SubResource("Mat_rock")

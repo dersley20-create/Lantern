@@ -1,0 +1,31 @@
+[gd_resource type="Resource" script_class="WorldConfig" load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/world_config.gd" id="1_script"]
+[ext_resource type="Script" path="res://scripts/world/biome_def.gd" id="2_biome"]
+[ext_resource type="Resource" path="res://resources/biomes/hearthvale.tres" id="3_hearth"]
+[ext_resource type="Resource" path="res://resources/biomes/glimmerwood.tres" id="4_glimmer"]
+[ext_resource type="Resource" path="res://resources/biomes/saltglass.tres" id="5_salt"]
+[ext_resource type="Resource" path="res://resources/biomes/cloudloft.tres" id="6_cloud"]
+[ext_resource type="Resource" path="res://resources/biomes/greying.tres" id="7_grey"]
+[ext_resource type="Resource" path="res://resources/biomes/underhollows.tres" id="8_under"]
+
+[resource]
+script = ExtResource("1_script")
+world_name = "Veyla"
+world_seed = 12046
+chunk_size = 32.0
+lod0_resolution = 33
+lod1_resolution = 17
+load_radius = 2
+unload_radius = 4
+lod1_distance = 2
+prop_radius = 1
+max_concurrent_jobs = 2
+max_applies_per_frame = 1
+sea_level = 7.2
+base_height = 8.0
+continent_amplitude = 12.0
+hill_amplitude = 2.8
+hill_frequency = 0.02
+detail_amplitude = 0.25
+biomes = Array[ExtResource("2_biome")]([ExtResource("3_hearth"), ExtResource("4_glimmer"), ExtResource("5_salt"), ExtResource("6_cloud"), ExtResource("7_grey"), ExtResource("8_under")])

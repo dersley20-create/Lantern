@@ -1,0 +1,24 @@
+# Godot 4
+.godot/
+*.translation
+
+# Godot 3 import cache (unused, ignored just in case)
+.import/
+
+# Export presets and signing keys stay out of the repo.
+# Android package id: com.dersley.nestkin — see README.
+export.cfg
+export_presets.cfg
+export/
+/android/
+*.keystore
+*.jks
+*.apk
+*.aab
+
+# OS / editor junk
+.DS_Store
+*~
+*.tmp
+*.swp
+.directory

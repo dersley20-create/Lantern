@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="BiomeDef" load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/biome_def.gd" id="1_script"]
+[ext_resource type="Script" path="res://scripts/world/prop_def.gd" id="2_prop"]
+[ext_resource type="Resource" path="res://resources/props/pale_tree.tres" id="3_tree"]
+[ext_resource type="Resource" path="res://resources/props/pale_rock.tres" id="4_rock"]
+[ext_resource type="Resource" path="res://resources/props/sparse_flower.tres" id="5_flower"]
+[ext_resource type="Resource" path="res://resources/props/wellstone.tres" id="6_well"]
+
+[resource]
+script = ExtResource("1_script")
+id = &"saltglass"
+display_name = "Saltglass Shallows"
+ground_color = Color(0.84, 0.78, 0.64, 1)
+ground_color_variance = 0.05
+ground_glow = 0.06
+surface_enabled = true
+lore_note = "Coastal shelves and glass-sand shallows. The water is only deep enough to wade; the ground under it is still the walkable terrain."
+props = Array[ExtResource("2_prop")]([ExtResource("3_tree"), ExtResource("4_rock"), ExtResource("5_flower"), ExtResource("6_well")])
