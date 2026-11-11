@@ -31,11 +31,16 @@ func _process(_delta: float) -> void:
 func _try_start() -> void:
 	if _started or _world == null or not _world.home_ready:
 		return
-	_player.global_position = _world.spawn_position
+	var stand := _world.spawn_position
+	var biome_name := OS.get_environment("LANTERN_BIOME")
+	if biome_name != "" and biome_name != "hearthvale":
+		stand = _world.find_biome_stand(biome_name)
+	_player.global_position = stand
 	_player.velocity = Vector3.ZERO
+	print("Lantern stand=%s biome_request=%s" % [stand, biome_name])
 	if _companion.has_method("snap_to"):
 		_companion.snap_to(_player)
-	if not _shot_path.is_empty() and _camera.has_method("frame_companion"):
+	if OS.get_environment("LANTERN_CLOSE") == "1" and _camera.has_method("frame_companion"):
 		_camera.frame_companion()
 	elif _camera.has_method("snap"):
 		_camera.snap()
@@ -48,7 +53,11 @@ func _tick_screenshot() -> void:
 		return
 	_shot_frames += 1
 	var ring_ready := _world.is_ring_ready()
-	if ring_ready and _shot_frames > 48:
+	var grounded := _player.is_on_floor()
+	var terrain_here := true
+	if _world.has_method("terrain_ready_at"):
+		terrain_here = _world.terrain_ready_at(_player.global_position)
+	if ring_ready and grounded and terrain_here and _shot_frames > 80:
 		_shot_started = true
 		_capture_screenshot()
 	elif _shot_frames > 900:

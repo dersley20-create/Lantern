@@ -35,3 +35,5 @@ extends Resource
 @export_enum("none", "cylinder", "sphere", "box") var collision_kind: String = "none"
 @export var collision_radius: float = 0.3
 @export var collision_height: float = 1.0
+## Vertex sway for grass, flowers, and leaves. Zero on trunks-as-rocks and creatures.
+@export var wind_strength: float = 0.0

@@ -12,3 +12,4 @@ min_scale = 0.85
 max_scale = 1.25
 max_slope_degrees = 26.0
 max_per_chunk = 8
+wind_strength = 0.09

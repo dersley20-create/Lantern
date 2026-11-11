@@ -11,8 +11,8 @@
 script = ExtResource("1_script")
 id = &"saltglass"
 display_name = "Saltglass Shallows"
-ground_color = Color(0.84, 0.78, 0.64, 1)
-ground_color_variance = 0.05
+ground_color = Color(0.92, 0.84, 0.7, 1)
+ground_color_variance = 0.04
 ground_glow = 0.06
 surface_enabled = true
 lore_note = "Coastal shelves and glass-sand shallows. The water is only deep enough to wade; the ground under it is still the walkable terrain."

@@ -120,6 +120,20 @@ Scattered props are MultiMeshes. Trees use a trunk cylinder and rocks a sphere, 
 - Screen stays awake while the game is in front (`keep_screen_on`).
 - Do not commit `export_presets.cfg` or a keystore. The Play package id is `com.dersley.nestkin`.
 
+## Visual quality
+
+`resources/world/visual_quality.tres` is the phone knob. It is `medium` by default.
+
+| Setting | Low | Medium | High |
+| --- | --- | --- | --- |
+| Hearthvale grass tufts per near chunk | 70 | 280 | 520 |
+| Fireflies / glimmer motes | off | 22 | 40 |
+| Shoreline foam ribbon | off | on | on |
+| Leaf and grass wind | off | on | on |
+| Shadow distance | 26 m | 44 m | 60 m |
+
+Lighting stays at a warm morning unless `DayLight.cycle` is turned on. A full day then takes `day_length_seconds` (12 minutes by default) and night is a dim moon, not a black screen.
+
 ## Known gaps
 
 - The Underhollows are a note, not a cave system.
@@ -127,4 +141,4 @@ Scattered props are MultiMeshes. Trees use a trunk cylinder and rocks a sphere, 
 - Other biomes and both creatures are still placeholders. No audio.
 - Tree and rock collision is a trunk cylinder or a sphere, not the rendered mesh. Fences on the spawn plot use a thin box.
 - LOD seams are hidden with skirts, not stitched vertex-for-vertex.
-- Water is a moving transparent plane, not a simulation.
+- Water is one transparent plane that follows the player, lifted so it meets the Saltglass sand. Foam is a ribbon of discs on that waterline (off on low quality). The water shader also softens the edge when the device exposes a depth texture.

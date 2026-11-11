@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3]
+[gd_scene load_steps=17 format=3]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_main"]
 [ext_resource type="Script" path="res://scripts/world/world_streamer.gd" id="2_world"]
@@ -9,12 +9,14 @@
 [ext_resource type="Script" path="res://scripts/ui/touch_controls.gd" id="7_touch"]
 [ext_resource type="Shader" path="res://assets/shaders/water.gdshader" id="8_water_shader"]
 [ext_resource type="Script" path="res://scripts/world/water_follow.gd" id="9_water"]
+[ext_resource type="Script" path="res://scripts/render/day_light.gd" id="10_day"]
+[ext_resource type="Script" path="res://scripts/render/ambient_motes.gd" id="11_motes"]
 
 [sub_resource type="ProceduralSkyMaterial" id="SkyMat"]
-sky_top_color = Color(0.46, 0.64, 0.88, 1)
-sky_horizon_color = Color(0.95, 0.8, 0.66, 1)
-ground_bottom_color = Color(0.34, 0.32, 0.3, 1)
-ground_horizon_color = Color(0.62, 0.56, 0.48, 1)
+sky_top_color = Color(0.42, 0.68, 0.95, 1)
+sky_horizon_color = Color(0.78, 0.88, 0.98, 1)
+ground_bottom_color = Color(0.34, 0.4, 0.32, 1)
+ground_horizon_color = Color(0.62, 0.7, 0.58, 1)
 sun_angle_max = 32.0
 
 [sub_resource type="Sky" id="Sky"]
@@ -26,17 +28,25 @@ sky = SubResource("Sky")
 ambient_light_source = 3
 ambient_light_energy = 0.62
 ambient_light_sky_contribution = 0.82
-tonemap_mode = 2
-tonemap_exposure = 0.92
+tonemap_mode = 3
+tonemap_exposure = 1.0
+tonemap_white = 6.0
+adjustment_enabled = true
+adjustment_brightness = 1.0
+adjustment_contrast = 1.08
+adjustment_saturation = 1.2
 fog_enabled = true
-fog_light_color = Color(0.78, 0.74, 0.68, 1)
-fog_density = 0.0045
-fog_aerial_perspective = 0.4
-fog_sun_scatter = 0.14
+fog_light_color = Color(0.74, 0.84, 0.94, 1)
+fog_density = 0.0016
+fog_aerial_perspective = 0.2
+fog_sun_scatter = 0.12
 
 [sub_resource type="ShaderMaterial" id="WaterMat"]
 shader = ExtResource("8_water_shader")
-shader_parameter/water_color = Color(0.42, 0.66, 0.68, 0.46)
+shader_parameter/shallow_color = Color(0.22, 0.68, 0.66, 0.94)
+shader_parameter/deep_color = Color(0.1, 0.42, 0.55, 0.98)
+shader_parameter/foam_color = Color(0.93, 0.96, 0.92, 0.88)
+shader_parameter/use_shore_foam = true
 
 [sub_resource type="PlaneMesh" id="WaterMesh"]
 size = Vector2(240, 240)
@@ -78,6 +88,12 @@ config = ExtResource("3_config")
 [node name="FirstRaised" parent="." instance=ExtResource("5_companion")]
 
 [node name="FollowCamera" parent="." instance=ExtResource("6_camera")]
+
+[node name="DayLight" type="Node" parent="."]
+script = ExtResource("10_day")
+
+[node name="AmbientMotes" type="GPUParticles3D" parent="."]
+script = ExtResource("11_motes")
 
 [node name="TouchLayer" type="CanvasLayer" parent="."]
 

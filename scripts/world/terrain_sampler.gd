@@ -127,18 +127,7 @@ static func _decorate(params: TerrainParams, climate: Dictionary) -> Dictionary:
 		float(climate.wellstone),
 		params
 	)
-	var info: Dictionary = params.biomes.get(biome, {})
-	var base := info.get("color", Color(0.75, 0.2, 0.55, 1.0)) as Color
-	var variance := float(info.get("variance", 0.05))
-	var glow := float(info.get("glow", 0.0))
-	var vary := float(climate.detail)
-	var scale := lerpf(1.0 - variance, 1.0 + variance * 0.35, vary)
-	var color := Color(
-		clampf(base.r * scale, 0.0, 1.0),
-		clampf(base.g * scale, 0.0, 1.0),
-		clampf(base.b * scale, 0.0, 1.0),
-		clampf(glow, 0.0, 1.0)
-	)
+	var color := _blended_ground(params, climate)
 	return {
 		"height": height,
 		"elevation": float(climate.elevation),
@@ -147,6 +136,56 @@ static func _decorate(params: TerrainParams, climate: Dictionary) -> Dictionary:
 		"biome": biome,
 		"color": color,
 	}
+
+
+static func _blended_ground(params: TerrainParams, climate: Dictionary) -> Color:
+	var elevation := float(climate.elevation)
+	var moisture := float(climate.moisture)
+	var wellstone := float(climate.wellstone)
+	var vary := float(climate.detail)
+	# A narrow band around each hard threshold. These noises are very low
+	# frequency, so a wide smoothstep paints a whole meadow the neighbour's colour.
+	var edge := 0.04
+	var high := smoothstep(params.highlands_elevation - edge, params.highlands_elevation + edge * 0.25, elevation)
+	var low := 1.0 - smoothstep(params.shallows_elevation - edge * 0.35, params.shallows_elevation + edge, elevation)
+	var wet := smoothstep(params.shallows_moisture - edge, params.shallows_moisture + edge * 0.35, moisture)
+	var salt := smoothstep(0.35, 0.8, clampf(low * wet, 0.0, 1.0))
+	var inland := clampf(1.0 - high, 0.0, 1.0)
+	var mid := smoothstep(params.shallows_elevation - edge * 0.25, params.shallows_elevation + edge, elevation)
+	mid *= 1.0 - high
+	var quiet := 1.0 - smoothstep(params.greying_wellstone - edge * 0.4, params.greying_wellstone + edge, wellstone)
+	var grey := inland * (1.0 - salt) * mid * quiet
+	var glimmer := inland * (1.0 - salt) * (1.0 - grey)
+	glimmer *= smoothstep(params.glimmer_moisture - edge, params.glimmer_moisture + edge * 0.35, moisture)
+	glimmer *= smoothstep(params.glimmer_wellstone - edge, params.glimmer_wellstone + edge * 0.35, wellstone)
+	var hearth := maxf(0.0, 1.0 - high - salt - grey - glimmer)
+	var sum := high + salt + grey + glimmer + hearth
+	if sum <= 0.0001:
+		sum = 1.0
+		hearth = 1.0
+	var color := Color(0, 0, 0, 0)
+	color += _biome_tint(params, BiomeIds.CLOUDLOFT, vary) * (high / sum)
+	color += _biome_tint(params, BiomeIds.SALTGLASS, vary) * (salt / sum)
+	color += _biome_tint(params, BiomeIds.GREYING, vary) * (grey / sum)
+	color += _biome_tint(params, BiomeIds.GLIMMERWOOD, vary) * (glimmer / sum)
+	color += _biome_tint(params, BiomeIds.HEARTHVALE, vary) * (hearth / sum)
+	var glimmer_info: Dictionary = params.biomes.get(BiomeIds.GLIMMERWOOD, {})
+	var salt_info: Dictionary = params.biomes.get(BiomeIds.SALTGLASS, {})
+	color.a = clampf(float(glimmer_info.get("glow", 0.0)) * (glimmer / sum) + float(salt_info.get("glow", 0.0)) * (salt / sum) * 0.35, 0.0, 1.0)
+	return color
+
+
+static func _biome_tint(params: TerrainParams, biome: StringName, vary: float) -> Color:
+	var info: Dictionary = params.biomes.get(biome, {})
+	var base := info.get("color", Color(0.5, 0.55, 0.4, 1.0)) as Color
+	var variance := float(info.get("variance", 0.05))
+	var scale := lerpf(1.0 - variance, 1.0 + variance * 0.35, vary)
+	return Color(
+		clampf(base.r * scale, 0.0, 1.0),
+		clampf(base.g * scale, 0.0, 1.0),
+		clampf(base.b * scale, 0.0, 1.0),
+		1.0
+	)
 
 
 static func _climate(noises: Dictionary, x: float, z: float) -> Dictionary:

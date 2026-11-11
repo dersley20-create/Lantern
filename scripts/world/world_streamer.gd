@@ -27,6 +27,7 @@ var _mutex := Mutex.new()
 var _jobs: int = 0
 var _center := Vector2i.ZERO
 var _spawn_chunk := Vector2i.ZERO
+var _quality: VisualQuality
 
 
 func _enter_tree() -> void:
@@ -41,6 +42,7 @@ func _ready() -> void:
 		return
 	_params = TerrainParams.from_config(config)
 	_noises = TerrainSampler.create_noises(_params)
+	_quality = VisualQuality.load_default()
 	_library = PropLibrary.new(config)
 	_terrain_material = ShaderMaterial.new()
 	_terrain_material.shader = load(TERRAIN_SHADER) as Shader
@@ -61,6 +63,75 @@ func sample_height(x: float, z: float) -> float:
 	if _params == null or _noises.is_empty():
 		return 0.0
 	return TerrainSampler.height_at(_params, _noises, x, z)
+
+
+func sample_biome(x: float, z: float) -> StringName:
+	if _params == null or _noises.is_empty():
+		return BiomeIds.HEARTHVALE
+	return TerrainSampler.sample_at(_params, _noises, x, z).biome
+
+
+func find_biome_stand(biome_name: String) -> Vector3:
+	if biome_name == "saltglass":
+		var shore := _find_shore_stand()
+		if shore.x < 1.0e8:
+			return shore
+	var wanted := StringName(biome_name)
+	var best := spawn_position
+	var best_score := -1.0e20
+	var step := 22.0
+	var z := -320.0
+	while z <= 320.0:
+		var x := -320.0
+		while x <= 320.0:
+			var sample := TerrainSampler.sample_at(_params, _noises, x, z)
+			if sample.biome == wanted:
+				var slope := TerrainSampler.slope_at(_params, _noises, x, z)
+				var score := 6.0 - slope * 5.0 - Vector2(x, z).length() * 0.012
+				if float(sample.height) < _params.sea_level + 0.2:
+					score -= 2.0
+				if slope < 0.3 and score > best_score:
+					best_score = score
+					best = Vector3(x, float(sample.height) + 0.35, z)
+			x += step
+		z += step
+	return best
+
+
+func _find_shore_stand() -> Vector3:
+	# Default camera yaw is 32°, so the sea needs to sit along that look direction.
+	var yaw := deg_to_rad(32.0)
+	var forward := Vector3(-sin(yaw), 0.0, -cos(yaw))
+	var water := _params.sea_level + WaterSheet.SURFACE_LIFT
+	var best := Vector3(1.0e20, 0.0, 0.0)
+	var best_score := -1.0e20
+	var step := 10.0
+	var z := -320.0
+	while z <= 320.0:
+		var x := -320.0
+		while x <= 320.0:
+			var sample := TerrainSampler.sample_at(_params, _noises, x, z)
+			if sample.biome == BiomeIds.SALTGLASS:
+				var height := float(sample.height)
+				var slope := TerrainSampler.slope_at(_params, _noises, x, z)
+				if height >= water + 0.45 and height <= water + 1.8 and slope < 0.26:
+					var near := TerrainSampler.height_at(_params, _noises, x + forward.x * 12.0, z + forward.z * 12.0)
+					var mid := TerrainSampler.height_at(_params, _noises, x + forward.x * 20.0, z + forward.z * 20.0)
+					if near < water - 0.15 and mid < water - 0.35:
+						var score := (water - mid) * 3.0 - slope * 4.0 - Vector2(x, z).length() * 0.004
+						if score > best_score:
+							best_score = score
+							best = Vector3(x, height + 0.35, z)
+			x += step
+		z += step
+	return best
+
+
+func terrain_ready_at(pos: Vector3) -> bool:
+	if _params == null:
+		return false
+	var coord := TerrainSampler.chunk_coord(pos.x, pos.z, _params.chunk_size)
+	return _chunks.has(coord) and is_ring_ready()
 
 
 func is_ring_ready() -> bool:
@@ -234,6 +305,10 @@ func _make_chunk(data: Dictionary) -> TerrainChunk:
 		_library.attach(chunk, data.props, _params.chunk_size)
 	if chunk.coord == _spawn_chunk and chunk.has_props:
 		FarmPlot.attach(chunk, spawn_position, Callable(self, "sample_height"))
+	if chunk.has_props and _quality != null:
+		GrassCover.attach(chunk, _params, _noises, _quality.grass_per_chunk(), _quality.wind_scale())
+	if _quality != null and _quality.shore_foam():
+		ShoreFoam.attach(chunk, _params, _noises, _params.sea_level + WaterSheet.SURFACE_LIFT)
 	return chunk
 
 

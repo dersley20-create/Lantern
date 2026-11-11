@@ -15,3 +15,4 @@ max_per_chunk = 3
 collision_kind = "cylinder"
 collision_radius = 0.32
 collision_height = 1.7
+wind_strength = 0.045

@@ -14,6 +14,19 @@ uniform vec4 emission_color : source_color = vec4(0.0);
 uniform float emission_energy = 0.0;
 uniform vec3 shadow_tint = vec3(0.70, 0.74, 0.84);
 uniform float ambient_level = 0.36;
+uniform float wind_strength = 0.0;
+uniform float light_neutral : hint_range(0.0, 1.0) = 0.0;
+
+void vertex() {
+	// Uniform branch stays off for characters and rocks. Foliage sets wind_strength.
+	if (wind_strength > 0.001) {
+		float mask = clamp(VERTEX.y * 0.45, 0.0, 1.0);
+		float phase = TIME * 1.35 + (MODEL_MATRIX[3].x + MODEL_MATRIX[3].z) * 0.37;
+		float sway = sin(phase) * wind_strength * mask;
+		VERTEX.x += sway;
+		VERTEX.z += cos(phase * 0.8) * sway * 0.4;
+	}
+}
 
 void fragment() {
 	vec3 base = albedo_color.rgb;
@@ -33,5 +46,7 @@ void light() {
 	float stepped = floor(wrapped * bands) / (bands - 1.0);
 	float lit = mix(min_light, 1.0, clamp(stepped, 0.0, 1.0));
 	vec3 grade = mix(shadow_tint, vec3(1.0), lit);
-	DIFFUSE_LIGHT += ALBEDO * grade * ATTENUATION * LIGHT_COLOR * 0.75;
+	float peak = max(LIGHT_COLOR.r, max(LIGHT_COLOR.g, LIGHT_COLOR.b));
+	vec3 tint = mix(LIGHT_COLOR, vec3(peak), light_neutral);
+	DIFFUSE_LIGHT += ALBEDO * grade * ATTENUATION * tint * 0.75;
 }

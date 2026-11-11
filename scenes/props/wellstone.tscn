@@ -7,7 +7,7 @@ specular_mode = 2
 metallic = 0.0
 emission_enabled = true
 emission = Color(0.45, 0.78, 0.72, 1)
-emission_energy_multiplier = 0.45
+emission_energy_multiplier = 0.9
 
 [sub_resource type="BoxMesh" id="Mesh_tall"]
 size = Vector3(0.55, 2.6, 0.38)
@@ -29,6 +29,14 @@ surface_material_override/0 = SubResource("Mat_stone")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.58, 0.85, 0.16)
 mesh = SubResource("Mesh_short")
 surface_material_override/0 = SubResource("Mat_stone")
+
+[node name="Glow" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.15, 1.4, 0)
+light_color = Color(0.65, 0.92, 0.82, 1)
+light_energy = 0.28
+light_specular = 0.0
+shadow_enabled = false
+omni_range = 3.8
 
 [node name="Body" type="StaticBody3D" parent="."]
 collision_layer = 1

@@ -14,7 +14,7 @@ static func shader() -> Shader:
 	return _shader
 
 
-static func from_source(source: Material, tint: Color = Color.WHITE, prop: PropDef = null, surface_name: String = "") -> ShaderMaterial:
+static func from_source(source: Material, tint: Color = Color.WHITE, prop: PropDef = null, surface_name: String = "", wind: float = 0.0) -> ShaderMaterial:
 	var material := ShaderMaterial.new()
 	material.shader = shader()
 	var albedo := Color.WHITE
@@ -36,10 +36,14 @@ static func from_source(source: Material, tint: Color = Color.WHITE, prop: PropD
 	material.set_shader_parameter("emission_energy", energy)
 	material.set_shader_parameter("rim_strength", 0.08 if energy > 0.2 else 0.28)
 	material.set_shader_parameter("color_steps", 3.0)
+	var sway := wind
+	if prop != null:
+		sway = prop.wind_strength
+	material.set_shader_parameter("wind_strength", sway)
 	return material
 
 
-static func apply_node(root: Node, tint: Color = Color.WHITE) -> void:
+static func apply_node(root: Node, tint: Color = Color.WHITE, wind: float = 0.0) -> void:
 	if root is MeshInstance3D:
 		var mesh_instance := root as MeshInstance3D
 		if mesh_instance.mesh != null:
@@ -48,9 +52,9 @@ static func apply_node(root: Node, tint: Color = Color.WHITE) -> void:
 				var source := mesh_instance.get_surface_override_material(surface_index)
 				if source == null:
 					source = mesh_instance.mesh.surface_get_material(surface_index)
-				mesh_instance.set_surface_override_material(surface_index, from_source(source, tint))
+				mesh_instance.set_surface_override_material(surface_index, from_source(source, tint, null, "", wind))
 	for child in root.get_children():
-		apply_node(child, tint)
+		apply_node(child, tint, wind)
 
 
 static func _emits(prop: PropDef, surface_name: String) -> bool:

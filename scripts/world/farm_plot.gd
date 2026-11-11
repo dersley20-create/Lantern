@@ -31,7 +31,7 @@ static func attach(chunk: Node3D, spawn: Vector3, height_at: Callable) -> void:
 	_side(root, fence_scene, chunk, height_at, center.x + half, center.z - half, false)
 	for gx in [-1.0, 1.0]:
 		for gz in [-1.0, 1.0]:
-			_prop(root, crop_scene, chunk, height_at, center.x + gx, center.z + gz, 0.0, "none", 0.0, 0.0)
+			_prop(root, crop_scene, chunk, height_at, center.x + gx, center.z + gz, 0.0, "none", 0.0, 0.0, 0.1)
 	_prop(root, hay_scene, chunk, height_at, center.x + 5.4, center.z - 2.2, 0.4, "box", 0.48, 0.95)
 	_prop(root, hay_scene, chunk, height_at, center.x + 5.6, center.z - 3.4, -0.5, "box", 0.48, 0.95)
 
@@ -44,11 +44,11 @@ static func _side(root: Node3D, scene: PackedScene, chunk: Node3D, height_at: Ca
 		_prop(root, scene, chunk, height_at, x, z, yaw, "box", 0.06, 1.22)
 
 
-static func _prop(root: Node3D, scene: PackedScene, chunk: Node3D, height_at: Callable, x: float, z: float, yaw: float, collision_kind: String, radius: float, height: float) -> void:
+static func _prop(root: Node3D, scene: PackedScene, chunk: Node3D, height_at: Callable, x: float, z: float, yaw: float, collision_kind: String, radius: float, height: float, wind: float = 0.0) -> void:
 	var node := scene.instantiate() as Node3D
 	if node == null:
 		return
-	ToonMaterial.apply_node(node)
+	ToonMaterial.apply_node(node, Color.WHITE, wind)
 	root.add_child(node)
 	var ground: float = height_at.call(x, z)
 	node.position = Vector3(x - chunk.position.x, ground, z - chunk.position.z)

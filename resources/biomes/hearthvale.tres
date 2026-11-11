@@ -14,8 +14,8 @@
 script = ExtResource("1_script")
 id = &"hearthvale"
 display_name = "Hearthvale"
-ground_color = Color(0.4, 0.55, 0.24, 1)
-ground_color_variance = 0.11
+ground_color = Color(0.34, 0.58, 0.24, 1)
+ground_color_variance = 0.06
 ground_glow = 0.0
 surface_enabled = true
 lore_note = "Gentle farmland and meadows. Oaks, fruit trees, and a fenced plot sit in the tame ground; Wellstones are rare."
