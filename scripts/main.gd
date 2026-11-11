@@ -33,7 +33,9 @@ func _try_start() -> void:
 		return
 	var stand := _world.spawn_position
 	var biome_name := OS.get_environment("LANTERN_BIOME")
-	if biome_name != "" and biome_name != "hearthvale":
+	if biome_name == "stream" and _world.has_method("find_hearth_water"):
+		stand = _world.find_hearth_water()
+	elif biome_name != "" and biome_name != "hearthvale":
 		stand = _world.find_biome_stand(biome_name)
 	_player.global_position = stand
 	_player.velocity = Vector3.ZERO

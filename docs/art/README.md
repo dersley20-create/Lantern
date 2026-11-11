@@ -24,4 +24,6 @@ Living biomes scatter the restored Wellstone where the network is strong. The Gr
 
 Wild creatures (not the companion) live in `assets/models/creatures/cactoro.glb` and `mushnub.glb`. Notes and the contact sheet are in `docs/art/creatures/`.
 
+Hearthvale extras (grass clumps, ground cover, banks, water tile, stepping stones) share `assets/models/props/hearthvale/`. Their sheet is `docs/art/hearthvale/contact-sheet-extras.png`.
+
 See `docs/art/hearthvale/` for the first set.

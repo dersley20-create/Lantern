@@ -127,6 +127,12 @@ func _find_shore_stand() -> Vector3:
 	return best
 
 
+func find_hearth_water() -> Vector3:
+	if _params == null or _noises.is_empty():
+		return spawn_position
+	return HearthvaleWater.nearest_stand(_params, _noises, spawn_position)
+
+
 func terrain_ready_at(pos: Vector3) -> bool:
 	if _params == null:
 		return false
@@ -306,7 +312,8 @@ func _make_chunk(data: Dictionary) -> TerrainChunk:
 	if chunk.coord == _spawn_chunk and chunk.has_props:
 		FarmPlot.attach(chunk, spawn_position, Callable(self, "sample_height"))
 	if chunk.has_props and _quality != null:
-		GrassCover.attach(chunk, _params, _noises, _quality.grass_per_chunk(), _quality.wind_scale())
+		var blockers := HearthvaleWater.attach(chunk, _params, _noises, spawn_position)
+		GrassCover.attach(chunk, _params, _noises, _quality.grass_mix(), _quality.wind_scale(), blockers)
 		WildCreature.attach(chunk, _params, _noises)
 	if _quality != null and _quality.shore_foam():
 		ShoreFoam.attach(chunk, _params, _noises, _params.sea_level + WaterSheet.SURFACE_LIFT)

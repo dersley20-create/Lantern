@@ -113,7 +113,7 @@ Each surface biome has its own ground colour and a list of props with density, s
 
 Chunks underfoot are built before you can move, so you spawn standing on collision. Further chunks are meshed off the main thread and attached a few per frame. The outer ring uses a coarser grid and skips props. A short skirt hides LOD cracks.
 
-Scattered props are MultiMeshes. Trees use a trunk cylinder and rocks a sphere, so they block you without a triangle mesh. Wellstones are real nodes with a box collider. Hearthvale also places one fenced plot, with 2 m fence tiles and 2 m crop patches, in front of the spawn point.
+Scattered props are MultiMeshes. Trees use a trunk cylinder and rocks a sphere, so they block you without a triangle mesh. Wellstones are real nodes with a box collider. Hearthvale also places one fenced plot, with 2 m fence tiles and 2 m crop patches, in front of the spawn point. Gentle Hearthvale chunks may hold one pond (four bank curves around a water tile) or a narrow stream (straight banks every 2 m, water tiles, and stepping stones across). The Saltglass sea keeps the foam shader.
 
 ## Android notes
 
@@ -129,7 +129,7 @@ Scattered props are MultiMeshes. Trees use a trunk cylinder and rocks a sphere, 
 
 | Setting | Low | Medium | High |
 | --- | --- | --- | --- |
-| Hearthvale grass tufts per near chunk | 70 | 280 | 520 |
+| Hearthvale grass clumps (small / medium / tall / clover) | 48 / 28 / 10 / 8 | 120 / 72 / 26 / 20 | 200 / 120 / 44 / 36 |
 | Fireflies / glimmer motes | off | 22 | 40 |
 | Shoreline foam ribbon | off | on | on |
 | Leaf and grass wind | off | on | on |

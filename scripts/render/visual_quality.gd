@@ -15,14 +15,20 @@ static func load_default() -> VisualQuality:
 	return loaded if loaded != null else VisualQuality.new()
 
 
-func grass_per_chunk() -> int:
+## Artist clumps per near Hearthvale chunk: small, medium, tall, clover cover.
+func grass_mix() -> Dictionary:
 	match quality:
 		"low":
-			return 70
+			return {"small": 48, "medium": 28, "tall": 10, "cover": 8}
 		"high":
-			return 520
+			return {"small": 200, "medium": 120, "tall": 44, "cover": 36}
 		_:
-			return 280
+			return {"small": 120, "medium": 72, "tall": 26, "cover": 20}
+
+
+func grass_per_chunk() -> int:
+	var mix := grass_mix()
+	return int(mix["small"]) + int(mix["medium"]) + int(mix["tall"]) + int(mix["cover"])
 
 
 func mote_amount() -> int:

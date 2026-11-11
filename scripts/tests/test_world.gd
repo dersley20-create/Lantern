@@ -20,6 +20,7 @@ func _run() -> int:
 	preload("res://scripts/world/terrain_sampler.gd")
 	preload("res://scripts/world/chunk_mesher.gd")
 	preload("res://scripts/world/wild_spawn.gd")
+	preload("res://scripts/world/hearthvale_water.gd")
 	var failures: Array[String] = []
 	_check_config(failures)
 	var config := load("res://resources/world/world_config.tres") as WorldConfig
@@ -38,6 +39,7 @@ func _run() -> int:
 	_check_stick(failures)
 	_check_pyreleaf(failures)
 	_check_wild_creatures(params, noises, failures)
+	_check_hearth_pond(failures)
 	_finish(failures)
 	return 0 if failures.is_empty() else 1
 
@@ -88,6 +90,14 @@ func _check_hearthvale_art(config: WorldConfig, failures: Array[String]) -> void
 		"hearthvale_bush.glb",
 		"hearthvale_rock.glb",
 		"hearthvale_crop_patch.glb",
+		"hearthvale_grass_clump.glb",
+		"hearthvale_grass_clump_small.glb",
+		"hearthvale_grass_clump_tall.glb",
+		"hearthvale_ground_cover.glb",
+		"hearthvale_bank_straight.glb",
+		"hearthvale_bank_curve.glb",
+		"hearthvale_water_tile.glb",
+		"hearthvale_stepping_stones.glb",
 	]:
 		_expect(failures, FileAccess.file_exists("res://assets/models/props/hearthvale/%s" % filename), "model file %s" % filename)
 
@@ -326,6 +336,18 @@ func _check_wild_creatures(params: TerrainParams, noises: Dictionary, failures: 
 					found = true
 			_expect(failures, found, "%s clip %s" % [filename, suffix])
 		root.free()
+
+
+func _check_hearth_pond(failures: Array[String]) -> void:
+	var center := Vector3(4.0, 2.0, 8.0)
+	var pieces: Array[Transform3D] = HearthvaleWater.pond_transforms(center)
+	_expect(failures, pieces.size() == 4, "a pond uses four bank curves")
+	var arc := Vector3(-1.0, 0.0, 1.0)
+	var meet := true
+	for xf in pieces:
+		if (xf * arc).distance_to(center) > 0.001:
+			meet = false
+	_expect(failures, meet, "pond corners share one inner arc")
 
 
 func _find_named(node: Node, type_name: String) -> Node:
