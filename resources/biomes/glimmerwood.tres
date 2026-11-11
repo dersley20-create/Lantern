@@ -1,11 +1,16 @@
-[gd_resource type="Resource" script_class="BiomeDef" load_steps=7 format=3]
+[gd_resource type="Resource" script_class="BiomeDef" load_steps=12 format=3]
 
 [ext_resource type="Script" path="res://scripts/world/biome_def.gd" id="1_script"]
 [ext_resource type="Script" path="res://scripts/world/prop_def.gd" id="2_prop"]
-[ext_resource type="Resource" path="res://resources/props/glimmer_tree.tres" id="3_tree"]
-[ext_resource type="Resource" path="res://resources/props/rock.tres" id="4_rock"]
-[ext_resource type="Resource" path="res://resources/props/glimmer_flower.tres" id="5_flower"]
-[ext_resource type="Resource" path="res://resources/props/wellstone.tres" id="6_well"]
+[ext_resource type="Resource" path="res://resources/props/glimmerwood_tree_copper.tres" id="3_copper"]
+[ext_resource type="Resource" path="res://resources/props/glimmerwood_tree_tall.tres" id="4_tall"]
+[ext_resource type="Resource" path="res://resources/props/glimmerwood_glowcap.tres" id="5_cap"]
+[ext_resource type="Resource" path="res://resources/props/glimmerwood_glow_vines.tres" id="6_vines"]
+[ext_resource type="Resource" path="res://resources/props/glimmerwood_fern.tres" id="7_fern"]
+[ext_resource type="Resource" path="res://resources/props/glimmerwood_mossy_log.tres" id="8_log"]
+[ext_resource type="Resource" path="res://resources/props/glimmerwood_glimmer_crystal.tres" id="9_crystal"]
+[ext_resource type="Resource" path="res://resources/props/glimmerwood_root_arch.tres" id="10_arch"]
+[ext_resource type="Resource" path="res://resources/props/wellstone.tres" id="11_well"]
 
 [resource]
 script = ExtResource("1_script")
@@ -16,4 +21,4 @@ ground_color_variance = 0.08
 ground_glow = 0.45
 surface_enabled = true
 lore_note = "Forest where the ancient terraforming machines still run. What looks like foxfire is glimmer: nanomachine light along living wood and active Wellstones."
-props = Array[ExtResource("2_prop")]([ExtResource("3_tree"), ExtResource("4_rock"), ExtResource("5_flower"), ExtResource("6_well")])
+props = Array[ExtResource("2_prop")]([ExtResource("3_copper"), ExtResource("4_tall"), ExtResource("5_cap"), ExtResource("6_vines"), ExtResource("7_fern"), ExtResource("8_log"), ExtResource("9_crystal"), ExtResource("10_arch"), ExtResource("11_well")])

@@ -23,9 +23,13 @@ static func from_source(source: Material, tint: Color = Color.WHITE, prop: PropD
 	if source is StandardMaterial3D:
 		var standard := source as StandardMaterial3D
 		albedo = standard.albedo_color
-		if standard.emission_enabled:
+		# glTF emission stays on the imported material. A black factor is not a glow.
+		var glow := maxf(standard.emission.r, maxf(standard.emission.g, standard.emission.b))
+		if glow > 0.02:
 			emission = standard.emission
-			energy = standard.emission_energy_multiplier
+			energy = maxf(standard.emission_energy_multiplier, 0.0)
+			if energy <= 0.001:
+				energy = 1.0
 	albedo = Color(albedo.r * tint.r, albedo.g * tint.g, albedo.b * tint.b, albedo.a)
 	if prop != null and prop.override_emission and _emits(prop, surface_name):
 		emission = prop.emission_color

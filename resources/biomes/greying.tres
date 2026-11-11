@@ -1,10 +1,16 @@
-[gd_resource type="Resource" script_class="BiomeDef" load_steps=6 format=3]
+[gd_resource type="Resource" script_class="BiomeDef" load_steps=12 format=3]
 
 [ext_resource type="Script" path="res://scripts/world/biome_def.gd" id="1_script"]
 [ext_resource type="Script" path="res://scripts/world/prop_def.gd" id="2_prop"]
-[ext_resource type="Resource" path="res://resources/props/dead_tree.tres" id="3_tree"]
-[ext_resource type="Resource" path="res://resources/props/grey_rock.tres" id="4_rock"]
-[ext_resource type="Resource" path="res://resources/props/dull_stone.tres" id="5_stone"]
+[ext_resource type="Resource" path="res://resources/props/greying_tree_dead.tres" id="3_dead"]
+[ext_resource type="Resource" path="res://resources/props/greying_tree_snag.tres" id="4_snag"]
+[ext_resource type="Resource" path="res://resources/props/greying_ash_shrub.tres" id="5_shrub"]
+[ext_resource type="Resource" path="res://resources/props/greying_cracked_stone.tres" id="6_cracked"]
+[ext_resource type="Resource" path="res://resources/props/greying_smooth_stone.tres" id="7_smooth"]
+[ext_resource type="Resource" path="res://resources/props/greying_tech_stub.tres" id="8_stub"]
+[ext_resource type="Resource" path="res://resources/props/greying_tech_ring.tres" id="9_ring"]
+[ext_resource type="Resource" path="res://resources/props/greying_seed_capsule.tres" id="10_seed"]
+[ext_resource type="Resource" path="res://resources/props/dull_stone.tres" id="11_well"]
 
 [resource]
 script = ExtResource("1_script")
@@ -15,4 +21,4 @@ ground_color_variance = 0.04
 ground_glow = 0.0
 surface_enabled = true
 lore_note = "Drained land where the terraforming network has gone dormant. Colour fades, flowers fail, and the standing stones no longer answer."
-props = Array[ExtResource("2_prop")]([ExtResource("3_tree"), ExtResource("4_rock"), ExtResource("5_stone")])
+props = Array[ExtResource("2_prop")]([ExtResource("3_dead"), ExtResource("4_snag"), ExtResource("5_shrub"), ExtResource("6_cracked"), ExtResource("7_smooth"), ExtResource("8_stub"), ExtResource("9_ring"), ExtResource("10_seed"), ExtResource("11_well")])

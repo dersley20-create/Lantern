@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="PropDef" load_steps=3 format=3]
 
 [ext_resource type="Script" path="res://scripts/world/prop_def.gd" id="1_script"]
-[ext_resource type="PackedScene" path="res://scenes/props/wellstone.tscn" id="2_scene"]
+[ext_resource type="PackedScene" path="res://scenes/landmarks/wellstone_dormant.tscn" id="2_scene"]
 
 [resource]
 script = ExtResource("1_script")
@@ -10,12 +10,11 @@ scene = ExtResource("2_scene")
 instance_as_scene = true
 once_per_chunk = true
 density = 0.16
-min_scale = 0.85
-max_scale = 1.15
-max_slope_degrees = 20.0
+min_scale = 0.95
+max_scale = 1.05
+max_slope_degrees = 16.0
 max_wellstone = 0.45
 max_per_chunk = 1
-tint = Color(0.62, 0.6, 0.58, 1)
-override_emission = true
-emission_color = Color(0, 0, 0, 1)
-emission_energy = 0.0
+collision_kind = "cylinder"
+collision_radius = 2.05
+collision_height = 2.2

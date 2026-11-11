@@ -1,11 +1,16 @@
-[gd_resource type="Resource" script_class="BiomeDef" load_steps=7 format=3]
+[gd_resource type="Resource" script_class="BiomeDef" load_steps=12 format=3]
 
 [ext_resource type="Script" path="res://scripts/world/biome_def.gd" id="1_script"]
 [ext_resource type="Script" path="res://scripts/world/prop_def.gd" id="2_prop"]
-[ext_resource type="Resource" path="res://resources/props/highland_rock.tres" id="3_rock"]
-[ext_resource type="Resource" path="res://resources/props/highland_tree.tres" id="4_tree"]
-[ext_resource type="Resource" path="res://resources/props/sparse_flower.tres" id="5_flower"]
-[ext_resource type="Resource" path="res://resources/props/wellstone.tres" id="6_well"]
+[ext_resource type="Resource" path="res://resources/props/cloudloft_pine_bent.tres" id="3_bent"]
+[ext_resource type="Resource" path="res://resources/props/cloudloft_pine_young.tres" id="4_young"]
+[ext_resource type="Resource" path="res://resources/props/cloudloft_cliff_rock.tres" id="5_rock"]
+[ext_resource type="Resource" path="res://resources/props/cloudloft_cliff_slab.tres" id="6_slab"]
+[ext_resource type="Resource" path="res://resources/props/cloudloft_cairn.tres" id="7_cairn"]
+[ext_resource type="Resource" path="res://resources/props/cloudloft_heather.tres" id="8_heather"]
+[ext_resource type="Resource" path="res://resources/props/cloudloft_rope_bridge.tres" id="9_bridge"]
+[ext_resource type="Resource" path="res://resources/props/cloudloft_weatherspire.tres" id="10_spire"]
+[ext_resource type="Resource" path="res://resources/props/wellstone.tres" id="11_well"]
 
 [resource]
 script = ExtResource("1_script")
@@ -16,4 +21,4 @@ ground_color_variance = 0.06
 ground_glow = 0.0
 surface_enabled = true
 lore_note = "High, open ground. Wind, pale grass, and stone. Wellstones up here are few and far between."
-props = Array[ExtResource("2_prop")]([ExtResource("3_rock"), ExtResource("4_tree"), ExtResource("5_flower"), ExtResource("6_well")])
+props = Array[ExtResource("2_prop")]([ExtResource("3_bent"), ExtResource("4_young"), ExtResource("5_rock"), ExtResource("6_slab"), ExtResource("7_cairn"), ExtResource("8_heather"), ExtResource("9_bridge"), ExtResource("10_spire"), ExtResource("11_well")])

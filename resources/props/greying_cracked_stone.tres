@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="PropDef" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/prop_def.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://assets/models/props/greying/greying_cracked_stone.glb" id="2_scene"]
+
+[resource]
+script = ExtResource("1_script")
+id = &"greying_cracked_stone"
+scene = ExtResource("2_scene")
+density = 0.08
+min_scale = 0.9
+max_scale = 1.15
+max_slope_degrees = 26.0
+max_per_chunk = 4
+collision_kind = "sphere"
+collision_radius = 0.45

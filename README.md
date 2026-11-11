@@ -69,6 +69,7 @@ Future drops use these paths exactly. `<biome_id>` is the id on the biome resour
 | Mood board | `docs/art/<biome_id>/mood-<name>.png` |
 | Contact sheet | `docs/art/<biome_id>/contact-sheet.png` |
 | Notes and manifest | `docs/art/<biome_id>/ART_NOTES.md` and `docs/art/<biome_id>/manifest.json` |
+| Wellstones | `assets/models/landmarks/wellstone_dormant.glb` and `wellstone_restored.glb` |
 
 Example already in the repo: `assets/models/props/hearthvale/hearthvale_oak.glb`.
 
@@ -79,9 +80,11 @@ Export **glTF binary (`.glb`)**.
 - **Origin at the base centre** (ground contact). Feet for creatures. A fence segment runs along local X; the Hearthvale fence tiles every **2.0 m**, and the crop patch is **2.0 m × 2.0 m**
 - Flat named materials with plain colours. The game replaces them at runtime with `assets/shaders/toon.gdshader` (stepped light plus a rim). Do not rely on textures for the first drops
 
-**Props.** Add a `PropDef` under `resources/props/` that points `scene` at the `.glb`, and list it on the biome. Several surfaces (bark and leaves) stay on one mesh and become one MultiMesh. Set `collision_kind` to `cylinder` for a trunk or `sphere` for a rock. Set `instance_as_scene` only when the model needs real nodes (Wellstones). Fences and crop patches are not sprinkled through the meadow; the spawn chunk builds one fenced plot from the 2 m tiles.
+**Props.** Add a `PropDef` under `resources/props/` that points `scene` at the `.glb`, and list it on the biome. Several surfaces (bark and leaves) stay on one mesh and become one MultiMesh. Emissive glTF materials stay emissive under the toon shader. Set `collision_kind` to `cylinder` for a trunk or `sphere` for a rock. Set `instance_as_scene` only when the model needs real nodes (Wellstones). Living biomes use the restored Wellstone; the Greying uses the dormant ring. Fences and crop patches are not sprinkled through the meadow; the spawn chunk builds one fenced plot from the 2 m tiles. A Cloudloft rope-bridge roll lays three 3 m segments in a line.
 
-**Creatures.** Put the file in `assets/models/creatures/`. `FirstRaised` is Pyreleaf, the player's first raised Nestkin (Hearthvale and the Glimmerwood): `assets/models/creatures/pyreleaf.glb`, Y-up, faces +Z, origin at the feet. It plays `Idle` and hops a little while following. Emissive parts (`PY_EyeHighlight`, `PY_SeedGlow`, `PY_Glimmer`, `PY_GlimmerLine`) stay glowing; the fur and the rest use the project toon shader. Assign `visual_scene` to swap another creature in. The player's collision stays a capsule.
+**Creatures.** Put the file in `assets/models/creatures/`. `FirstRaised` is still Pyreleaf, the companion: `assets/models/creatures/pyreleaf.glb`, Y-up, faces +Z, origin at the feet. It plays `Idle` and hops a little while following. A later drop will replace that companion. Emissive parts stay glowing; the rest use the project toon shader.
+
+Cactoro and Mushnub are wild, not the companion. Near chunks spawn a deterministic group of up to three: Cactoro on the Saltglass and on dry Hearthvale edges, Mushnub in the Glimmerwood and on damp Hearthvale. They idle, walk a few metres, then idle again, with an occasional Yes, Dance, or Jump. If you step closer than about 4 m they drift off. Past 30 m the clip pauses. The GLBs are the Quaternius scale (about 3.5 m); the world instances them at 0.33.
 
 ## World
 
@@ -138,7 +141,7 @@ Lighting stays at a warm morning unless `DayLight.cycle` is turned on. A full da
 
 - The Underhollows are a note, not a cave system.
 - No raising, combat, or other creature play yet. You can only walk with the first one.
-- Other biomes and both creatures are still placeholders. No audio.
+- The player mesh is still a placeholder. No audio. The companion is still Pyreleaf until the next creature drop.
 - Tree and rock collision is a trunk cylinder or a sphere, not the rendered mesh. Fences on the spawn plot use a thin box.
 - LOD seams are hidden with skirts, not stitched vertex-for-vertex.
 - Water is one transparent plane that follows the player, lifted so it meets the Saltglass sand. Foam is a ribbon of discs on that waterline (off on low quality). The water shader also softens the edge when the device exposes a depth texture.

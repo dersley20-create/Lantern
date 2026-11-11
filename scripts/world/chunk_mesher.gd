@@ -202,7 +202,27 @@ static func _scatter(params: TerrainParams, noises: Dictionary, origin_x: float,
 				if rng.randf() > float(rule.density):
 					continue
 				_place(props, placed, rule, rng, origin_x, origin_z, world_x, world_z, float(sample.height))
+	_span_rope_bridge(props)
 	return props
+
+
+static func _span_rope_bridge(props: Dictionary) -> void:
+	# The kit segment is 3 m with a post on -X. A short run reads as a bridge.
+	var id := "cloudloft_rope_bridge"
+	if not props.has(id):
+		return
+	var spans: Array = props[id]
+	var grown: Array = []
+	for item in spans:
+		var first: Transform3D = item
+		grown.append(first)
+		var dir := Vector3(first.basis.x.x, 0.0, first.basis.x.z)
+		if dir.length_squared() < 0.0001:
+			dir = Vector3.RIGHT
+		dir = dir.normalized()
+		grown.append(Transform3D(first.basis, first.origin + dir * 3.0))
+		grown.append(Transform3D(first.basis, first.origin + dir * 6.0))
+	props[id] = grown
 
 
 static func _rule_allows(rule: Dictionary, sample: Dictionary, slope: float) -> bool:

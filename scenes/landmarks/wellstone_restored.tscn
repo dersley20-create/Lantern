@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="PackedScene" path="res://assets/models/landmarks/wellstone_restored.glb" id="1_model"]
+
+[node name="WellstoneRestored" type="Node3D"]
+
+[node name="Model" parent="." instance=ExtResource("1_model")]
+
+[node name="Glow" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.15, 0)
+light_color = Color(0.7, 0.95, 0.86, 1)
+light_energy = 0.32
+light_specular = 0.0
+shadow_enabled = false
+omni_range = 5.5

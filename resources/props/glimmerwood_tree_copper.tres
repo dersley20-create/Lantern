@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="PropDef" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/prop_def.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://assets/models/props/glimmerwood/glimmerwood_tree_copper.glb" id="2_scene"]
+
+[resource]
+script = ExtResource("1_script")
+id = &"glimmerwood_tree_copper"
+scene = ExtResource("2_scene")
+density = 0.12
+min_scale = 0.92
+max_scale = 1.12
+max_slope_degrees = 24.0
+max_per_chunk = 5
+collision_kind = "cylinder"
+collision_radius = 0.4
+collision_height = 2.2
+wind_strength = 0.05

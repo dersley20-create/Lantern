@@ -307,6 +307,7 @@ func _make_chunk(data: Dictionary) -> TerrainChunk:
 		FarmPlot.attach(chunk, spawn_position, Callable(self, "sample_height"))
 	if chunk.has_props and _quality != null:
 		GrassCover.attach(chunk, _params, _noises, _quality.grass_per_chunk(), _quality.wind_scale())
+		WildCreature.attach(chunk, _params, _noises)
 	if _quality != null and _quality.shore_foam():
 		ShoreFoam.attach(chunk, _params, _noises, _params.sea_level + WaterSheet.SURFACE_LIFT)
 	return chunk

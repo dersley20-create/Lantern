@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="PropDef" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/prop_def.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://assets/models/props/saltglass/saltglass_shells.glb" id="2_scene"]
+
+[resource]
+script = ExtResource("1_script")
+id = &"saltglass_shells"
+scene = ExtResource("2_scene")
+density = 0.18
+min_scale = 0.85
+max_scale = 1.2
+max_slope_degrees = 18.0
+max_per_chunk = 8

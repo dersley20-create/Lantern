@@ -1,0 +1,53 @@
+{
+  "kit": "wellstone",
+  "unit": "1 unit = 1 metre",
+  "up_axis_gltf": "Y",
+  "origin": "base centre of the whole ring (ground contact)",
+  "materials": "WS_Stone, WS_StoneDark, WS_Moss, WS_Basin, WS_Seam, WS_Core. Both GLBs use the same names; only the Seam and Core colour/emission change.",
+  "assets": [
+    {
+      "name": "dormant",
+      "file": "wellstone_dormant.glb",
+      "triangles": 752,
+      "size_m": {
+        "x": 4.567,
+        "y_depth": 4.427,
+        "height": 3.519
+      },
+      "base_z": 0.0,
+      "materials": [
+        "WS_Core",
+        "WS_Moss",
+        "WS_Seam",
+        "WS_Stone",
+        "WS_StoneDark"
+      ],
+      "notes": "Standing-stone ring with hidden tech seams, dim / dormant state. ~5 m across.",
+      "reimport": "OK",
+      "issues": []
+    },
+    {
+      "name": "restored",
+      "file": "wellstone_restored.glb",
+      "triangles": 752,
+      "size_m": {
+        "x": 4.567,
+        "y_depth": 4.427,
+        "height": 3.519
+      },
+      "base_z": 0.0,
+      "materials": [
+        "WS_Core",
+        "WS_Moss",
+        "WS_Seam",
+        "WS_Stone",
+        "WS_StoneDark"
+      ],
+      "notes": "Same mesh; cyan seams and a warm gold basin core, emissive.",
+      "reimport": "OK",
+      "issues": []
+    }
+  ],
+  "contact_sheet": "contact-sheet.png",
+  "notes": "Place one GLB or the other (dormant vs restored). The mesh is the same; swapping the file (or the two material values) is the state change. Span is about 5 m. Triangle budget for the landmark is 4k."
+}

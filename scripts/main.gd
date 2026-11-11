@@ -40,12 +40,38 @@ func _try_start() -> void:
 	print("Lantern stand=%s biome_request=%s" % [stand, biome_name])
 	if _companion.has_method("snap_to"):
 		_companion.snap_to(_player)
-	if OS.get_environment("LANTERN_CLOSE") == "1" and _camera.has_method("frame_companion"):
+	if OS.get_environment("LANTERN_WELLSTONES") == "1":
+		_place_wellstone_pair()
+		if _camera.has_method("frame_pair"):
+			_camera.frame_pair()
+	elif OS.get_environment("LANTERN_CLOSE") == "1" and _camera.has_method("frame_companion"):
 		_camera.frame_companion()
 	elif _camera.has_method("snap"):
 		_camera.snap()
 	_player.enable_play()
 	_started = true
+
+
+func _place_wellstone_pair() -> void:
+	var yaw := deg_to_rad(32.0)
+	var forward := Vector3(-sin(yaw), 0.0, -cos(yaw))
+	var right := Vector3(cos(yaw), 0.0, -sin(yaw))
+	var origin := _player.global_position
+	_spawn_showcase("res://scenes/landmarks/wellstone_dormant.tscn", origin + forward * 8.0 - right * 3.8)
+	_spawn_showcase("res://scenes/landmarks/wellstone_restored.tscn", origin + forward * 8.0 + right * 3.8)
+
+
+func _spawn_showcase(path: String, pos: Vector3) -> void:
+	var packed := load(path) as PackedScene
+	if packed == null:
+		return
+	var node := packed.instantiate() as Node3D
+	add_child(node)
+	ToonMaterial.apply_node(node)
+	var y := pos.y
+	if _world.has_method("sample_height"):
+		y = _world.sample_height(pos.x, pos.z)
+	node.global_position = Vector3(pos.x, y, pos.z)
 
 
 func _tick_screenshot() -> void:

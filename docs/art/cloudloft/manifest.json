@@ -1,0 +1,166 @@
+{
+  "kit": "cloudloft",
+  "unit": "1 unit = 1 metre",
+  "up_axis_gltf": "Y",
+  "origin": "base centre (ground contact)",
+  "materials": "flat named base colours (CL_*). Wind-crystals and the Weatherspire seam/crystal are emissive. Toon shading is done by the game shader.",
+  "assets": [
+    {
+      "name": "pine_bent",
+      "file": "cloudloft_pine_bent.glb",
+      "triangles": 1100,
+      "size_m": {
+        "x": 3.122,
+        "y_depth": 1.388,
+        "height": 5.953
+      },
+      "base_z": 0.0,
+      "materials": [
+        "CL_Bark",
+        "CL_Pine",
+        "CL_PineShadow"
+      ],
+      "notes": "Wind-bent pine, foliage swept leeward, ~6 m. Not a stacked cone.",
+      "reimport": "OK",
+      "issues": []
+    },
+    {
+      "name": "pine_young",
+      "file": "cloudloft_pine_young.glb",
+      "triangles": 1100,
+      "size_m": {
+        "x": 2.071,
+        "y_depth": 1.184,
+        "height": 4.258
+      },
+      "base_z": 0.0,
+      "materials": [
+        "CL_Bark",
+        "CL_Pine",
+        "CL_PineShadow"
+      ],
+      "notes": "Younger wind-bent pine, ~4.2 m.",
+      "reimport": "OK",
+      "issues": []
+    },
+    {
+      "name": "cliff_rock",
+      "file": "cloudloft_cliff_rock.glb",
+      "triangles": 100,
+      "size_m": {
+        "x": 1.919,
+        "y_depth": 1.515,
+        "height": 1.285
+      },
+      "base_z": 0.0,
+      "materials": [
+        "CL_Cliff",
+        "CL_Snow"
+      ],
+      "notes": "Chunky slate outcrop with a snow cap.",
+      "reimport": "OK",
+      "issues": []
+    },
+    {
+      "name": "cliff_slab",
+      "file": "cloudloft_cliff_slab.glb",
+      "triangles": 24,
+      "size_m": {
+        "x": 2.42,
+        "y_depth": 0.733,
+        "height": 1.19
+      },
+      "base_z": 0.0,
+      "materials": [
+        "CL_Slate",
+        "CL_Snow"
+      ],
+      "notes": "Longer terrace/cliff slab with a snow lip, for lining a slope.",
+      "reimport": "OK",
+      "issues": []
+    },
+    {
+      "name": "cairn",
+      "file": "cloudloft_cairn.glb",
+      "triangles": 120,
+      "size_m": {
+        "x": 0.489,
+        "y_depth": 0.354,
+        "height": 1.08
+      },
+      "base_z": 0.0,
+      "materials": [
+        "CL_Crystal",
+        "CL_CrystalCore",
+        "CL_Slate",
+        "CL_SlateDark"
+      ],
+      "notes": "Stacked slate cairn with an emissive wind-crystal on top.",
+      "reimport": "OK",
+      "issues": []
+    },
+    {
+      "name": "heather",
+      "file": "cloudloft_heather.glb",
+      "triangles": 156,
+      "size_m": {
+        "x": 0.883,
+        "y_depth": 0.689,
+        "height": 0.38
+      },
+      "base_z": 0.0,
+      "materials": [
+        "CL_Heather",
+        "CL_HeatherDark",
+        "CL_Stem"
+      ],
+      "notes": "Heather clump, mauve mounds.",
+      "reimport": "OK",
+      "issues": []
+    },
+    {
+      "name": "rope_bridge",
+      "file": "cloudloft_rope_bridge.glb",
+      "triangles": 336,
+      "size_m": {
+        "x": 3.066,
+        "y_depth": 0.636,
+        "height": 1.569
+      },
+      "base_z": 0.0,
+      "materials": [
+        "CL_Rope",
+        "CL_Wood",
+        "CL_WoodDark"
+      ],
+      "notes": "3 m rope-bridge segment. Post on the -X end only; tile every 3.0 m along X. Walkway at 1.1 m.",
+      "reimport": "OK",
+      "issues": []
+    },
+    {
+      "name": "weatherspire",
+      "file": "cloudloft_weatherspire.glb",
+      "triangles": 352,
+      "size_m": {
+        "x": 1.7,
+        "y_depth": 1.7,
+        "height": 6.45
+      },
+      "base_z": 0.0,
+      "materials": [
+        "CL_Bell",
+        "CL_Crystal",
+        "CL_Metal",
+        "CL_Seam",
+        "CL_Slate",
+        "CL_SlateDark",
+        "CL_Snow"
+      ],
+      "notes": "Stone weather-tower with a bell, a hidden tech seam and an emissive crystal spire, ~6.5 m.",
+      "reimport": "OK",
+      "issues": []
+    }
+  ],
+  "contact_sheet": "contact-sheet.png",
+  "mood_board": "mood-cloudloft.png"
+}

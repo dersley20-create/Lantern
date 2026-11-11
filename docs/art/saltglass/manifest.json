@@ -1,0 +1,165 @@
+{
+  "kit": "saltglass",
+  "unit": "1 unit = 1 metre",
+  "up_axis_gltf": "Y",
+  "origin": "base centre (ground contact)",
+  "materials": "flat named base colours (SG_*). Glass is faked with three colour bands (core / glass / emissive rim), not transmission. Toon shading is done by the game shader.",
+  "assets": [
+    {
+      "name": "crystal",
+      "file": "saltglass_crystal.glb",
+      "triangles": 260,
+      "size_m": {
+        "x": 0.652,
+        "y_depth": 0.435,
+        "height": 1.0
+      },
+      "base_z": 0.0,
+      "materials": [
+        "SG_Glass",
+        "SG_GlassCore",
+        "SG_GlassRim",
+        "SG_Sand"
+      ],
+      "notes": "Cluster of banded saltglass shards (core / glass / emissive tip). No transmission.",
+      "reimport": "OK",
+      "issues": []
+    },
+    {
+      "name": "crystal_tall",
+      "file": "saltglass_crystal_tall.glb",
+      "triangles": 140,
+      "size_m": {
+        "x": 0.515,
+        "y_depth": 0.335,
+        "height": 1.584
+      },
+      "base_z": 0.0,
+      "materials": [
+        "SG_Glass",
+        "SG_GlassCore",
+        "SG_GlassRim",
+        "SG_Sand"
+      ],
+      "notes": "Taller hero shard with a smaller companion, ~1.6 m.",
+      "reimport": "OK",
+      "issues": []
+    },
+    {
+      "name": "driftwood",
+      "file": "saltglass_driftwood.glb",
+      "triangles": 122,
+      "size_m": {
+        "x": 1.88,
+        "y_depth": 0.527,
+        "height": 0.445
+      },
+      "base_z": 0.0,
+      "materials": [
+        "SG_Driftwood",
+        "SG_DriftwoodDark",
+        "SG_Salt"
+      ],
+      "notes": "Forked driftwood with a salt crust, ~1.9 m long.",
+      "reimport": "OK",
+      "issues": []
+    },
+    {
+      "name": "reeds",
+      "file": "saltglass_reeds.glb",
+      "triangles": 280,
+      "size_m": {
+        "x": 0.556,
+        "y_depth": 0.433,
+        "height": 1.394
+      },
+      "base_z": 0.0,
+      "materials": [
+        "SG_Reed"
+      ],
+      "notes": "Reed clump, ~1.4 m tall.",
+      "reimport": "OK",
+      "issues": []
+    },
+    {
+      "name": "beach_grass",
+      "file": "saltglass_beach_grass.glb",
+      "triangles": 380,
+      "size_m": {
+        "x": 0.521,
+        "y_depth": 0.509,
+        "height": 0.531
+      },
+      "base_z": 0.0,
+      "materials": [
+        "SG_Grass",
+        "SG_GrassDry"
+      ],
+      "notes": "Short, splayed beach-grass tuft, ~0.55 m.",
+      "reimport": "OK",
+      "issues": []
+    },
+    {
+      "name": "tidepool",
+      "file": "saltglass_tidepool.glb",
+      "triangles": 354,
+      "size_m": {
+        "x": 1.56,
+        "y_depth": 1.56,
+        "height": 0.36
+      },
+      "base_z": 0.0,
+      "materials": [
+        "SG_GlassRim",
+        "SG_Pool",
+        "SG_Shell",
+        "SG_Stone",
+        "SG_StoneDark"
+      ],
+      "notes": "Rock basin with a still pool (non-transmissive, slightly emissive).",
+      "reimport": "OK",
+      "issues": []
+    },
+    {
+      "name": "shells",
+      "file": "saltglass_shells.glb",
+      "triangles": 332,
+      "size_m": {
+        "x": 0.409,
+        "y_depth": 0.394,
+        "height": 0.146
+      },
+      "base_z": 0.0,
+      "materials": [
+        "SG_Sand",
+        "SG_Shell",
+        "SG_ShellPink"
+      ],
+      "notes": "Clam and spiral shell cluster on a little sand.",
+      "reimport": "OK",
+      "issues": []
+    },
+    {
+      "name": "beacon",
+      "file": "saltglass_beacon.glb",
+      "triangles": 312,
+      "size_m": {
+        "x": 0.56,
+        "y_depth": 0.56,
+        "height": 1.477
+      },
+      "base_z": 0.0,
+      "materials": [
+        "SG_Beacon",
+        "SG_BeaconLamp",
+        "SG_BeaconMetal",
+        "SG_Salt"
+      ],
+      "notes": "Weathered buoy / channel marker; metal bands are hidden tech, lamp is emissive.",
+      "reimport": "OK",
+      "issues": []
+    }
+  ],
+  "contact_sheet": "contact-sheet.png",
+  "mood_board": "mood-saltglass.png"
+}

@@ -1,0 +1,170 @@
+{
+  "kit": "glimmerwood",
+  "unit": "1 unit = 1 metre",
+  "up_axis_gltf": "Y",
+  "origin": "base centre (ground contact)",
+  "materials": "flat named base colours (GW_*), no UVs; emissive on glowcaps, berries, copper, crystals. Toon shading is done by the game shader (3 steps + fresnel rim, no outline meshes).",
+  "assets": [
+    {
+      "name": "glowcap",
+      "file": "glimmerwood_glowcap.glb",
+      "triangles": 968,
+      "size_m": {
+        "x": 0.695,
+        "y_depth": 0.524,
+        "height": 0.674
+      },
+      "base_z": 0.0,
+      "materials": [
+        "GW_Glowcap",
+        "GW_GlowcapUnder",
+        "GW_Moss",
+        "GW_Stem"
+      ],
+      "notes": "Glowcap cluster: proper caps and stems, emissive.",
+      "reimport": "OK",
+      "issues": []
+    },
+    {
+      "name": "tree_copper",
+      "file": "glimmerwood_tree_copper.glb",
+      "triangles": 1472,
+      "size_m": {
+        "x": 4.338,
+        "y_depth": 3.818,
+        "height": 5.402
+      },
+      "base_z": 0.0,
+      "materials": [
+        "GW_Bark",
+        "GW_Copper",
+        "GW_Leaf",
+        "GW_LeafShadow"
+      ],
+      "notes": "Broader copperbark tree, branched canopy, ~5.5 m.",
+      "reimport": "OK",
+      "issues": []
+    },
+    {
+      "name": "tree_tall",
+      "file": "glimmerwood_tree_tall.glb",
+      "triangles": 1376,
+      "size_m": {
+        "x": 3.222,
+        "y_depth": 2.944,
+        "height": 6.653
+      },
+      "base_z": 0.0,
+      "materials": [
+        "GW_Bark",
+        "GW_Copper",
+        "GW_Leaf",
+        "GW_LeafShadow"
+      ],
+      "notes": "Taller antenna-like tree, staggered foliage tiers, ~7 m.",
+      "reimport": "OK",
+      "issues": []
+    },
+    {
+      "name": "glow_vines",
+      "file": "glimmerwood_glow_vines.glb",
+      "triangles": 548,
+      "size_m": {
+        "x": 1.729,
+        "y_depth": 0.419,
+        "height": 2.135
+      },
+      "base_z": 0.0,
+      "materials": [
+        "GW_Bark",
+        "GW_Copper",
+        "GW_GlowBerry",
+        "GW_Moss",
+        "GW_Vine"
+      ],
+      "notes": "Arched bough with hanging glow-vines and berries. Origin at the ground.",
+      "reimport": "OK",
+      "issues": []
+    },
+    {
+      "name": "fern",
+      "file": "glimmerwood_fern.glb",
+      "triangles": 1056,
+      "size_m": {
+        "x": 1.506,
+        "y_depth": 1.294,
+        "height": 0.484
+      },
+      "base_z": 0.0,
+      "materials": [
+        "GW_Leaf",
+        "GW_LeafShadow",
+        "GW_Moss",
+        "GW_Stem"
+      ],
+      "notes": "Fern clump, several fronds.",
+      "reimport": "OK",
+      "issues": []
+    },
+    {
+      "name": "mossy_log",
+      "file": "glimmerwood_mossy_log.glb",
+      "triangles": 192,
+      "size_m": {
+        "x": 1.842,
+        "y_depth": 0.44,
+        "height": 0.42
+      },
+      "base_z": 0.0,
+      "materials": [
+        "GW_Moss",
+        "GW_Wood",
+        "GW_WoodEnd"
+      ],
+      "notes": "Fallen log with moss, ~2 m long.",
+      "reimport": "OK",
+      "issues": []
+    },
+    {
+      "name": "glimmer_crystal",
+      "file": "glimmerwood_glimmer_crystal.glb",
+      "triangles": 260,
+      "size_m": {
+        "x": 0.458,
+        "y_depth": 0.321,
+        "height": 0.681
+      },
+      "base_z": 0.0,
+      "materials": [
+        "GW_Amber",
+        "GW_Crystal",
+        "GW_CrystalRim",
+        "GW_Moss"
+      ],
+      "notes": "Banded amber/cyan crystal cluster, emissive tips.",
+      "reimport": "OK",
+      "issues": []
+    },
+    {
+      "name": "root_arch",
+      "file": "glimmerwood_root_arch.glb",
+      "triangles": 272,
+      "size_m": {
+        "x": 2.737,
+        "y_depth": 0.777,
+        "height": 2.556
+      },
+      "base_z": 0.0,
+      "materials": [
+        "GW_Bark",
+        "GW_Copper",
+        "GW_Moss"
+      ],
+      "notes": "Root arch, walkable opening ~1.6 m high, copper vein.",
+      "reimport": "OK",
+      "issues": []
+    }
+  ],
+  "contact_sheet": "contact-sheet.png",
+  "mood_board": "mood-glimmerwood.png"
+}

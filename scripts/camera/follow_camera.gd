@@ -59,6 +59,20 @@ func frame_companion() -> void:
 	snap()
 
 
+## Frames a pair of landmarks sitting about 8 m ahead of the player.
+func frame_pair() -> void:
+	min_distance = 8.0
+	pitch_degrees = 42.0
+	look_height = 1.5
+	look_ahead = 8.0
+	fov = 48.0
+	_distance = 14.0
+	_distance_target = 14.0
+	if _camera != null:
+		_camera.fov = fov
+	snap()
+
+
 func snap() -> void:
 	var player := _player()
 	if player == null:

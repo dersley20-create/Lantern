@@ -19,6 +19,7 @@ func _run() -> int:
 	preload("res://scripts/world/terrain_params.gd")
 	preload("res://scripts/world/terrain_sampler.gd")
 	preload("res://scripts/world/chunk_mesher.gd")
+	preload("res://scripts/world/wild_spawn.gd")
 	var failures: Array[String] = []
 	_check_config(failures)
 	var config := load("res://resources/world/world_config.tres") as WorldConfig
@@ -36,6 +37,7 @@ func _run() -> int:
 	_check_props(params, noises, failures)
 	_check_stick(failures)
 	_check_pyreleaf(failures)
+	_check_wild_creatures(params, noises, failures)
 	_finish(failures)
 	return 0 if failures.is_empty() else 1
 
@@ -59,6 +61,7 @@ func _check_config(failures: Array[String]) -> void:
 	_expect(failures, under != null and not under.surface_enabled, "underhollows is a non-surface stub")
 	_expect(failures, under != null and under.lore_note.length() > 20, "underhollows carries a note")
 	_check_hearthvale_art(config, failures)
+	_check_prop_kits(config, failures)
 
 
 func _check_hearthvale_art(config: WorldConfig, failures: Array[String]) -> void:
@@ -87,6 +90,37 @@ func _check_hearthvale_art(config: WorldConfig, failures: Array[String]) -> void
 		"hearthvale_crop_patch.glb",
 	]:
 		_expect(failures, FileAccess.file_exists("res://assets/models/props/hearthvale/%s" % filename), "model file %s" % filename)
+
+
+func _check_prop_kits(config: WorldConfig, failures: Array[String]) -> void:
+	var kits := {
+		BiomeIds.GLIMMERWOOD: ["glimmerwood_glowcap", "glimmerwood_tree_copper", "glimmerwood_tree_tall", "glimmerwood_glow_vines", "glimmerwood_fern", "glimmerwood_mossy_log", "glimmerwood_glimmer_crystal", "glimmerwood_root_arch"],
+		BiomeIds.SALTGLASS: ["saltglass_crystal", "saltglass_crystal_tall", "saltglass_driftwood", "saltglass_reeds", "saltglass_beach_grass", "saltglass_tidepool", "saltglass_shells", "saltglass_beacon"],
+		BiomeIds.CLOUDLOFT: ["cloudloft_pine_bent", "cloudloft_pine_young", "cloudloft_cliff_rock", "cloudloft_cliff_slab", "cloudloft_cairn", "cloudloft_heather", "cloudloft_rope_bridge", "cloudloft_weatherspire"],
+		BiomeIds.GREYING: ["greying_tree_dead", "greying_tree_snag", "greying_ash_shrub", "greying_cracked_stone", "greying_smooth_stone", "greying_tech_stub", "greying_tech_ring", "greying_seed_capsule", "dull_stone"],
+	}
+	for biome in config.biomes:
+		if not kits.has(biome.id):
+			continue
+		var listed: Dictionary = {}
+		for prop in biome.props:
+			listed[String(prop.id)] = prop
+		for prop_id in kits[biome.id]:
+			_expect(failures, listed.has(prop_id), "%s lists %s" % [String(biome.id), prop_id])
+			var filename := "%s.glb" % prop_id
+			if prop_id == "dull_stone":
+				continue
+			_expect(failures, FileAccess.file_exists("res://assets/models/props/%s/%s" % [String(biome.id), filename]), "model file %s" % filename)
+	_expect(failures, FileAccess.file_exists("res://assets/models/landmarks/wellstone_dormant.glb"), "dormant wellstone file")
+	_expect(failures, FileAccess.file_exists("res://assets/models/landmarks/wellstone_restored.glb"), "restored wellstone file")
+	var restored := load("res://assets/models/landmarks/wellstone_restored.glb") as PackedScene
+	_expect(failures, restored != null, "restored wellstone loads")
+	if restored != null:
+		var root := restored.instantiate()
+		var materials: Array[String] = []
+		_collect_materials(root, materials)
+		_expect(failures, materials.has("WS_Seam") and materials.has("WS_Core"), "restored wellstone seams and core")
+		root.free()
 
 
 func _check_classify(params: TerrainParams, failures: Array[String]) -> void:
@@ -240,6 +274,58 @@ func _check_pyreleaf(failures: Array[String]) -> void:
 	for needed in ["PY_EyeHighlight", "PY_SeedGlow", "PY_Glimmer", "PY_GlimmerLine", "PY_Fur"]:
 		_expect(failures, materials.has(needed), "pyreleaf material %s" % needed)
 	root.free()
+
+
+func _check_wild_creatures(params: TerrainParams, noises: Dictionary, failures: Array[String]) -> void:
+	var coord := Vector2i(1, -2)
+	var origin_x := float(coord.x) * params.chunk_size
+	var origin_z := float(coord.y) * params.chunk_size
+	var first: Array = WildSpawn.plan(params, noises, origin_x, origin_z, coord)
+	var second: Array = WildSpawn.plan(params, noises, origin_x, origin_z, coord)
+	_expect(failures, first.size() == second.size(), "wild groups repeat")
+	var same := first.size() == second.size()
+	if same:
+		for i in first.size():
+			if absf(float(first[i].x) - float(second[i].x)) > 0.0001:
+				same = false
+	_expect(failures, same, "wild spawn is deterministic")
+	var counts := {"cactoro": 0, "mushnub": 0}
+	for spot in first:
+		var species := String(spot.species)
+		counts[species] = int(counts.get(species, 0)) + 1
+		var ok: bool = WildSpawn.accepts(spot.species, params, noises, float(spot.x), float(spot.z))
+		_expect(failures, ok, "%s stands in its biome" % species)
+	_expect(failures, int(counts["cactoro"]) <= 3 and int(counts["mushnub"]) <= 3, "wild groups stay small")
+	var saw_cactoro := false
+	var saw_mushnub := false
+	var x := -200.0
+	while x <= 200.0 and (not saw_cactoro or not saw_mushnub):
+		var z := -200.0
+		while z <= 200.0 and (not saw_cactoro or not saw_mushnub):
+			if WildSpawn.accepts(&"cactoro", params, noises, x, z):
+				saw_cactoro = true
+			if WildSpawn.accepts(&"mushnub", params, noises, x, z):
+				saw_mushnub = true
+			z += 28.0
+		x += 28.0
+	_expect(failures, saw_cactoro, "cactoro has salt or a dry edge")
+	_expect(failures, saw_mushnub, "mushnub has glimmerwood or damp hearthvale")
+	for filename in ["cactoro.glb", "mushnub.glb"]:
+		var packed := load("res://assets/models/creatures/%s" % filename) as PackedScene
+		_expect(failures, packed != null, "%s loads" % filename)
+		if packed == null:
+			continue
+		var root := packed.instantiate()
+		var anim := _find_named(root, "AnimationPlayer") as AnimationPlayer
+		var names: PackedStringArray = anim.get_animation_list() if anim != null else PackedStringArray()
+		for suffix in ["Idle", "Walk", "Jump", "Yes", "Dance"]:
+			var found := false
+			for clip_name in names:
+				var text := String(clip_name)
+				if text == suffix or text.ends_with("|" + suffix):
+					found = true
+			_expect(failures, found, "%s clip %s" % [filename, suffix])
+		root.free()
 
 
 func _find_named(node: Node, type_name: String) -> Node:
