@@ -13,5 +13,5 @@ max_scale = 1.15
 max_slope_degrees = 18.0
 max_per_chunk = 2
 collision_kind = "box"
-collision_radius = 0.55
-collision_height = 0.64
+collision_radius = 0.48
+collision_height = 0.95

@@ -29,11 +29,11 @@ static func attach(chunk: Node3D, spawn: Vector3, height_at: Callable) -> void:
 	_side(root, fence_scene, chunk, height_at, center.x - half, center.z + half, true)
 	_side(root, fence_scene, chunk, height_at, center.x - half, center.z - half, false)
 	_side(root, fence_scene, chunk, height_at, center.x + half, center.z - half, false)
-	for gx in [-1.05, 1.05]:
-		for gz in [-1.05, 1.05]:
+	for gx in [-1.0, 1.0]:
+		for gz in [-1.0, 1.0]:
 			_prop(root, crop_scene, chunk, height_at, center.x + gx, center.z + gz, 0.0, "none", 0.0, 0.0)
-	_prop(root, hay_scene, chunk, height_at, center.x + 5.2, center.z - 2.2, 0.4, "box", 0.62, 0.64)
-	_prop(root, hay_scene, chunk, height_at, center.x + 5.4, center.z - 3.3, -0.6, "box", 0.62, 0.64)
+	_prop(root, hay_scene, chunk, height_at, center.x + 5.4, center.z - 2.2, 0.4, "box", 0.48, 0.95)
+	_prop(root, hay_scene, chunk, height_at, center.x + 5.6, center.z - 3.4, -0.5, "box", 0.48, 0.95)
 
 
 static func _side(root: Node3D, scene: PackedScene, chunk: Node3D, height_at: Callable, origin_x: float, origin_z: float, along_x: bool) -> void:
@@ -41,7 +41,7 @@ static func _side(root: Node3D, scene: PackedScene, chunk: Node3D, height_at: Ca
 		var x := origin_x + (float(step) * 2.0 + 1.0 if along_x else 0.0)
 		var z := origin_z + (0.0 if along_x else float(step) * 2.0 + 1.0)
 		var yaw := 0.0 if along_x else PI * 0.5
-		_prop(root, scene, chunk, height_at, x, z, yaw, "box", 0.08, 1.0)
+		_prop(root, scene, chunk, height_at, x, z, yaw, "box", 0.06, 1.22)
 
 
 static func _prop(root: Node3D, scene: PackedScene, chunk: Node3D, height_at: Callable, x: float, z: float, yaw: float, collision_kind: String, radius: float, height: float) -> void:
@@ -62,8 +62,8 @@ static func _prop(root: Node3D, scene: PackedScene, chunk: Node3D, height_at: Ca
 	if collision_kind == "box":
 		var box := BoxShape3D.new()
 		# Fence tiles are 2 m along local X. Hay uses the same helper with a fatter radius.
-		var length := 1.9 if radius < 0.2 else radius * 2.0
-		var depth := 0.14 if radius < 0.2 else radius * 1.4
+		var length := 2.0 if radius < 0.2 else radius * 2.0
+		var depth := 0.12 if radius < 0.2 else radius * 1.6
 		box.size = Vector3(length, height, depth)
 		shape_node.shape = box
 		shape_node.position.y = height * 0.5

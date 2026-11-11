@@ -7,11 +7,11 @@
 script = ExtResource("1_script")
 id = &"fruit_tree"
 scene = ExtResource("2_scene")
-density = 0.05
-min_scale = 0.9
-max_scale = 1.12
+density = 0.035
+min_scale = 0.95
+max_scale = 1.08
 max_slope_degrees = 22.0
-max_per_chunk = 4
+max_per_chunk = 3
 collision_kind = "cylinder"
-collision_radius = 0.26
-collision_height = 1.55
+collision_radius = 0.32
+collision_height = 1.7

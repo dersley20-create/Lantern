@@ -7,11 +7,11 @@
 script = ExtResource("1_script")
 id = &"oak"
 scene = ExtResource("2_scene")
-density = 0.1
-min_scale = 0.9
-max_scale = 1.15
+density = 0.05
+min_scale = 0.95
+max_scale = 1.05
 max_slope_degrees = 24.0
-max_per_chunk = 8
+max_per_chunk = 4
 collision_kind = "cylinder"
-collision_radius = 0.32
-collision_height = 2.1
+collision_radius = 0.45
+collision_height = 2.2

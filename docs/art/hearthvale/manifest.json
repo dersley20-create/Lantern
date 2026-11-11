@@ -1,16 +1,133 @@
 {
-  "biome": "hearthvale",
-  "unit": "metre",
-  "up": "Y",
+  "kit": "hearthvale",
+  "unit": "1 Blender unit = 1 metre",
+  "up_axis_gltf": "Y",
   "origin": "base centre",
-  "props": [
-    {"file": "assets/models/props/hearthvale/hearthvale_fence.glb", "id": "fence", "tile_m": 2.0, "materials": ["Wood"], "scatter": "spawn farm plot"},
-    {"file": "assets/models/props/hearthvale/hearthvale_hay_bale.glb", "id": "hay_bale", "materials": ["Hay", "Band"], "scatter": "meadow and farm plot"},
-    {"file": "assets/models/props/hearthvale/hearthvale_oak.glb", "id": "oak", "materials": ["Bark", "Leaves"], "collision": "cylinder"},
-    {"file": "assets/models/props/hearthvale/hearthvale_fruit_tree.glb", "id": "fruit_tree", "materials": ["Bark", "Leaves", "Fruit"], "collision": "cylinder"},
-    {"file": "assets/models/props/hearthvale/hearthvale_flower_clump.glb", "id": "flower_clump", "materials": ["Stem", "Petal", "PetalWarm"]},
-    {"file": "assets/models/props/hearthvale/hearthvale_bush.glb", "id": "bush", "materials": ["Leaves"]},
-    {"file": "assets/models/props/hearthvale/hearthvale_rock.glb", "id": "hearthvale_rock", "materials": ["Stone"], "collision": "sphere"},
-    {"file": "assets/models/props/hearthvale/hearthvale_crop_patch.glb", "id": "crop_patch", "size_m": [2.0, 2.0], "materials": ["Soil", "Crop"], "scatter": "spawn farm plot"}
-  ]
+  "note": "Fence segment is 2 m long with a post on the -X end only, so copies tile every 2 m without doubling posts. Crop patch is a 2 x 2 m tile.",
+  "props": {
+    "hv_fence_segment": {
+      "description": "Fence segment (2 m, post on -X end)",
+      "glb": "/workspace/lantern-art/hearthvale/glb/hv_fence_segment.glb",
+      "triangles": 72,
+      "dimensions_m": [
+        2.08,
+        0.13,
+        1.22
+      ],
+      "materials": [
+        "HV_Wood",
+        "HV_WoodDark",
+        "HV_Moss"
+      ]
+    },
+    "hv_hay_bale": {
+      "description": "Round hay bale",
+      "glb": "/workspace/lantern-art/hearthvale/glb/hv_hay_bale.glb",
+      "triangles": 320,
+      "dimensions_m": [
+        0.958,
+        0.76,
+        0.954
+      ],
+      "materials": [
+        "HV_Hay",
+        "HV_HayShadow",
+        "HV_Twine"
+      ]
+    },
+    "hv_tree_oak": {
+      "description": "Broad oak, ~5 m",
+      "glb": "/workspace/lantern-art/hearthvale/glb/hv_tree_oak.glb",
+      "triangles": 628,
+      "dimensions_m": [
+        4.521,
+        3.672,
+        4.576
+      ],
+      "materials": [
+        "HV_Bark",
+        "HV_Leaf",
+        "HV_LeafShadow"
+      ]
+    },
+    "hv_tree_fruit": {
+      "description": "Orchard fruit tree, ~3.6 m",
+      "glb": "/workspace/lantern-art/hearthvale/glb/hv_tree_fruit.glb",
+      "triangles": 608,
+      "dimensions_m": [
+        2.528,
+        2.204,
+        3.385
+      ],
+      "materials": [
+        "HV_Bark",
+        "HV_Leaf",
+        "HV_LeafShadow",
+        "HV_Fruit"
+      ]
+    },
+    "hv_flower_clump": {
+      "description": "Wildflower clump",
+      "glb": "/workspace/lantern-art/hearthvale/glb/hv_flower_clump.glb",
+      "triangles": 1052,
+      "dimensions_m": [
+        0.626,
+        0.524,
+        0.509
+      ],
+      "materials": [
+        "HV_Soil",
+        "HV_Leaf",
+        "HV_Stem",
+        "HV_FlowerYellow",
+        "HV_FlowerPink",
+        "HV_FlowerWhite",
+        "HV_FlowerLavender"
+      ]
+    },
+    "hv_bush": {
+      "description": "Round bush, ~1 m",
+      "glb": "/workspace/lantern-art/hearthvale/glb/hv_bush.glb",
+      "triangles": 500,
+      "dimensions_m": [
+        1.482,
+        1.259,
+        1.166
+      ],
+      "materials": [
+        "HV_Bark",
+        "HV_Leaf",
+        "HV_LeafShadow"
+      ]
+    },
+    "hv_rock": {
+      "description": "River stone with moss",
+      "glb": "/workspace/lantern-art/hearthvale/glb/hv_rock.glb",
+      "triangles": 100,
+      "dimensions_m": [
+        0.806,
+        0.703,
+        0.597
+      ],
+      "materials": [
+        "HV_Stone",
+        "HV_Moss"
+      ]
+    },
+    "hv_crop_patch": {
+      "description": "2 m wheat patch",
+      "glb": "/workspace/lantern-art/hearthvale/glb/hv_crop_patch.glb",
+      "triangles": 1236,
+      "dimensions_m": [
+        2.057,
+        2.184,
+        1.507
+      ],
+      "materials": [
+        "HV_Soil",
+        "HV_WheatGreen",
+        "HV_Wheat"
+      ]
+    }
+  }
 }
