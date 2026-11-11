@@ -2,7 +2,7 @@
 
 Working title: **The Lantern Below**. A cosy 3D walk through **Veyla**, a seeded world whose magic is ancient terraforming tech: nanomachine glimmer, and standing-stone relays called Wellstones.
 
-This repository is the Godot 4 gameplay prototype. Character and environment art are made separately in Blender and dropped in as `.glb` files. Until then, everything on screen is a placeholder mesh.
+This repository is the Godot 4 gameplay prototype. Hearthvale props are imported `.glb` files. Other biomes and the creatures are still placeholders until their drops arrive.
 
 Ships as a **paid-upfront Android game on Google Play, with no ads**. Package id: `com.dersley.nestkin`. Export presets and signing keys are not in this repo (and are gitignored).
 
@@ -46,31 +46,42 @@ The camera sits high and looks down at about 55°, framed for a landscape phone:
 scenes/            main scene, creatures, camera, placeholder props
 scripts/           gameplay, generator, tests
 resources/         WorldConfig, biomes, prop definitions
-assets/models/     drop imported .glb files here (see below)
-assets/shaders/    terrain and water (mobile-friendly)
+assets/models/     imported .glb files (see Art drops)
+assets/shaders/    cel lighting, terrain, and water
+docs/art/          mood boards, contact sheets, and per-drop notes
 ```
 
 | Path | What belongs there |
 | --- | --- |
 | `assets/models/creatures/` | The player and raised creatures |
-| `assets/models/props/` | Trees, rocks, flowers, Wellstones, anything the biomes scatter |
+| `assets/models/props/<biome_id>/` | Scatterable props for that biome |
 | `assets/models/environment/` | One-off set dressing that is not scattered by the generator |
+| `docs/art/<biome_id>/` | Mood boards, contact sheet, ART_NOTES, manifest |
 
-## Blender models
+## Art drops
+
+Future drops use these paths exactly. `<biome_id>` is the id on the biome resource (`hearthvale`, `glimmerwood`, `saltglass`, `cloudloft`, `greying`, `underhollows`). `<prop_id>` is short and snake_case (`oak`, `fence`, `crop_patch`).
+
+| What | Path |
+| --- | --- |
+| Prop model | `assets/models/props/<biome_id>/<biome_id>_<prop_id>.glb` |
+| Creature model | `assets/models/creatures/<creature_id>.glb` |
+| Mood board | `docs/art/<biome_id>/mood-<name>.png` |
+| Contact sheet | `docs/art/<biome_id>/contact-sheet.png` |
+| Notes and manifest | `docs/art/<biome_id>/ART_NOTES.md` and `docs/art/<biome_id>/manifest.json` |
+
+Example already in the repo: `assets/models/props/hearthvale/hearthvale_oak.glb`.
 
 Export **glTF binary (`.glb`)**.
 
 - **1 unit = 1 metre**
 - **Y-up** (glTF's default; in Blender's exporter, +Y up)
-- **Origin at the base**, on the ground contact. Feet for creatures, the trunk base for a tree, the bottom of a stone
+- **Origin at the base centre** (ground contact). Feet for creatures. A fence segment runs along local X; the Hearthvale fence tiles every **2.0 m**, and the crop patch is **2.0 m × 2.0 m**
+- Flat named materials with plain colours. The game replaces them at runtime with `assets/shaders/toon.gdshader` (stepped light plus a rim). Do not rely on textures for the first drops
 
-Godot imports a `.glb` as a `PackedScene`.
+**Props.** Add a `PropDef` under `resources/props/` that points `scene` at the `.glb`, and list it on the biome. Several surfaces (bark and leaves) stay on one mesh and become one MultiMesh. Set `collision_kind` to `cylinder` for a trunk or `sphere` for a rock. Set `instance_as_scene` only when the model needs real nodes (Wellstones). Fences and crop patches are not sprinkled through the meadow; the spawn chunk builds one fenced plot from the 2 m tiles.
 
-**Props.** Put the file in `assets/models/props/`, then open the matching resource under `resources/props/` and assign it to the `scene` field. Biomes list those resources, so one assignment updates every chunk that scatters it.
-
-- Several `MeshInstance3D` children (trunk and canopy, for example) become one MultiMesh each, which is what we want on a phone.
-- Set `instance_as_scene` on the prop if the model needs collision, lights, or animation. Wellstones do this today.
-- `tint` multiplies `StandardMaterial3D` albedo. `emission_surface_names` limits the emission override to named meshes (`Canopy`, `Blossom`, …). Shader materials are left as the file authored them.
+**Creatures.** Assign `visual_scene` on the Player or on `FirstRaised`. The placeholder hides. Keep the origin at the feet.
 
 **Creatures.** Put the file in `assets/models/creatures/`. On the Player or on `FirstRaised` (the companion), assign `visual_scene`. The placeholder hides and the imported scene is parented under `VisualRoot`, which already faces movement. Keep the origin at the feet so they stand on the terrain. The player's collision stays a capsule until you replace it on purpose.
 
@@ -103,7 +114,7 @@ Each surface biome has its own ground colour and a list of props with density, s
 
 Chunks underfoot are built before you can move, so you spawn standing on collision. Further chunks are meshed off the main thread and attached a few per frame. The outer ring uses a coarser grid and skips props. A short skirt hides LOD cracks.
 
-Scattered trees, rocks, and flowers are MultiMeshes and do not block movement. Wellstones are real nodes with a box collider.
+Scattered props are MultiMeshes. Trees use a trunk cylinder and rocks a sphere, so they block you without a triangle mesh. Wellstones are real nodes with a box collider. Hearthvale also places one fenced plot, with 2 m fence tiles and 2 m crop patches, in front of the spawn point.
 
 ## Android notes
 
@@ -117,7 +128,7 @@ Scattered trees, rocks, and flowers are MultiMeshes and do not block movement. W
 
 - The Underhollows are a note, not a cave system.
 - No raising, combat, or other creature play yet. You can only walk with the first one.
-- Placeholder art. No audio.
-- Props other than Wellstones have no collision.
+- Other biomes and both creatures are still placeholders. No audio.
+- Tree and rock collision is a trunk cylinder or a sphere, not the rendered mesh. Fences on the spawn plot use a thin box.
 - LOD seams are hidden with skirts, not stitched vertex-for-vertex.
 - Water is a moving transparent plane, not a simulation.

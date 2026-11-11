@@ -12,3 +12,5 @@ min_scale = 0.7
 max_scale = 1.45
 max_slope_degrees = 40.0
 max_per_chunk = 4
+collision_kind = "sphere"
+collision_radius = 0.4

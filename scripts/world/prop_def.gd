@@ -31,3 +31,7 @@ extends Resource
 @export var emission_energy: float = 0.0
 ## Empty: emission override applies to every mesh. Otherwise only these node names.
 @export var emission_surface_names: PackedStringArray = PackedStringArray()
+## Cheap stand-in collider. The visual stays a MultiMesh; one shape is placed per instance.
+@export_enum("none", "cylinder", "sphere", "box") var collision_kind: String = "none"
+@export var collision_radius: float = 0.3
+@export var collision_height: float = 1.0

@@ -18,6 +18,9 @@ func _enter_tree() -> void:
 
 func _ready() -> void:
 	CreatureVisual.apply_override(self, visual_scene)
+	var visual := get_node_or_null("VisualRoot")
+	if visual != null:
+		ToonMaterial.apply_node(visual)
 
 
 func snap_to(player: Node3D) -> void:

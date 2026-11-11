@@ -57,6 +57,35 @@ func _check_config(failures: Array[String]) -> void:
 		_expect(failures, ids.has(id), "surface biome present: %s" % String(id))
 	_expect(failures, under != null and not under.surface_enabled, "underhollows is a non-surface stub")
 	_expect(failures, under != null and under.lore_note.length() > 20, "underhollows carries a note")
+	_check_hearthvale_art(config, failures)
+
+
+func _check_hearthvale_art(config: WorldConfig, failures: Array[String]) -> void:
+	var props: Dictionary = {}
+	for biome in config.biomes:
+		if biome.id != BiomeIds.HEARTHVALE:
+			continue
+		for prop in biome.props:
+			props[String(prop.id)] = prop
+	for prop_id in ["oak", "fruit_tree", "bush", "flower_clump", "hearthvale_rock", "hay_bale", "wellstone"]:
+		_expect(failures, props.has(prop_id), "hearthvale lists %s" % prop_id)
+		if props.has(prop_id):
+			_expect(failures, props[prop_id].scene != null, "%s has a scene" % prop_id)
+	if props.has("oak"):
+		_expect(failures, props["oak"].collision_kind == "cylinder", "oak trunk collides")
+	if props.has("hearthvale_rock"):
+		_expect(failures, props["hearthvale_rock"].collision_kind == "sphere", "hearthvale rock collides")
+	for filename in [
+		"hearthvale_fence.glb",
+		"hearthvale_hay_bale.glb",
+		"hearthvale_oak.glb",
+		"hearthvale_fruit_tree.glb",
+		"hearthvale_flower_clump.glb",
+		"hearthvale_bush.glb",
+		"hearthvale_rock.glb",
+		"hearthvale_crop_patch.glb",
+	]:
+		_expect(failures, FileAccess.file_exists("res://assets/models/props/hearthvale/%s" % filename), "model file %s" % filename)
 
 
 func _check_classify(params: TerrainParams, failures: Array[String]) -> void:

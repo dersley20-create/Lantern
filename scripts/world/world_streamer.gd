@@ -26,6 +26,7 @@ var _results: Array = []
 var _mutex := Mutex.new()
 var _jobs: int = 0
 var _center := Vector2i.ZERO
+var _spawn_chunk := Vector2i.ZERO
 
 
 func _enter_tree() -> void:
@@ -43,8 +44,13 @@ func _ready() -> void:
 	_library = PropLibrary.new(config)
 	_terrain_material = ShaderMaterial.new()
 	_terrain_material.shader = load(TERRAIN_SHADER) as Shader
+	_terrain_material.set_shader_parameter("use_vertex_color", true)
+	_terrain_material.set_shader_parameter("albedo_color", Color.WHITE)
+	_terrain_material.set_shader_parameter("rim_strength", 0.05)
+	_terrain_material.set_shader_parameter("color_steps", 3.0)
 	spawn_position = TerrainSampler.find_spawn(_params, _noises)
 	_center = TerrainSampler.chunk_coord(spawn_position.x, spawn_position.z, _params.chunk_size)
+	_spawn_chunk = _center
 	_rebuild_wanted()
 	_build_home_sync()
 	var sample := TerrainSampler.sample_at(_params, _noises, spawn_position.x, spawn_position.z)
@@ -213,7 +219,7 @@ func _make_chunk(data: Dictionary) -> TerrainChunk:
 	var visual := MeshInstance3D.new()
 	visual.mesh = mesh
 	visual.material_override = _terrain_material
-	visual.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON
+	visual.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	body.add_child(visual)
 
 	var shape := ConcavePolygonShape3D.new()
@@ -226,6 +232,8 @@ func _make_chunk(data: Dictionary) -> TerrainChunk:
 
 	if bool(data.with_props) and data.props is Dictionary:
 		_library.attach(chunk, data.props, _params.chunk_size)
+	if chunk.coord == _spawn_chunk and chunk.has_props:
+		FarmPlot.attach(chunk, spawn_position, Callable(self, "sample_height"))
 	return chunk
 
 

@@ -35,6 +35,7 @@ func attach(parent: Node3D, transforms_by_id: Dictionary, chunk_size: float) -> 
 			_add_scenes(parent, prop, xforms)
 		else:
 			_add_multimeshes(parent, prop, xforms, chunk_size)
+		_add_simple_collision(parent, prop, xforms)
 
 
 func _add_scenes(parent: Node3D, prop: PropDef, xforms: Array) -> void:
@@ -88,12 +89,16 @@ func _collect(node: Node, parent_xf: Transform3D, prop: PropDef, parts: Array) -
 	if node is MeshInstance3D:
 		var mesh_instance := node as MeshInstance3D
 		if mesh_instance.mesh != null:
-			var source := mesh_instance.get_surface_override_material(0)
-			if source == null and mesh_instance.mesh.get_surface_count() > 0:
-				source = mesh_instance.mesh.surface_get_material(0)
+			var baked: Mesh = mesh_instance.mesh.duplicate()
+			var surfaces := baked.get_surface_count()
+			for surface_index in surfaces:
+				var source := mesh_instance.get_surface_override_material(surface_index)
+				if source == null:
+					source = mesh_instance.mesh.surface_get_material(surface_index)
+				baked.surface_set_material(surface_index, ToonMaterial.from_source(source, prop.tint, prop, String(mesh_instance.name)))
 			parts.append({
-				"mesh": mesh_instance.mesh,
-				"material": _style_material(source, prop, String(mesh_instance.name)),
+				"mesh": baked,
+				"material": null,
 				"local": xf,
 			})
 	for child in node.get_children():
@@ -109,35 +114,47 @@ func _style_tree(node: Node, prop: PropDef) -> void:
 				var source := mesh_instance.get_surface_override_material(surface_index)
 				if source == null:
 					source = mesh_instance.mesh.surface_get_material(surface_index)
-				var styled := _style_material(source, prop, String(mesh_instance.name))
-				if styled != null:
-					mesh_instance.set_surface_override_material(surface_index, styled)
+				var styled := ToonMaterial.from_source(source, prop.tint, prop, String(mesh_instance.name))
+				mesh_instance.set_surface_override_material(surface_index, styled)
 	for child in node.get_children():
 		_style_tree(child, prop)
 
 
-func _style_material(source: Material, prop: PropDef, surface_name: String) -> Material:
-	if source == null:
-		var created := StandardMaterial3D.new()
-		created.albedo_color = prop.tint
-		created.roughness = 1.0
-		created.specular_mode = BaseMaterial3D.SPECULAR_DISABLED
-		return created
-	var styled := source.duplicate()
-	if styled is StandardMaterial3D:
-		var material := styled as StandardMaterial3D
-		var albedo := material.albedo_color
-		material.albedo_color = Color(albedo.r * prop.tint.r, albedo.g * prop.tint.g, albedo.b * prop.tint.b, albedo.a)
-		material.roughness = 1.0
-		material.specular_mode = BaseMaterial3D.SPECULAR_DISABLED
-		if prop.override_emission and _emits(prop, surface_name):
-			material.emission_enabled = prop.emission_energy > 0.001
-			material.emission = prop.emission_color
-			material.emission_energy_multiplier = prop.emission_energy
-	return styled
+func _add_simple_collision(parent: Node3D, prop: PropDef, xforms: Array) -> void:
+	if prop.collision_kind == "" or prop.collision_kind == "none":
+		return
+	var shape := _collision_shape(prop)
+	if shape == null:
+		return
+	for xf in xforms:
+		var body := StaticBody3D.new()
+		body.collision_layer = 1
+		body.collision_mask = 0
+		body.transform = xf
+		var collision := CollisionShape3D.new()
+		collision.shape = shape
+		if prop.collision_kind == "sphere":
+			collision.position.y = prop.collision_radius
+		else:
+			collision.position.y = prop.collision_height * 0.5
+		body.add_child(collision)
+		parent.add_child(body)
 
 
-func _emits(prop: PropDef, surface_name: String) -> bool:
-	if prop.emission_surface_names.is_empty():
-		return true
-	return prop.emission_surface_names.has(surface_name)
+func _collision_shape(prop: PropDef) -> Shape3D:
+	match prop.collision_kind:
+		"cylinder":
+			var cylinder := CylinderShape3D.new()
+			cylinder.radius = prop.collision_radius
+			cylinder.height = maxf(prop.collision_height, prop.collision_radius * 2.0)
+			return cylinder
+		"sphere":
+			var sphere := SphereShape3D.new()
+			sphere.radius = prop.collision_radius
+			return sphere
+		"box":
+			var box := BoxShape3D.new()
+			box.size = Vector3(prop.collision_radius * 2.0, prop.collision_height, prop.collision_radius * 2.0)
+			return box
+		_:
+			return null

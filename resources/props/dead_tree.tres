@@ -12,4 +12,7 @@ min_scale = 0.85
 max_scale = 1.3
 max_slope_degrees = 28.0
 max_per_chunk = 8
+collision_kind = "cylinder"
+collision_radius = 0.2
+collision_height = 1.6
 tint = Color(0.82, 0.8, 0.76, 1)

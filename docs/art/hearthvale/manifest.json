@@ -1,0 +1,16 @@
+{
+  "biome": "hearthvale",
+  "unit": "metre",
+  "up": "Y",
+  "origin": "base centre",
+  "props": [
+    {"file": "assets/models/props/hearthvale/hearthvale_fence.glb", "id": "fence", "tile_m": 2.0, "materials": ["Wood"], "scatter": "spawn farm plot"},
+    {"file": "assets/models/props/hearthvale/hearthvale_hay_bale.glb", "id": "hay_bale", "materials": ["Hay", "Band"], "scatter": "meadow and farm plot"},
+    {"file": "assets/models/props/hearthvale/hearthvale_oak.glb", "id": "oak", "materials": ["Bark", "Leaves"], "collision": "cylinder"},
+    {"file": "assets/models/props/hearthvale/hearthvale_fruit_tree.glb", "id": "fruit_tree", "materials": ["Bark", "Leaves", "Fruit"], "collision": "cylinder"},
+    {"file": "assets/models/props/hearthvale/hearthvale_flower_clump.glb", "id": "flower_clump", "materials": ["Stem", "Petal", "PetalWarm"]},
+    {"file": "assets/models/props/hearthvale/hearthvale_bush.glb", "id": "bush", "materials": ["Leaves"]},
+    {"file": "assets/models/props/hearthvale/hearthvale_rock.glb", "id": "hearthvale_rock", "materials": ["Stone"], "collision": "sphere"},
+    {"file": "assets/models/props/hearthvale/hearthvale_crop_patch.glb", "id": "crop_patch", "size_m": [2.0, 2.0], "materials": ["Soil", "Crop"], "scatter": "spawn farm plot"}
+  ]
+}

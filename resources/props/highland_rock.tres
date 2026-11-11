@@ -12,4 +12,6 @@ min_scale = 0.75
 max_scale = 1.6
 max_slope_degrees = 42.0
 max_per_chunk = 10
+collision_kind = "sphere"
+collision_radius = 0.45
 tint = Color(0.78, 0.8, 0.88, 1)

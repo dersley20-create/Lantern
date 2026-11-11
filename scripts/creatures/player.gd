@@ -27,6 +27,9 @@ func _ready() -> void:
 	floor_stop_on_slope = true
 	safe_margin = 0.08
 	CreatureVisual.apply_override(self, visual_scene)
+	var visual := get_node_or_null("VisualRoot")
+	if visual != null:
+		ToonMaterial.apply_node(visual)
 	set_physics_process(false)
 
 
