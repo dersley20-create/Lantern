@@ -11,6 +11,7 @@ extends CharacterBody3D
 
 var facing: Vector3 = Vector3(0, 0, -1)
 var follow_camera: Node3D
+var scripted_wish: Vector3 = Vector3.ZERO
 
 var _playing: bool = false
 
@@ -59,6 +60,8 @@ func _physics_process(delta: float) -> void:
 
 
 func _wish_direction() -> Vector3:
+	if scripted_wish.length_squared() > 0.0004:
+		return scripted_wish
 	var input := Vector2.ZERO
 	input.x += float(Input.is_physical_key_pressed(KEY_D)) - float(Input.is_physical_key_pressed(KEY_A))
 	input.x += float(Input.is_physical_key_pressed(KEY_RIGHT)) - float(Input.is_physical_key_pressed(KEY_LEFT))

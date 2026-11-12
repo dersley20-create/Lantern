@@ -23,7 +23,9 @@ static func attach(chunk: Node3D, spawn: Vector3, height_at: Callable) -> void:
 	# Default camera yaw is 32 degrees. Place the plot in front of that view.
 	var yaw := deg_to_rad(32.0)
 	var forward := Vector3(-sin(yaw), 0.0, -cos(yaw))
-	var center := Vector3(spawn.x, 0.0, spawn.z) + forward * 12.0
+	var right := Vector3(cos(yaw), 0.0, -sin(yaw))
+	# Beside Bramblecross, clear of the cottages and the well.
+	var center := Vector3(spawn.x, 0.0, spawn.z) + forward * 8.0 + right * 24.0
 	var half := 4.0
 	_side(root, fence_scene, chunk, height_at, center.x - half, center.z - half, true)
 	_side(root, fence_scene, chunk, height_at, center.x - half, center.z + half, true)

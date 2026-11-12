@@ -17,6 +17,7 @@ func _run() -> int:
 	preload("res://scripts/world/biome_def.gd")
 	preload("res://scripts/world/world_config.gd")
 	preload("res://scripts/world/terrain_params.gd")
+	preload("res://scripts/world/village.gd")
 	preload("res://scripts/world/terrain_sampler.gd")
 	preload("res://scripts/world/chunk_mesher.gd")
 	preload("res://scripts/world/wild_spawn.gd")
@@ -40,6 +41,8 @@ func _run() -> int:
 	_check_pyreleaf(failures)
 	_check_wild_creatures(params, noises, failures)
 	_check_hearth_pond(failures)
+	_check_companion(failures)
+	_check_village_files(failures)
 	_finish(failures)
 	return 0 if failures.is_empty() else 1
 
@@ -348,6 +351,29 @@ func _check_hearth_pond(failures: Array[String]) -> void:
 		if (xf * arc).distance_to(center) > 0.001:
 			meet = false
 	_expect(failures, meet, "pond corners share one inner arc")
+
+
+func _check_companion(failures: Array[String]) -> void:
+	var packed := load("res://scenes/creatures/companion.tscn") as PackedScene
+	_expect(failures, packed != null, "companion scene loads")
+	if packed == null:
+		return
+	var companion := packed.instantiate()
+	get_root().add_child(companion)
+	if not companion.is_node_ready():
+		companion._ready()
+	_expect(failures, String(companion.get("species")) == "mushnub", "mushnub is the default companion")
+	var tree := companion.get_node_or_null("CompanionTree") as AnimationTree
+	_expect(failures, tree != null and tree.active, "companion drives an AnimationTree")
+	var playback = tree.get("parameters/playback") if tree != null else null
+	_expect(failures, playback is AnimationNodeStateMachinePlayback, "companion tree is a state machine")
+	companion.free()
+
+
+func _check_village_files(failures: Array[String]) -> void:
+	for filename in ["village_grandmother_cottage.glb", "village_cottage_a.glb", "village_cottage_b.glb", "village_cottage_c.glb", "village_well.glb", "village_lantern_post.glb", "village_cart.glb", "village_garden_bed.glb"]:
+		_expect(failures, FileAccess.file_exists("res://assets/models/village/%s" % filename), "village file %s" % filename)
+	_expect(failures, not VillageLayout.enabled, "village pad stays off in tests")
 
 
 func _find_named(node: Node, type_name: String) -> Node:

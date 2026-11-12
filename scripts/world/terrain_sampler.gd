@@ -47,7 +47,8 @@ static func classify(elevation: float, moisture: float, wellstone: float, params
 
 
 static func height_at(params: TerrainParams, noises: Dictionary, x: float, z: float) -> float:
-	return _compose_height(params, _climate(noises, x, z))
+	var height := _compose_height(params, _climate(noises, x, z))
+	return VillageLayout.blend(x, z, height)
 
 
 static func slope_at(params: TerrainParams, noises: Dictionary, x: float, z: float) -> float:
@@ -59,7 +60,9 @@ static func slope_at(params: TerrainParams, noises: Dictionary, x: float, z: flo
 
 static func sample_at(params: TerrainParams, noises: Dictionary, x: float, z: float) -> Dictionary:
 	var climate := _climate(noises, x, z)
-	return _decorate(params, climate)
+	var sample := _decorate(params, climate)
+	sample.height = VillageLayout.blend(x, z, float(sample.height))
+	return sample
 
 
 static func climate_at_grid(noises: Dictionary, x: float, z: float) -> Dictionary:

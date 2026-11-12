@@ -85,7 +85,11 @@ func _tick_screenshot() -> void:
 	var terrain_here := true
 	if _world.has_method("terrain_ready_at"):
 		terrain_here = _world.terrain_ready_at(_player.global_position)
-	if ring_ready and grounded and terrain_here and _shot_frames > 80:
+	if OS.get_environment("LANTERN_WALK") == "1" and _shot_frames > 40 and _camera.has_method("flat_axes"):
+		var axes: Dictionary = _camera.flat_axes()
+		_player.scripted_wish = axes.forward
+	var walk_hold := 150 if OS.get_environment("LANTERN_WALK") == "1" else 80
+	if ring_ready and grounded and terrain_here and _shot_frames > walk_hold:
 		_shot_started = true
 		_capture_screenshot()
 	elif _shot_frames > 900:

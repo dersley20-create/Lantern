@@ -26,4 +26,6 @@ Wild creatures (not the companion) live in `assets/models/creatures/cactoro.glb`
 
 Hearthvale extras (grass clumps, ground cover, banks, water tile, stepping stones) share `assets/models/props/hearthvale/`. Their sheet is `docs/art/hearthvale/contact-sheet-extras.png`.
 
+Bramblecross, the spawn village, is `assets/models/village/` with notes in `docs/art/village/`.
+
 See `docs/art/hearthvale/` for the first set.

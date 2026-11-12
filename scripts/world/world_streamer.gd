@@ -51,6 +51,7 @@ func _ready() -> void:
 	_terrain_material.set_shader_parameter("rim_strength", 0.05)
 	_terrain_material.set_shader_parameter("color_steps", 3.0)
 	spawn_position = TerrainSampler.find_spawn(_params, _noises)
+	VillageLayout.configure(spawn_position)
 	_center = TerrainSampler.chunk_coord(spawn_position.x, spawn_position.z, _params.chunk_size)
 	_spawn_chunk = _center
 	_rebuild_wanted()
@@ -308,7 +309,10 @@ func _make_chunk(data: Dictionary) -> TerrainChunk:
 	chunk.add_child(body)
 
 	if bool(data.with_props) and data.props is Dictionary:
-		_library.attach(chunk, data.props, _params.chunk_size)
+		var props: Dictionary = VillageLayout.cull_props(data.props, float(data.origin_x), float(data.origin_z))
+		_library.attach(chunk, props, _params.chunk_size)
+	if chunk.has_props:
+		VillageLayout.attach(chunk, Callable(self, "sample_height"))
 	if chunk.coord == _spawn_chunk and chunk.has_props:
 		FarmPlot.attach(chunk, spawn_position, Callable(self, "sample_height"))
 	if chunk.has_props and _quality != null:

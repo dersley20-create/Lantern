@@ -146,6 +146,9 @@ static func _flat_spot(params: TerrainParams, noises: Dictionary, origin_x: floa
 	while x <= origin_x + params.chunk_size - margin:
 		var z := origin_z + margin
 		while z <= origin_z + params.chunk_size - margin:
+			if VillageLayout.inside_pad(x, z):
+				z += 4.0
+				continue
 			if Vector2(x, z).distance_to(Vector2(spawn.x, spawn.z)) < 12.0:
 				z += 4.0
 				continue

@@ -37,7 +37,7 @@ static func build(params: TerrainParams, noises: Dictionary, coord: Vector2i, lo
 			moisture[index] = float(climate.moisture)
 			wellstone[index] = float(climate.wellstone)
 			detail[index] = float(climate.detail)
-			heights[index] = TerrainSampler._compose_height(params, climate)
+			heights[index] = VillageLayout.blend(wx, wz, TerrainSampler._compose_height(params, climate))
 
 	var verts := PackedVector3Array()
 	var normals := PackedVector3Array()

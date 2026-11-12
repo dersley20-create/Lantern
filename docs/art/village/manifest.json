@@ -1,0 +1,214 @@
+{
+  "kit": "village",
+  "place": "Bramblecross, Hearthvale",
+  "unit": "1 unit = 1 metre",
+  "up_axis_gltf": "Y",
+  "origin": "base centre (ground contact)",
+  "front": "door / shafts face +Y",
+  "materials": "flat named base colours (HV_*). Windows (HV_Window) and lamps (HV_Lamp) are emissive. Toon shading is done by the game shader.",
+  "assets": [
+    {
+      "name": "grandmother_cottage",
+      "file": "village_grandmother_cottage.glb",
+      "triangles": 788,
+      "size_m": {
+        "x": 7.28,
+        "y_depth": 5.94,
+        "height": 5.51
+      },
+      "base_z": 0.0,
+      "materials": [
+        "HV_Door",
+        "HV_FlowerPink",
+        "HV_FlowerWhite",
+        "HV_FlowerYellow",
+        "HV_Lamp",
+        "HV_Metal",
+        "HV_Plaster",
+        "HV_Soil",
+        "HV_Stone",
+        "HV_StoneDark",
+        "HV_Thatch",
+        "HV_ThatchShadow",
+        "HV_WellDark",
+        "HV_Window",
+        "HV_Wood",
+        "HV_WoodDark"
+      ],
+      "notes": "Player start cottage, ~7 m wide, thatched roof, chimney, 2.1 m door on +Y, warm emissive windows and a lantern by the door.",
+      "reimport": "OK"
+    },
+    {
+      "name": "cottage_a",
+      "file": "village_cottage_a.glb",
+      "triangles": 432,
+      "size_m": {
+        "x": 4.34,
+        "y_depth": 5.26,
+        "height": 4.71
+      },
+      "base_z": 0.0,
+      "materials": [
+        "HV_Door",
+        "HV_FlowerPink",
+        "HV_FlowerWhite",
+        "HV_FlowerYellow",
+        "HV_Metal",
+        "HV_Plaster",
+        "HV_Soil",
+        "HV_Stone",
+        "HV_StoneDark",
+        "HV_Thatch",
+        "HV_ThatchShadow",
+        "HV_WellDark",
+        "HV_Window",
+        "HV_Wood",
+        "HV_WoodDark"
+      ],
+      "notes": "Small gable-front thatched cottage, door on +Y.",
+      "reimport": "OK"
+    },
+    {
+      "name": "cottage_b",
+      "file": "village_cottage_b.glb",
+      "triangles": 596,
+      "size_m": {
+        "x": 5.76,
+        "y_depth": 5.28,
+        "height": 5.01
+      },
+      "base_z": 0.0,
+      "materials": [
+        "HV_Door",
+        "HV_FlowerPink",
+        "HV_FlowerWhite",
+        "HV_FlowerYellow",
+        "HV_Metal",
+        "HV_PlasterWarm",
+        "HV_Soil",
+        "HV_Stone",
+        "HV_StoneDark",
+        "HV_Thatch",
+        "HV_ThatchShadow",
+        "HV_WellDark",
+        "HV_Window",
+        "HV_Wood",
+        "HV_WoodDark"
+      ],
+      "notes": "Mid cottage with a stone lower storey, two front windows and flower boxes, door on +Y.",
+      "reimport": "OK"
+    },
+    {
+      "name": "cottage_c",
+      "file": "village_cottage_c.glb",
+      "triangles": 328,
+      "size_m": {
+        "x": 4.84,
+        "y_depth": 4.82,
+        "height": 4.66
+      },
+      "base_z": 0.0,
+      "materials": [
+        "HV_Door",
+        "HV_Metal",
+        "HV_PlasterWarm",
+        "HV_Shingle",
+        "HV_Stone",
+        "HV_StoneDark",
+        "HV_WellDark",
+        "HV_Window",
+        "HV_Wood",
+        "HV_WoodDark"
+      ],
+      "notes": "Shingle-roof cottage, door off-centre on +Y.",
+      "reimport": "OK"
+    },
+    {
+      "name": "well",
+      "file": "village_well.glb",
+      "triangles": 312,
+      "size_m": {
+        "x": 1.5,
+        "y_depth": 1.24,
+        "height": 2.7
+      },
+      "base_z": 0.0,
+      "materials": [
+        "HV_Metal",
+        "HV_Moss",
+        "HV_Stone",
+        "HV_StoneDark",
+        "HV_Thatch",
+        "HV_ThatchShadow",
+        "HV_WellDark",
+        "HV_Wood",
+        "HV_WoodDark"
+      ],
+      "notes": "Village well with a thatched cap, crank and hanging bucket.",
+      "reimport": "OK"
+    },
+    {
+      "name": "lantern_post",
+      "file": "village_lantern_post.glb",
+      "triangles": 136,
+      "size_m": {
+        "x": 0.36,
+        "y_depth": 0.755,
+        "height": 2.72
+      },
+      "base_z": 0.0,
+      "materials": [
+        "HV_Lamp",
+        "HV_Metal",
+        "HV_Stone",
+        "HV_Wood"
+      ],
+      "notes": "Timber post with a metal arm and an emissive lamp.",
+      "reimport": "OK"
+    },
+    {
+      "name": "cart",
+      "file": "village_cart.glb",
+      "triangles": 236,
+      "size_m": {
+        "x": 1.5,
+        "y_depth": 2.975,
+        "height": 1.244
+      },
+      "base_z": 0.0,
+      "materials": [
+        "HV_Hay",
+        "HV_Metal",
+        "HV_Wood",
+        "HV_WoodDark"
+      ],
+      "notes": "Two-wheeled hay cart, shafts toward +Y.",
+      "reimport": "OK"
+    },
+    {
+      "name": "garden_bed",
+      "file": "village_garden_bed.glb",
+      "triangles": 256,
+      "size_m": {
+        "x": 1.8,
+        "y_depth": 1.1,
+        "height": 0.487
+      },
+      "base_z": 0.0,
+      "materials": [
+        "HV_FlowerPink",
+        "HV_FlowerWhite",
+        "HV_FlowerYellow",
+        "HV_Leaf",
+        "HV_LeafShadow",
+        "HV_Soil",
+        "HV_Stem",
+        "HV_Wood",
+        "HV_WoodDark"
+      ],
+      "notes": "Raised wooden garden bed with soil, leafy plants and a few flowers.",
+      "reimport": "OK"
+    }
+  ],
+  "contact_sheet": "contact-sheet.png"
+}

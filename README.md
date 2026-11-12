@@ -82,7 +82,7 @@ Export **glTF binary (`.glb`)**.
 
 **Props.** Add a `PropDef` under `resources/props/` that points `scene` at the `.glb`, and list it on the biome. Several surfaces (bark and leaves) stay on one mesh and become one MultiMesh. Emissive glTF materials stay emissive under the toon shader. Set `collision_kind` to `cylinder` for a trunk or `sphere` for a rock. Set `instance_as_scene` only when the model needs real nodes (Wellstones). Living biomes use the restored Wellstone; the Greying uses the dormant ring. Fences and crop patches are not sprinkled through the meadow; the spawn chunk builds one fenced plot from the 2 m tiles. A Cloudloft rope-bridge roll lays three 3 m segments in a line.
 
-**Creatures.** Put the file in `assets/models/creatures/`. `FirstRaised` is still Pyreleaf, the companion: `assets/models/creatures/pyreleaf.glb`, Y-up, faces +Z, origin at the feet. It plays `Idle` and hops a little while following. A later drop will replace that companion. Emissive parts stay glowing; the rest use the project toon shader.
+**Creatures.** Put the file in `assets/models/creatures/`. `FirstRaised` is Mushnub by default (`species = mushnub` on the companion). Set that export to `cactoro` to swap in the other Nestkin. Both are instanced at 0.33 because the GLBs are about 3.5 m tall. An AnimationTree plays Idle when still, Walk while following (playback speed follows movement; there is no run clip), Jump over a step or a gap, and Yes or Dance as an idle fidget. `NK_Cap` and `NK_Band` stay emissive. Pyreleaf remains in the repo and is unused. Cactoro and Mushnub also still appear as wild groups.
 
 Cactoro and Mushnub are wild, not the companion. Near chunks spawn a deterministic group of up to three: Cactoro on the Saltglass and on dry Hearthvale edges, Mushnub in the Glimmerwood and on damp Hearthvale. They idle, walk a few metres, then idle again, with an occasional Yes, Dance, or Jump. If you step closer than about 4 m they drift off. Past 30 m the clip pauses. The GLBs are the Quaternius scale (about 3.5 m); the world instances them at 0.33.
 
@@ -141,7 +141,7 @@ Lighting stays at a warm morning unless `DayLight.cycle` is turned on. A full da
 
 - The Underhollows are a note, not a cave system.
 - No raising, combat, or other creature play yet. You can only walk with the first one.
-- The player mesh is still a placeholder. No audio. The companion is still Pyreleaf until the next creature drop.
+- The player mesh is still a placeholder. No audio. Pyreleaf is unused; the companion is Mushnub unless `species` is set to `cactoro`.
 - Tree and rock collision is a trunk cylinder or a sphere, not the rendered mesh. Fences on the spawn plot use a thin box.
 - LOD seams are hidden with skirts, not stitched vertex-for-vertex.
 - Water is one transparent plane that follows the player, lifted so it meets the Saltglass sand. Foam is a ribbon of discs on that waterline (off on low quality). The water shader also softens the edge when the device exposes a depth texture.

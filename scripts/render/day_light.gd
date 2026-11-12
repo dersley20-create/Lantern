@@ -15,6 +15,7 @@ var _quality: VisualQuality
 
 
 func _ready() -> void:
+	add_to_group("day_light")
 	_quality = VisualQuality.load_default()
 	_sun = get_node_or_null("../Sun") as DirectionalLight3D
 	_fill = get_node_or_null("../Fill") as DirectionalLight3D

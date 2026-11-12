@@ -39,7 +39,7 @@ static func _scatter(rng: RandomNumberGenerator, params: TerrainParams, noises: 
 		guard += 1
 		var x := origin_x + rng.randf() * params.chunk_size
 		var z := origin_z + rng.randf() * params.chunk_size
-		if _blocked(x, z, blockers):
+		if _blocked(x, z, blockers) or VillageLayout.blocks(x, z):
 			continue
 		var sample := TerrainSampler.sample_at(params, noises, x, z)
 		if sample.biome != BiomeIds.HEARTHVALE:

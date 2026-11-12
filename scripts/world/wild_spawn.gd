@@ -49,6 +49,8 @@ static func _fill(placed: Array, rng: RandomNumberGenerator, params: TerrainPara
 		guard += 1
 		var x := origin_x + rng.randf_range(1.5, params.chunk_size - 1.5)
 		var z := origin_z + rng.randf_range(1.5, params.chunk_size - 1.5)
+		if VillageLayout.blocks(x, z):
+			continue
 		if not accepts(species, params, noises, x, z):
 			continue
 		if not _separated(placed, x, z):
