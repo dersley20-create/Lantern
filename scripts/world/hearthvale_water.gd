@@ -45,7 +45,7 @@ static func attach(chunk: Node3D, params: TerrainParams, noises: Dictionary, spa
 
 
 static func nearest_stand(params: TerrainParams, noises: Dictionary, around: Vector3) -> Vector3:
-	var yaw := deg_to_rad(32.0)
+	var yaw := deg_to_rad(45.0)
 	var forward := Vector3(-sin(yaw), 0.0, -cos(yaw))
 	var best := around
 	var best_dist := 1.0e20

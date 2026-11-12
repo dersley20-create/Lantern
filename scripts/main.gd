@@ -39,6 +39,12 @@ func _try_start() -> void:
 		stand = _world.find_biome_stand(biome_name)
 	_player.global_position = stand
 	_player.velocity = Vector3.ZERO
+	if OS.get_environment("LANTERN_OCCLUDER") == "1":
+		var yaw := deg_to_rad(45.0)
+		var ahead := Vector3(-sin(yaw), 0.0, -cos(yaw))
+		var shifted := stand + ahead * 7.2
+		shifted.y = _world.sample_height(shifted.x, shifted.z) + 0.4
+		_player.global_position = shifted
 	print("Lantern stand=%s biome_request=%s" % [stand, biome_name])
 	if _companion.has_method("snap_to"):
 		_companion.snap_to(_player)
@@ -55,7 +61,7 @@ func _try_start() -> void:
 
 
 func _place_wellstone_pair() -> void:
-	var yaw := deg_to_rad(32.0)
+	var yaw := deg_to_rad(45.0)
 	var forward := Vector3(-sin(yaw), 0.0, -cos(yaw))
 	var right := Vector3(cos(yaw), 0.0, -sin(yaw))
 	var origin := _player.global_position

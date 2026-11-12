@@ -18,6 +18,7 @@ func _run() -> int:
 	preload("res://scripts/world/world_config.gd")
 	preload("res://scripts/world/terrain_params.gd")
 	preload("res://scripts/world/village.gd")
+	preload("res://scripts/world/planet.gd")
 	preload("res://scripts/world/terrain_sampler.gd")
 	preload("res://scripts/world/chunk_mesher.gd")
 	preload("res://scripts/world/wild_spawn.gd")
@@ -43,6 +44,7 @@ func _run() -> int:
 	_check_hearth_pond(failures)
 	_check_companion(failures)
 	_check_village_files(failures)
+	_check_planet(failures)
 	_finish(failures)
 	return 0 if failures.is_empty() else 1
 
@@ -362,18 +364,26 @@ func _check_companion(failures: Array[String]) -> void:
 	get_root().add_child(companion)
 	if not companion.is_node_ready():
 		companion._ready()
-	_expect(failures, String(companion.get("species")) == "mushnub", "mushnub is the default companion")
-	var tree := companion.get_node_or_null("CompanionTree") as AnimationTree
-	_expect(failures, tree != null and tree.active, "companion drives an AnimationTree")
-	var playback = tree.get("parameters/playback") if tree != null else null
-	_expect(failures, playback is AnimationNodeStateMachinePlayback, "companion tree is a state machine")
-	companion.free()
+	_expect(failures, companion.get_node_or_null("CompanionTree") == null, "companion is not a Nestkin")
+	_expect(failures, companion.get_node_or_null("VisualRoot/Placeholder") != null, "companion keeps the small placeholder")
+	companion.queue_free()
 
 
 func _check_village_files(failures: Array[String]) -> void:
 	for filename in ["village_grandmother_cottage.glb", "village_cottage_a.glb", "village_cottage_b.glb", "village_cottage_c.glb", "village_well.glb", "village_lantern_post.glb", "village_cart.glb", "village_garden_bed.glb"]:
 		_expect(failures, FileAccess.file_exists("res://assets/models/village/%s" % filename), "village file %s" % filename)
 	_expect(failures, not VillageLayout.enabled, "village pad stays off in tests")
+
+
+func _check_planet(failures: Array[String]) -> void:
+	var wrapped := PlanetMap.wrap_xz(10.0, -25.0)
+	_expect(failures, wrapped.distance_to(Vector2(10.0, -25.0)) < 0.001, "near positions stay put")
+	var around := PlanetMap.wrap_xz(PlanetMap.CIRCUMFERENCE_M + 12.0, -4.0)
+	_expect(failures, around.distance_to(Vector2(12.0, -4.0)) < 0.05, "easting wraps one circumference")
+	_expect(failures, absf(PlanetMap.longitude_deg(0.0)) < 0.001, "zero easting is longitude zero")
+	_expect(failures, absf(PlanetMap.latitude_deg(0.0)) < 0.001, "zero northing is the equator")
+	var lon := PlanetMap.longitude_deg(PlanetMap.RADIUS_M * PI)
+	_expect(failures, absf(absf(lon) - 180.0) < 0.2 or absf(lon) < 0.2, "half a turn of longitude wraps")
 
 
 func _find_named(node: Node, type_name: String) -> Node:

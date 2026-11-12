@@ -4,21 +4,22 @@ extends Node3D
 ## Pitch stays in the Diablo range; scroll and pinch only change distance.
 
 @export var pitch_degrees: float = 55.0
-@export var distance: float = 16.5
-@export var min_distance: float = 11.0
-@export var max_distance: float = 23.0
-@export var follow_sharpness: float = 4.0
-@export var zoom_sharpness: float = 8.0
-@export var yaw_degrees: float = 32.0
-@export var yaw_speed_degrees: float = 70.0
+@export var distance: float = 16.0
+@export var min_distance: float = 9.0
+@export var max_distance: float = 26.0
+@export var follow_sharpness: float = 2.8
+@export var zoom_sharpness: float = 6.0
+@export var yaw_degrees: float = 45.0
+@export var yaw_step_degrees: float = 45.0
 @export var look_height: float = 1.15
 @export var look_ahead: float = 1.8
 @export var fov: float = 52.0
 
 var _yaw: float = 0.0
 var _yaw_target: float = 0.0
-var _distance: float = 16.5
-var _distance_target: float = 16.5
+var _orbit_bucket: float = 0.0
+var _distance: float = 16.0
+var _distance_target: float = 16.0
 var _anchor: Vector3 = Vector3.ZERO
 var _snapped: bool = false
 var _camera: Camera3D
@@ -37,8 +38,13 @@ func _ready() -> void:
 	_camera.current = true
 	_camera.fov = fov
 	_camera.near = 0.2
-	_camera.far = 260.0
-	_yaw = deg_to_rad(yaw_degrees)
+	_camera.far = 420.0
+	var zoom := OS.get_environment("LANTERN_ZOOM")
+	if zoom == "in":
+		distance = min_distance
+	elif zoom == "out":
+		distance = max_distance
+	_yaw = _snap_yaw(deg_to_rad(yaw_degrees))
 	_yaw_target = _yaw
 	_distance = clampf(distance, min_distance, max_distance)
 	_distance_target = _distance
@@ -97,7 +103,12 @@ func _unhandled_input(event: InputEvent) -> void:
 			_distance_target += 1.15
 		_distance_target = clampf(_distance_target, min_distance, max_distance)
 	elif event is InputEventMouseMotion and (event.button_mask & MOUSE_BUTTON_MASK_MIDDLE) != 0:
-		_yaw_target -= event.relative.x * 0.005
+		_accumulate_orbit(-event.relative.x * 0.008)
+	elif event is InputEventKey and event.pressed and not event.echo:
+		if event.keycode == KEY_Q:
+			_step_orbit(1.0)
+		elif event.keycode == KEY_E:
+			_step_orbit(-1.0)
 	elif event is InputEventMagnifyGesture:
 		# Trackpad pinch. factor > 1 magnifies, which brings the camera in.
 		_distance_target += (1.0 - event.factor) * 16.0
@@ -105,17 +116,13 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _process(delta: float) -> void:
-	if Input.is_physical_key_pressed(KEY_Q):
-		_yaw_target += deg_to_rad(yaw_speed_degrees) * delta
-	if Input.is_physical_key_pressed(KEY_E):
-		_yaw_target -= deg_to_rad(yaw_speed_degrees) * delta
 	if Input.is_physical_key_pressed(KEY_MINUS) or Input.is_physical_key_pressed(KEY_KP_SUBTRACT):
 		_distance_target = clampf(_distance_target + 10.0 * delta, min_distance, max_distance)
 	if Input.is_physical_key_pressed(KEY_EQUAL) or Input.is_physical_key_pressed(KEY_KP_ADD):
 		_distance_target = clampf(_distance_target - 10.0 * delta, min_distance, max_distance)
 	var touch := get_tree().get_first_node_in_group("touch_controls")
 	if touch != null:
-		_yaw_target += float(touch.yaw_delta)
+		_accumulate_orbit(float(touch.yaw_delta))
 		touch.yaw_delta = 0.0
 		_distance_target = clampf(_distance_target + float(touch.zoom_delta), min_distance, max_distance)
 		touch.zoom_delta = 0.0
@@ -144,6 +151,33 @@ func _apply(_delta: float) -> void:
 	_camera.global_position = _resolve_collision(look, desired)
 	if _camera.global_position.distance_squared_to(look) > 0.04:
 		_camera.look_at(look, Vector3.UP)
+	var player := _player()
+	if player != null:
+		RenderingServer.global_shader_parameter_set("occluder_player", player.global_position)
+		RenderingServer.global_shader_parameter_set("occluder_camera", _camera.global_position)
+
+
+func _step_orbit(direction: float) -> void:
+	_orbit_bucket = 0.0
+	_yaw_target = _snap_yaw(_yaw_target + direction * _step_radians())
+
+
+func _accumulate_orbit(delta_radians: float) -> void:
+	_orbit_bucket += delta_radians
+	var step := _step_radians()
+	while absf(_orbit_bucket) >= step:
+		var direction := signf(_orbit_bucket)
+		_yaw_target = _snap_yaw(_yaw_target + direction * step)
+		_orbit_bucket -= direction * step
+
+
+func _snap_yaw(yaw: float) -> float:
+	var step := _step_radians()
+	return round(yaw / step) * step
+
+
+func _step_radians() -> float:
+	return deg_to_rad(clampf(yaw_step_degrees, 15.0, 90.0))
 
 
 func _resolve_collision(from: Vector3, to: Vector3) -> Vector3:

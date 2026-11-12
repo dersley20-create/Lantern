@@ -21,7 +21,7 @@ static func attach(chunk: Node3D, spawn: Vector3, height_at: Callable) -> void:
 	root.name = "HearthvaleFarm"
 	chunk.add_child(root)
 	# Default camera yaw is 32 degrees. Place the plot in front of that view.
-	var yaw := deg_to_rad(32.0)
+	var yaw := deg_to_rad(45.0)
 	var forward := Vector3(-sin(yaw), 0.0, -cos(yaw))
 	var right := Vector3(cos(yaw), 0.0, -sin(yaw))
 	# Beside Bramblecross, clear of the cottages and the well.

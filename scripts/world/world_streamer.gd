@@ -101,7 +101,7 @@ func find_biome_stand(biome_name: String) -> Vector3:
 
 func _find_shore_stand() -> Vector3:
 	# Default camera yaw is 32°, so the sea needs to sit along that look direction.
-	var yaw := deg_to_rad(32.0)
+	var yaw := deg_to_rad(45.0)
 	var forward := Vector3(-sin(yaw), 0.0, -cos(yaw))
 	var water := _params.sea_level + WaterSheet.SURFACE_LIFT
 	var best := Vector3(1.0e20, 0.0, 0.0)

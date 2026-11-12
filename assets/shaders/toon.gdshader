@@ -16,6 +16,8 @@ uniform vec3 shadow_tint = vec3(0.70, 0.74, 0.84);
 uniform float ambient_level = 0.36;
 uniform float wind_strength = 0.0;
 uniform float light_neutral : hint_range(0.0, 1.0) = 0.0;
+global uniform vec3 occluder_player;
+global uniform vec3 occluder_camera;
 
 void vertex() {
 	// Uniform branch stays off for characters and rocks. Foliage sets wind_strength.
@@ -38,6 +40,26 @@ void fragment() {
 	float facing = clamp(dot(NORMAL, VIEW), 0.0, 1.0);
 	float rim = pow(1.0 - facing, 2.4) * rim_strength;
 	EMISSION = emission_color.rgb * emission_energy + ALBEDO * (rim * rim_color.rgb + ambient_level);
+	// Screen-door cutaway so the player stays readable behind a cottage or a tree.
+	// Stays in the opaque pass, which is cheaper than real transparency on a phone.
+	vec3 world_pos = (INV_VIEW_MATRIX * vec4(VERTEX, 1.0)).xyz;
+	vec3 segment = occluder_player - occluder_camera;
+	float segment_len2 = max(dot(segment, segment), 0.001);
+	float along = clamp(dot(world_pos - occluder_camera, segment) / segment_len2, 0.0, 1.0);
+	float off_axis = length(world_pos - (occluder_camera + segment * along));
+	float above = world_pos.y - occluder_player.y;
+	if (along > 0.12 && along < 0.9 && above > 0.25 && off_axis < 1.15) {
+		// Solid cutaway in the middle, a short dither only on the rim.
+		if (off_axis < 0.62) {
+			discard;
+		} else {
+			float fade = smoothstep(1.15, 0.62, off_axis);
+			float dither = fract(sin(dot(floor(world_pos.xz * 12.0), vec2(12.9898, 78.233))) * 43758.5453);
+			if (dither < fade) {
+				discard;
+			}
+		}
+	}
 }
 
 void light() {

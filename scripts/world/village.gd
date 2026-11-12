@@ -6,7 +6,7 @@ extends RefCounted
 ## Doors face local -Z (the artist's +Y front, after the glTF axis swap).
 
 const MODEL := "res://assets/models/village/%s.glb"
-const YAW := 0.5585053606381855
+const YAW := PI / 4.0
 
 static var enabled: bool = false
 static var origin := Vector2.ZERO

@@ -58,12 +58,11 @@ radial_segments = 5
 
 [node name="FirstRaised" type="Node3D" groups=["companion"]]
 script = ExtResource("1_script")
-species = "mushnub"
 
 [node name="VisualRoot" type="Node3D" parent="."]
 
 [node name="Placeholder" type="Node3D" parent="VisualRoot"]
-transform = Transform3D(1.35, 0, 0, 0, 1.35, 0, 0, 0, 1.35, 0, 0, 0)
+transform = Transform3D(1.05, 0, 0, 0, 1.05, 0, 0, 0, 1.05, 0, 0, 0)
 
 [node name="Body" type="MeshInstance3D" parent="VisualRoot/Placeholder"]
 transform = Transform3D(1.15, 0, 0, 0, 0.85, 0, 0, 0, 1.45, 0, 0.36, 0.02)

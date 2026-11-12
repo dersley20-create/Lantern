@@ -22,7 +22,7 @@ assets/models/landmarks/wellstone_restored.glb
 
 Living biomes scatter the restored Wellstone where the network is strong. The Greying scatters the dormant ring. Dormant is the unlit default.
 
-Wild creatures (not the companion) live in `assets/models/creatures/cactoro.glb` and `mushnub.glb`. Notes and the contact sheet are in `docs/art/creatures/`.
+Wild creatures (not the companion) live in `assets/models/creatures/cactoro.glb` and `mushnub.glb`. Notes and the contact sheet are in `docs/art/creatures/`. The companion slot is waiting on the Vuena cat, fox, and owl.
 
 Hearthvale extras (grass clumps, ground cover, banks, water tile, stepping stones) share `assets/models/props/hearthvale/`. Their sheet is `docs/art/hearthvale/contact-sheet-extras.png`.
 
