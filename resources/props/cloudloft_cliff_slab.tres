@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="PropDef" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/prop_def.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://assets/models/props/cloudloft/cloudloft_cliff_slab.glb" id="2_scene"]
+
+[resource]
+script = ExtResource("1_script")
+id = &"cloudloft_cliff_slab"
+scene = ExtResource("2_scene")
+density = 0.08
+min_scale = 0.95
+max_scale = 1.1
+max_slope_degrees = 42.0
+random_yaw = false
+max_per_chunk = 4
+collision_kind = "box"
+collision_radius = 1.05
+collision_height = 1.0

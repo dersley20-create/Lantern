@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="PropDef" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/prop_def.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://scenes/landmarks/wellstone_dormant.tscn" id="2_scene"]
+
+[resource]
+script = ExtResource("1_script")
+id = &"dull_stone"
+scene = ExtResource("2_scene")
+instance_as_scene = true
+once_per_chunk = true
+density = 0.16
+min_scale = 2.0
+max_scale = 2.0
+max_slope_degrees = 16.0
+max_wellstone = 0.45
+max_per_chunk = 1
+collision_kind = "cylinder"
+collision_radius = 2.05
+collision_height = 2.2

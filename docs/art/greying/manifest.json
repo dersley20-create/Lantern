@@ -1,0 +1,162 @@
+{
+  "kit": "greying",
+  "unit": "1 unit = 1 metre",
+  "up_axis_gltf": "Y",
+  "origin": "base centre (ground contact)",
+  "materials": "flat named base colours (GR_*). Dormant tech seams, starsalt, the seed capsule and the brave flower are faintly emissive. Toon shading is done by the game shader.",
+  "assets": [
+    {
+      "name": "tree_dead",
+      "file": "greying_tree_dead.glb",
+      "triangles": 204,
+      "size_m": {
+        "x": 1.159,
+        "y_depth": 0.777,
+        "height": 4.85
+      },
+      "base_z": 0.0,
+      "materials": [
+        "GR_Wood",
+        "GR_WoodDark"
+      ],
+      "notes": "Tall leafless grey tree, slightly leaning, ~5 m.",
+      "reimport": "OK",
+      "issues": []
+    },
+    {
+      "name": "tree_snag",
+      "file": "greying_tree_snag.glb",
+      "triangles": 172,
+      "size_m": {
+        "x": 0.763,
+        "y_depth": 0.794,
+        "height": 2.627
+      },
+      "base_z": 0.0,
+      "materials": [
+        "GR_Wood",
+        "GR_WoodDark"
+      ],
+      "notes": "Broken snag, jagged dead wood, ~2.8 m.",
+      "reimport": "OK",
+      "issues": []
+    },
+    {
+      "name": "ash_shrub",
+      "file": "greying_ash_shrub.glb",
+      "triangles": 180,
+      "size_m": {
+        "x": 0.676,
+        "y_depth": 0.529,
+        "height": 0.543
+      },
+      "base_z": 0.0,
+      "materials": [
+        "GR_Shrub",
+        "GR_ShrubDark",
+        "GR_WoodDark"
+      ],
+      "notes": "Dry ash shrub, grey-green foliage on thin woody stems.",
+      "reimport": "OK",
+      "issues": []
+    },
+    {
+      "name": "cracked_stone",
+      "file": "greying_cracked_stone.glb",
+      "triangles": 152,
+      "size_m": {
+        "x": 1.06,
+        "y_depth": 0.784,
+        "height": 0.601
+      },
+      "base_z": 0.0,
+      "materials": [
+        "GR_Starsalt",
+        "GR_Stone",
+        "GR_StoneDark"
+      ],
+      "notes": "Split palae-stone with a crack of starsalt.",
+      "reimport": "OK",
+      "issues": []
+    },
+    {
+      "name": "smooth_stone",
+      "file": "greying_smooth_stone.glb",
+      "triangles": 80,
+      "size_m": {
+        "x": 0.94,
+        "y_depth": 0.798,
+        "height": 0.428
+      },
+      "base_z": 0.0,
+      "materials": [
+        "GR_Stone"
+      ],
+      "notes": "Smooth ashen river-stone.",
+      "reimport": "OK",
+      "issues": []
+    },
+    {
+      "name": "tech_stub",
+      "file": "greying_tech_stub.glb",
+      "triangles": 100,
+      "size_m": {
+        "x": 0.681,
+        "y_depth": 0.652,
+        "height": 1.095
+      },
+      "base_z": 0.0,
+      "materials": [
+        "GR_Ash",
+        "GR_Metal",
+        "GR_MetalDark",
+        "GR_Seam"
+      ],
+      "notes": "Half-buried dormant pylon with a dim teal seam.",
+      "reimport": "OK",
+      "issues": []
+    },
+    {
+      "name": "tech_ring",
+      "file": "greying_tech_ring.glb",
+      "triangles": 232,
+      "size_m": {
+        "x": 1.76,
+        "y_depth": 1.76,
+        "height": 0.208
+      },
+      "base_z": 0.0,
+      "materials": [
+        "GR_Ash",
+        "GR_Metal",
+        "GR_Seam",
+        "GR_Starsalt"
+      ],
+      "notes": "Low Firstcomer relic ring, dim seam ticks, ~1.8 m across.",
+      "reimport": "OK",
+      "issues": []
+    },
+    {
+      "name": "seed_capsule",
+      "file": "greying_seed_capsule.glb",
+      "triangles": 120,
+      "size_m": {
+        "x": 0.401,
+        "y_depth": 0.394,
+        "height": 0.375
+      },
+      "base_z": 0.0,
+      "materials": [
+        "GR_Ash",
+        "GR_Capsule",
+        "GR_Flower",
+        "GR_Stem"
+      ],
+      "notes": "Half-buried seed capsule with a faint glimmer, and one brave flower.",
+      "reimport": "OK",
+      "issues": []
+    }
+  ],
+  "contact_sheet": "contact-sheet.png",
+  "mood_board": "mood-greying.png"
+}

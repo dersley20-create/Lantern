@@ -1,0 +1,218 @@
+extends Node3D
+
+## High, angled follow camera framed for landscape.
+## Pitch stays in the Diablo range; scroll and pinch only change distance.
+
+@export var pitch_degrees: float = 55.0
+@export var distance: float = 16.0
+@export var min_distance: float = 9.0
+@export var max_distance: float = 26.0
+@export var follow_sharpness: float = 2.8
+@export var zoom_sharpness: float = 6.0
+@export var yaw_degrees: float = 45.0
+@export var yaw_step_degrees: float = 45.0
+@export var look_height: float = 1.15
+@export var look_ahead: float = 1.8
+@export var fov: float = 52.0
+
+var _yaw: float = 0.0
+var _yaw_target: float = 0.0
+var _orbit_bucket: float = 0.0
+var _distance: float = 16.0
+var _distance_target: float = 16.0
+var _anchor: Vector3 = Vector3.ZERO
+var _snapped: bool = false
+var _clear_shot: bool = false
+var _camera: Camera3D
+
+
+func _enter_tree() -> void:
+	add_to_group("follow_camera")
+
+
+func _ready() -> void:
+	_camera = get_node_or_null("Camera3D") as Camera3D
+	if _camera == null:
+		_camera = Camera3D.new()
+		_camera.name = "Camera3D"
+		add_child(_camera)
+	_camera.current = true
+	_camera.fov = fov
+	_camera.near = 0.2
+	_camera.far = 420.0
+	var zoom := OS.get_environment("LANTERN_ZOOM")
+	if zoom == "in":
+		distance = min_distance
+	elif zoom == "out":
+		distance = max_distance
+	_yaw = _snap_yaw(deg_to_rad(yaw_degrees))
+	_yaw_target = _yaw
+	_distance = clampf(distance, min_distance, max_distance)
+	_distance_target = _distance
+
+
+## Pulls in for a companion portrait. Gameplay zoom limits stay as exported.
+func frame_companion() -> void:
+	min_distance = 2.8
+	pitch_degrees = 42.0
+	look_height = 0.5
+	look_ahead = -0.15
+	fov = 36.0
+	_distance = 5.4
+	_distance_target = 5.4
+	if _camera != null:
+		_camera.fov = fov
+		_camera.near = 0.05
+	snap()
+
+
+## Close view of the three companions standing in a short row.
+func frame_lineup() -> void:
+	_clear_shot = true
+	min_distance = 3.0
+	pitch_degrees = 48.0
+	look_height = 0.05
+	look_ahead = 2.3
+	fov = 36.0
+	_distance = 7.8
+	_distance_target = 7.8
+	if _camera != null:
+		_camera.fov = fov
+		_camera.near = 0.05
+	snap()
+
+
+## Frames a pair of landmarks sitting about 8 m ahead of the player.
+func frame_pair() -> void:
+	min_distance = 8.0
+	pitch_degrees = 42.0
+	look_height = 1.5
+	look_ahead = 8.0
+	fov = 48.0
+	_distance = 14.0
+	_distance_target = 14.0
+	if _camera != null:
+		_camera.fov = fov
+	snap()
+
+
+func snap() -> void:
+	var player := _player()
+	if player == null:
+		return
+	_anchor = player.global_position
+	_snapped = true
+	_apply(1.0)
+
+
+func flat_axes() -> Dictionary:
+	return {
+		"forward": Vector3(-sin(_yaw), 0.0, -cos(_yaw)),
+		"right": Vector3(cos(_yaw), 0.0, -sin(_yaw)),
+	}
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.pressed:
+		if event.button_index == MOUSE_BUTTON_WHEEL_UP:
+			_distance_target -= 1.15
+		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
+			_distance_target += 1.15
+		_distance_target = clampf(_distance_target, min_distance, max_distance)
+	elif event is InputEventMouseMotion and (event.button_mask & MOUSE_BUTTON_MASK_MIDDLE) != 0:
+		_accumulate_orbit(-event.relative.x * 0.008)
+	elif event is InputEventKey and event.pressed and not event.echo:
+		if event.keycode == KEY_Q:
+			_step_orbit(1.0)
+		elif event.keycode == KEY_E:
+			_step_orbit(-1.0)
+	elif event is InputEventMagnifyGesture:
+		# Trackpad pinch. factor > 1 magnifies, which brings the camera in.
+		_distance_target += (1.0 - event.factor) * 16.0
+		_distance_target = clampf(_distance_target, min_distance, max_distance)
+
+
+func _process(delta: float) -> void:
+	if Input.is_physical_key_pressed(KEY_MINUS) or Input.is_physical_key_pressed(KEY_KP_SUBTRACT):
+		_distance_target = clampf(_distance_target + 10.0 * delta, min_distance, max_distance)
+	if Input.is_physical_key_pressed(KEY_EQUAL) or Input.is_physical_key_pressed(KEY_KP_ADD):
+		_distance_target = clampf(_distance_target - 10.0 * delta, min_distance, max_distance)
+	var touch := get_tree().get_first_node_in_group("touch_controls")
+	if touch != null:
+		_accumulate_orbit(float(touch.yaw_delta))
+		touch.yaw_delta = 0.0
+		_distance_target = clampf(_distance_target + float(touch.zoom_delta), min_distance, max_distance)
+		touch.zoom_delta = 0.0
+	if not _snapped:
+		snap()
+		return
+	var blend := 1.0 - exp(-follow_sharpness * delta)
+	var player := _player()
+	if player != null:
+		_anchor = _anchor.lerp(player.global_position, blend)
+	_yaw = lerp_angle(_yaw, _yaw_target, 1.0 - exp(-10.0 * delta))
+	_distance = lerpf(_distance, _distance_target, 1.0 - exp(-zoom_sharpness * delta))
+	_apply(delta)
+
+
+func _apply(_delta: float) -> void:
+	if _camera == null:
+		return
+	var axes := flat_axes()
+	var forward: Vector3 = axes.forward
+	var look := _anchor + Vector3(0.0, look_height, 0.0) + forward * look_ahead
+	var pitch := deg_to_rad(clampf(pitch_degrees, 40.0, 70.0))
+	var back := -forward
+	var offset := back * (_distance * cos(pitch)) + Vector3.UP * (_distance * sin(pitch))
+	var desired := look + offset
+	_camera.global_position = _resolve_collision(look, desired)
+	if _camera.global_position.distance_squared_to(look) > 0.04:
+		_camera.look_at(look, Vector3.UP)
+	var player := _player()
+	if player != null:
+		RenderingServer.global_shader_parameter_set("occluder_player", player.global_position)
+		RenderingServer.global_shader_parameter_set("occluder_camera", _camera.global_position)
+
+
+func _step_orbit(direction: float) -> void:
+	_orbit_bucket = 0.0
+	_yaw_target = _snap_yaw(_yaw_target + direction * _step_radians())
+
+
+func _accumulate_orbit(delta_radians: float) -> void:
+	_orbit_bucket += delta_radians
+	var step := _step_radians()
+	while absf(_orbit_bucket) >= step:
+		var direction := signf(_orbit_bucket)
+		_yaw_target = _snap_yaw(_yaw_target + direction * step)
+		_orbit_bucket -= direction * step
+
+
+func _snap_yaw(yaw: float) -> float:
+	var step := _step_radians()
+	return round(yaw / step) * step
+
+
+func _step_radians() -> float:
+	return deg_to_rad(clampf(yaw_step_degrees, 15.0, 90.0))
+
+
+func _resolve_collision(from: Vector3, to: Vector3) -> Vector3:
+	if _clear_shot:
+		return to
+	var player := _player()
+	if player == null or player.get_world_3d() == null:
+		return to
+	var space := player.get_world_3d().direct_space_state
+	if space == null:
+		return to
+	var query := PhysicsRayQueryParameters3D.create(from, to, 1)
+	query.collide_with_areas = false
+	var hit := space.intersect_ray(query)
+	if hit.is_empty():
+		return to
+	return hit.position + (hit.normal as Vector3) * 0.4
+
+
+func _player() -> Node3D:
+	return get_tree().get_first_node_in_group("player") as Node3D

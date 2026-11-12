@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="PropDef" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/prop_def.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://scenes/props/flower.tscn" id="2_scene"]
+
+[resource]
+script = ExtResource("1_script")
+id = &"glimmer_flower"
+scene = ExtResource("2_scene")
+density = 0.2
+min_scale = 1.6
+max_scale = 2.4
+max_slope_degrees = 22.0
+max_per_chunk = 10
+tint = Color(0.62, 0.95, 0.95, 1)
+override_emission = true
+emission_color = Color(0.4, 0.95, 0.85, 1)
+emission_energy = 0.4
+emission_surface_names = PackedStringArray("Blossom")

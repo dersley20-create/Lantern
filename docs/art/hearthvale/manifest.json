@@ -1,0 +1,328 @@
+{
+  "kit": "hearthvale",
+  "unit": "1 unit = 1 metre",
+  "up_axis_gltf": "Y",
+  "origin": "base centre (ground contact)",
+  "materials": "flat named base colours (HV_*). The water tile is slightly emissive so it reads from the high camera. Toon shading is done by the game shader.",
+  "assets": [
+    {
+      "name": "fence_segment",
+      "file": "hearthvale_fence_segment.glb",
+      "original": "glb/hv_fence_segment.glb",
+      "triangles": 72,
+      "size_m": {
+        "x": 2.08,
+        "y_depth": 0.13,
+        "height": 1.22
+      },
+      "base_z": 0.0,
+      "materials": [
+        "HV_Moss",
+        "HV_Wood",
+        "HV_WoodDark"
+      ],
+      "notes": "Fence segment (2 m, post on -X end). Tile every 2.0 m along local X; post sits on the -X end only.",
+      "reimport": "OK"
+    },
+    {
+      "name": "hay_bale",
+      "file": "hearthvale_hay_bale.glb",
+      "original": "glb/hv_hay_bale.glb",
+      "triangles": 320,
+      "size_m": {
+        "x": 0.958,
+        "y_depth": 0.76,
+        "height": 0.954
+      },
+      "base_z": 0.0,
+      "materials": [
+        "HV_Hay",
+        "HV_HayShadow",
+        "HV_Twine"
+      ],
+      "notes": "Round hay bale",
+      "reimport": "OK"
+    },
+    {
+      "name": "oak",
+      "file": "hearthvale_oak.glb",
+      "original": "glb/hv_tree_oak.glb",
+      "triangles": 628,
+      "size_m": {
+        "x": 4.521,
+        "y_depth": 3.672,
+        "height": 4.576
+      },
+      "base_z": 0.0,
+      "materials": [
+        "HV_Bark",
+        "HV_Leaf",
+        "HV_LeafShadow"
+      ],
+      "notes": "Broad oak, ~5 m",
+      "reimport": "OK"
+    },
+    {
+      "name": "fruit_tree",
+      "file": "hearthvale_fruit_tree.glb",
+      "original": "glb/hv_tree_fruit.glb",
+      "triangles": 608,
+      "size_m": {
+        "x": 2.528,
+        "y_depth": 2.204,
+        "height": 3.385
+      },
+      "base_z": 0.0,
+      "materials": [
+        "HV_Bark",
+        "HV_Fruit",
+        "HV_Leaf",
+        "HV_LeafShadow"
+      ],
+      "notes": "Orchard fruit tree, ~3.6 m. Apples sit under the canopy and barely read from the high camera.",
+      "reimport": "OK"
+    },
+    {
+      "name": "flower_clump",
+      "file": "hearthvale_flower_clump.glb",
+      "original": "glb/hv_flower_clump.glb",
+      "triangles": 1052,
+      "size_m": {
+        "x": 0.626,
+        "y_depth": 0.524,
+        "height": 0.509
+      },
+      "base_z": 0.0,
+      "materials": [
+        "HV_FlowerLavender",
+        "HV_FlowerPink",
+        "HV_FlowerWhite",
+        "HV_FlowerYellow",
+        "HV_Leaf",
+        "HV_Soil",
+        "HV_Stem"
+      ],
+      "notes": "Wildflower clump",
+      "reimport": "OK"
+    },
+    {
+      "name": "bush",
+      "file": "hearthvale_bush.glb",
+      "original": "glb/hv_bush.glb",
+      "triangles": 500,
+      "size_m": {
+        "x": 1.482,
+        "y_depth": 1.259,
+        "height": 1.166
+      },
+      "base_z": 0.0,
+      "materials": [
+        "HV_Bark",
+        "HV_Leaf",
+        "HV_LeafShadow"
+      ],
+      "notes": "Round bush, ~1 m",
+      "reimport": "OK"
+    },
+    {
+      "name": "rock",
+      "file": "hearthvale_rock.glb",
+      "original": "glb/hv_rock.glb",
+      "triangles": 100,
+      "size_m": {
+        "x": 0.806,
+        "y_depth": 0.703,
+        "height": 0.597
+      },
+      "base_z": 0.0,
+      "materials": [
+        "HV_Moss",
+        "HV_Stone"
+      ],
+      "notes": "River stone with moss",
+      "reimport": "OK"
+    },
+    {
+      "name": "crop_patch",
+      "file": "hearthvale_crop_patch.glb",
+      "original": "glb/hv_crop_patch.glb",
+      "triangles": 1236,
+      "size_m": {
+        "x": 2.057,
+        "y_depth": 2.184,
+        "height": 1.507
+      },
+      "base_z": 0.0,
+      "materials": [
+        "HV_Soil",
+        "HV_Wheat",
+        "HV_WheatGreen"
+      ],
+      "notes": "2 m wheat patch. 2 x 2 m field tile (ragged soil edge makes the bbox ~2.06 x 2.18).",
+      "reimport": "OK"
+    },
+    {
+      "name": "grass_clump_small",
+      "file": "hearthvale_grass_clump_small.glb",
+      "triangles": 116,
+      "size_m": {
+        "x": 0.216,
+        "y_depth": 0.236,
+        "height": 0.227
+      },
+      "base_z": 0.0,
+      "materials": [
+        "HV_Grass",
+        "HV_GrassShadow"
+      ],
+      "notes": "Small grass tuft, ~0.22 m, for tight scatter.",
+      "reimport": "OK"
+    },
+    {
+      "name": "grass_clump",
+      "file": "hearthvale_grass_clump.glb",
+      "triangles": 152,
+      "size_m": {
+        "x": 0.265,
+        "y_depth": 0.267,
+        "height": 0.392
+      },
+      "base_z": 0.0,
+      "materials": [
+        "HV_Grass",
+        "HV_GrassShadow"
+      ],
+      "notes": "Medium grass clump, ~0.38 m, general pasture scatter.",
+      "reimport": "OK"
+    },
+    {
+      "name": "grass_clump_tall",
+      "file": "hearthvale_grass_clump_tall.glb",
+      "triangles": 152,
+      "size_m": {
+        "x": 0.551,
+        "y_depth": 0.491,
+        "height": 0.598
+      },
+      "base_z": 0.0,
+      "materials": [
+        "HV_Grass",
+        "HV_GrassShadow"
+      ],
+      "notes": "Taller, slightly windswept grass clump, ~0.62 m.",
+      "reimport": "OK"
+    },
+    {
+      "name": "ground_cover",
+      "file": "hearthvale_ground_cover.glb",
+      "triangles": 724,
+      "size_m": {
+        "x": 1.121,
+        "y_depth": 0.908,
+        "height": 0.238
+      },
+      "base_z": 0.0,
+      "materials": [
+        "HV_Clover",
+        "HV_CloverDark",
+        "HV_FlowerPink",
+        "HV_FlowerWhite",
+        "HV_FlowerYellow",
+        "HV_Grass",
+        "HV_Soil",
+        "HV_Stem"
+      ],
+      "notes": "Low ~1.1 m patch of clover and tiny flowers, for ground scatter.",
+      "reimport": "OK"
+    },
+    {
+      "name": "bank_straight",
+      "file": "hearthvale_bank_straight.glb",
+      "triangles": 236,
+      "size_m": {
+        "x": 2.0,
+        "y_depth": 1.008,
+        "height": 0.534
+      },
+      "base_z": 0.0,
+      "materials": [
+        "HV_Grass",
+        "HV_GrassShadow",
+        "HV_Moss",
+        "HV_Mud",
+        "HV_Pasture",
+        "HV_Soil",
+        "HV_Stone",
+        "HV_StoneDark"
+      ],
+      "notes": "2 m stream bank, water lip on +Y. Tile every 2.0 m along local X. Water surface meets the lip at 0.05 m.",
+      "reimport": "OK"
+    },
+    {
+      "name": "bank_curve",
+      "file": "hearthvale_bank_curve.glb",
+      "triangles": 310,
+      "size_m": {
+        "x": 2.0,
+        "y_depth": 2.0,
+        "height": 0.541
+      },
+      "base_z": 0.0,
+      "materials": [
+        "HV_Grass",
+        "HV_GrassShadow",
+        "HV_Moss",
+        "HV_Mud",
+        "HV_Pasture",
+        "HV_Soil",
+        "HV_Stone"
+      ],
+      "notes": "90\u00b0 bank corner, inner radius 1.0 m. Four pieces make a ~2 m pond around a water tile.",
+      "reimport": "OK"
+    },
+    {
+      "name": "water_tile",
+      "file": "hearthvale_water_tile.glb",
+      "triangles": 12,
+      "size_m": {
+        "x": 2.0,
+        "y_depth": 2.0,
+        "height": 0.05
+      },
+      "base_z": 0.0,
+      "materials": [
+        "HV_Water"
+      ],
+      "notes": "2 x 2 m water plane tile, 0.05 m thick, slightly emissive teal. Tile every 2.0 m in X and Y.",
+      "reimport": "OK"
+    },
+    {
+      "name": "stepping_stones",
+      "file": "hearthvale_stepping_stones.glb",
+      "triangles": 120,
+      "size_m": {
+        "x": 1.379,
+        "y_depth": 0.468,
+        "height": 0.112
+      },
+      "base_z": 0.0,
+      "materials": [
+        "HV_Moss",
+        "HV_Stone",
+        "HV_StoneDark"
+      ],
+      "notes": "A short crossing of four flat river stones with a little moss. Sits in the water tile.",
+      "reimport": "OK"
+    }
+  ],
+  "mood_board": "mood-hearthvale.png",
+  "contact_sheet": "contact-sheet.png",
+  "other_biome_boards": [
+    "glimmerwood/mood-glimmerwood.png",
+    "saltglass/mood-saltglass.png",
+    "cloudloft/mood-cloudloft.png",
+    "greying/mood-greying.png"
+  ],
+  "originals_kept": "glb/hv_*.glb, manifest_original_hv.json, ../moodboards/, ../renders/",
+  "contact_sheet_extras": "contact-sheet-extras.png"
+}

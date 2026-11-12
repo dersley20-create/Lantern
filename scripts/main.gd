@@ -1,0 +1,162 @@
+extends Node3D
+
+## Boots into the world. The only interface is the touch stick, and only while
+## a finger is down. There are no stat bars.
+
+@onready var _world: WorldStreamer = $World
+@onready var _player: CharacterBody3D = $Player
+@onready var _companion: Node3D = $FirstRaised
+@onready var _camera: Node3D = $FollowCamera
+
+var _started: bool = false
+var _shot_path: String = ""
+var _shot_frames: int = 0
+var _shot_started: bool = false
+
+
+func _ready() -> void:
+	$Sun.rotation_degrees = Vector3(-48, 36, 0)
+	$Fill.rotation_degrees = Vector3(-22, -142, 0)
+	_player.follow_camera = _camera
+	_shot_path = OS.get_environment("LANTERN_SCREENSHOT")
+	_try_start()
+
+
+func _process(_delta: float) -> void:
+	if not _started:
+		_try_start()
+	_tick_screenshot()
+
+
+func _try_start() -> void:
+	if _started or _world == null or not _world.home_ready:
+		return
+	var stand := _world.spawn_position
+	var biome_name := OS.get_environment("LANTERN_BIOME")
+	if biome_name == "stream" and _world.has_method("find_hearth_water"):
+		stand = _world.find_hearth_water()
+	elif biome_name != "" and biome_name != "hearthvale":
+		stand = _world.find_biome_stand(biome_name)
+	_player.global_position = stand
+	_player.velocity = Vector3.ZERO
+	if OS.get_environment("LANTERN_OCCLUDER") == "1":
+		var yaw := deg_to_rad(45.0)
+		var ahead := Vector3(-sin(yaw), 0.0, -cos(yaw))
+		var shifted := stand + ahead * 7.2
+		shifted.y = _world.sample_height(shifted.x, shifted.z) + 0.4
+		_player.global_position = shifted
+	elif OS.get_environment("LANTERN_LINEUP") == "1" and biome_name == "":
+		var yaw := deg_to_rad(45.0)
+		var ahead := Vector3(-sin(yaw), 0.0, -cos(yaw))
+		var shifted := stand - ahead * 5.5
+		shifted.y = _world.sample_height(shifted.x, shifted.z) + 0.4
+		_player.global_position = shifted
+	elif OS.get_environment("LANTERN_WALK") == "1" and biome_name == "":
+		var yaw := deg_to_rad(45.0)
+		var ahead := Vector3(-sin(yaw), 0.0, -cos(yaw))
+		var right := Vector3(cos(yaw), 0.0, -sin(yaw))
+		var shifted := stand - ahead * 2.5 + right * 6.5
+		shifted.y = _world.sample_height(shifted.x, shifted.z) + 0.4
+		_player.global_position = shifted
+	print("Lantern stand=%s biome_request=%s" % [stand, biome_name])
+	if _companion.has_method("snap_to"):
+		_companion.snap_to(_player)
+	if OS.get_environment("LANTERN_LINEUP") == "1":
+		_place_companion_lineup()
+		if _camera.has_method("frame_lineup"):
+			_camera.frame_lineup()
+	elif OS.get_environment("LANTERN_WELLSTONES") == "1":
+		_place_wellstone_pair()
+		if _camera.has_method("frame_pair"):
+			_camera.frame_pair()
+	elif OS.get_environment("LANTERN_CLOSE") == "1" and _camera.has_method("frame_companion"):
+		_camera.frame_companion()
+	elif _camera.has_method("snap"):
+		_camera.snap()
+	_player.enable_play()
+	_started = true
+
+
+func _place_companion_lineup() -> void:
+	var yaw := deg_to_rad(45.0)
+	var forward := Vector3(-sin(yaw), 0.0, -cos(yaw))
+	var right := Vector3(cos(yaw), 0.0, -sin(yaw))
+	var origin := _player.global_position + forward * 2.3
+	var index := 0
+	for species in ["fox", "cat", "owl"]:
+		var host := Companion.make_portrait(species)
+		# Enter the tree before any global_position or look_at call.
+		add_child(host)
+		if not host.is_inside_tree():
+			push_error("portrait %s did not enter the tree" % species)
+			continue
+		if not host.is_node_ready():
+			host._ready()
+		var side := float(index - 1) * 1.15
+		var at := origin + right * side
+		at.y = _world.sample_height(at.x, at.z)
+		host.global_position = at
+		var face := Vector3(_player.global_position.x, at.y, _player.global_position.z)
+		if host.global_position.distance_squared_to(face) > 0.05:
+			host.look_at(face, Vector3.UP)
+		index += 1
+	_companion.visible = false
+	_player.visible = false
+
+
+func _place_wellstone_pair() -> void:
+	var yaw := deg_to_rad(45.0)
+	var forward := Vector3(-sin(yaw), 0.0, -cos(yaw))
+	var right := Vector3(cos(yaw), 0.0, -sin(yaw))
+	var origin := _player.global_position
+	_spawn_showcase("res://scenes/landmarks/wellstone_dormant.tscn", origin + forward * 8.0 - right * 3.8)
+	_spawn_showcase("res://scenes/landmarks/wellstone_restored.tscn", origin + forward * 8.0 + right * 3.8)
+
+
+func _spawn_showcase(path: String, pos: Vector3) -> void:
+	var packed := load(path) as PackedScene
+	if packed == null:
+		return
+	var node := packed.instantiate() as Node3D
+	add_child(node)
+	ToonMaterial.apply_node(node)
+	var y := pos.y
+	if _world.has_method("sample_height"):
+		y = _world.sample_height(pos.x, pos.z)
+	node.global_position = Vector3(pos.x, y, pos.z)
+
+
+func _tick_screenshot() -> void:
+	if _shot_path.is_empty() or _shot_started or not _started:
+		return
+	_shot_frames += 1
+	var ring_ready := _world.is_ring_ready()
+	var grounded := _player.is_on_floor()
+	var terrain_here := true
+	if _world.has_method("terrain_ready_at"):
+		terrain_here = _world.terrain_ready_at(_player.global_position)
+	if OS.get_environment("LANTERN_WALK") == "1" and _shot_frames > 40 and _camera.has_method("flat_axes"):
+		var axes: Dictionary = _camera.flat_axes()
+		var along: Vector3 = axes.right if OS.get_environment("LANTERN_BIOME") == "" else axes.forward
+		_player.scripted_wish = along
+	var walk_hold := 150 if OS.get_environment("LANTERN_WALK") == "1" else 80
+	if ring_ready and grounded and terrain_here and _shot_frames > walk_hold:
+		_shot_started = true
+		_capture_screenshot()
+	elif _shot_frames > 900:
+		_shot_started = true
+		_capture_screenshot()
+
+
+func _capture_screenshot() -> void:
+	await RenderingServer.frame_post_draw
+	var image := get_viewport().get_texture().get_image()
+	if image.get_format() != Image.FORMAT_RGB8 and image.get_format() != Image.FORMAT_RGBA8:
+		image.convert(Image.FORMAT_RGB8)
+	var directory := _shot_path.get_base_dir()
+	if not directory.is_empty():
+		DirAccess.make_dir_recursive_absolute(directory)
+	var err := image.save_png(_shot_path)
+	print("SCREENSHOT err=%s path=%s size=%sx%s" % [err, _shot_path, image.get_width(), image.get_height()])
+	if OS.get_environment("LANTERN_SCREENSHOT_QUIT") == "1":
+		get_tree().quit()

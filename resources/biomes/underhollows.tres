@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="BiomeDef" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/biome_def.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+id = &"underhollows"
+display_name = "The Underhollows"
+ground_color = Color(0.22, 0.2, 0.24, 1)
+ground_color_variance = 0.03
+ground_glow = 0.12
+surface_enabled = false
+lore_note = "Future underground layer, not generated on the surface. The buried conduits and dormant glimmer of Veyla will live here once there is a way down. Leave surface_enabled false; the classifier never returns this id."

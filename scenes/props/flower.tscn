@@ -1,0 +1,37 @@
+[gd_scene load_steps=5 format=3]
+
+[sub_resource type="StandardMaterial3D" id="Mat_stem"]
+albedo_color = Color(0.34, 0.46, 0.22, 1)
+roughness = 1.0
+specular_mode = 2
+metallic = 0.0
+
+[sub_resource type="CylinderMesh" id="Mesh_stem"]
+top_radius = 0.018
+bottom_radius = 0.022
+height = 0.28
+radial_segments = 5
+
+[sub_resource type="StandardMaterial3D" id="Mat_blossom"]
+albedo_color = Color(0.96, 0.94, 0.9, 1)
+roughness = 1.0
+specular_mode = 2
+metallic = 0.0
+
+[sub_resource type="SphereMesh" id="Mesh_blossom"]
+radius = 0.09
+height = 0.14
+radial_segments = 6
+rings = 4
+
+[node name="Flower" type="Node3D"]
+
+[node name="Stem" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.14, 0)
+mesh = SubResource("Mesh_stem")
+surface_material_override/0 = SubResource("Mat_stem")
+
+[node name="Blossom" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.32, 0)
+mesh = SubResource("Mesh_blossom")
+surface_material_override/0 = SubResource("Mat_blossom")
