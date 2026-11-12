@@ -364,9 +364,26 @@ func _check_companion(failures: Array[String]) -> void:
 	get_root().add_child(companion)
 	if not companion.is_node_ready():
 		companion._ready()
-	_expect(failures, companion.get_node_or_null("CompanionTree") == null, "companion is not a Nestkin")
-	_expect(failures, companion.get_node_or_null("VisualRoot/Placeholder") != null, "companion keeps the small placeholder")
+	_expect(failures, String(companion.get("species")) == "fox", "fox is the default companion")
+	var tree := companion.get_node_or_null("CompanionTree") as AnimationTree
+	_expect(failures, tree != null and tree.active, "fox companion drives an AnimationTree")
 	companion.queue_free()
+	for filename in ["fox_hearthvale.glb", "cat_glimmerwood.glb", "owl_cloudloft.glb"]:
+		var model := load("res://assets/models/creatures/%s" % filename) as PackedScene
+		_expect(failures, model != null, "%s loads" % filename)
+		if model == null:
+			continue
+		var body := model.instantiate()
+		var anim := _find_named(body, "AnimationPlayer") as AnimationPlayer
+		var names: PackedStringArray = anim.get_animation_list() if anim != null else PackedStringArray()
+		for clip_name in ["idle", "walk", "jump", "call", "idle_alt"]:
+			_expect(failures, names.has(clip_name), "%s clip %s" % [filename, clip_name])
+		if filename == "owl_cloudloft.glb":
+			_expect(failures, names.has("fly"), "owl uses fly instead of run")
+		else:
+			_expect(failures, names.has("run"), "%s clip run" % filename)
+		body.free()
+	_expect(failures, FileAccess.file_exists("res://assets/models/creatures/VUENA_CC0.txt"), "Vuena credit file is with the models")
 
 
 func _check_village_files(failures: Array[String]) -> void:

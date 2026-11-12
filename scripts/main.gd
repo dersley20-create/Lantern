@@ -45,10 +45,27 @@ func _try_start() -> void:
 		var shifted := stand + ahead * 7.2
 		shifted.y = _world.sample_height(shifted.x, shifted.z) + 0.4
 		_player.global_position = shifted
+	elif OS.get_environment("LANTERN_LINEUP") == "1" and biome_name == "":
+		var yaw := deg_to_rad(45.0)
+		var ahead := Vector3(-sin(yaw), 0.0, -cos(yaw))
+		var shifted := stand - ahead * 5.5
+		shifted.y = _world.sample_height(shifted.x, shifted.z) + 0.4
+		_player.global_position = shifted
+	elif OS.get_environment("LANTERN_WALK") == "1" and biome_name == "":
+		var yaw := deg_to_rad(45.0)
+		var ahead := Vector3(-sin(yaw), 0.0, -cos(yaw))
+		var right := Vector3(cos(yaw), 0.0, -sin(yaw))
+		var shifted := stand - ahead * 2.5 + right * 6.5
+		shifted.y = _world.sample_height(shifted.x, shifted.z) + 0.4
+		_player.global_position = shifted
 	print("Lantern stand=%s biome_request=%s" % [stand, biome_name])
 	if _companion.has_method("snap_to"):
 		_companion.snap_to(_player)
-	if OS.get_environment("LANTERN_WELLSTONES") == "1":
+	if OS.get_environment("LANTERN_LINEUP") == "1":
+		_place_companion_lineup()
+		if _camera.has_method("frame_lineup"):
+			_camera.frame_lineup()
+	elif OS.get_environment("LANTERN_WELLSTONES") == "1":
 		_place_wellstone_pair()
 		if _camera.has_method("frame_pair"):
 			_camera.frame_pair()
@@ -58,6 +75,33 @@ func _try_start() -> void:
 		_camera.snap()
 	_player.enable_play()
 	_started = true
+
+
+func _place_companion_lineup() -> void:
+	var yaw := deg_to_rad(45.0)
+	var forward := Vector3(-sin(yaw), 0.0, -cos(yaw))
+	var right := Vector3(cos(yaw), 0.0, -sin(yaw))
+	var origin := _player.global_position + forward * 2.3
+	var index := 0
+	for species in ["fox", "cat", "owl"]:
+		var host := Companion.make_portrait(species)
+		# Enter the tree before any global_position or look_at call.
+		add_child(host)
+		if not host.is_inside_tree():
+			push_error("portrait %s did not enter the tree" % species)
+			continue
+		if not host.is_node_ready():
+			host._ready()
+		var side := float(index - 1) * 1.15
+		var at := origin + right * side
+		at.y = _world.sample_height(at.x, at.z)
+		host.global_position = at
+		var face := Vector3(_player.global_position.x, at.y, _player.global_position.z)
+		if host.global_position.distance_squared_to(face) > 0.05:
+			host.look_at(face, Vector3.UP)
+		index += 1
+	_companion.visible = false
+	_player.visible = false
 
 
 func _place_wellstone_pair() -> void:
@@ -93,7 +137,8 @@ func _tick_screenshot() -> void:
 		terrain_here = _world.terrain_ready_at(_player.global_position)
 	if OS.get_environment("LANTERN_WALK") == "1" and _shot_frames > 40 and _camera.has_method("flat_axes"):
 		var axes: Dictionary = _camera.flat_axes()
-		_player.scripted_wish = axes.forward
+		var along: Vector3 = axes.right if OS.get_environment("LANTERN_BIOME") == "" else axes.forward
+		_player.scripted_wish = along
 	var walk_hold := 150 if OS.get_environment("LANTERN_WALK") == "1" else 80
 	if ring_ready and grounded and terrain_here and _shot_frames > walk_hold:
 		_shot_started = true

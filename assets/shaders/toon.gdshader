@@ -48,7 +48,8 @@ void fragment() {
 	float along = clamp(dot(world_pos - occluder_camera, segment) / segment_len2, 0.0, 1.0);
 	float off_axis = length(world_pos - (occluder_camera + segment * along));
 	float above = world_pos.y - occluder_player.y;
-	if (along > 0.12 && along < 0.9 && above > 0.25 && off_axis < 1.15) {
+	float near_player = length(world_pos - occluder_player);
+	if (near_player > 1.35 && along > 0.12 && along < 0.9 && above > 0.25 && off_axis < 1.15) {
 		// Solid cutaway in the middle, a short dither only on the rim.
 		if (off_axis < 0.62) {
 			discard;

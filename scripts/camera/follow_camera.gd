@@ -22,6 +22,7 @@ var _distance: float = 16.0
 var _distance_target: float = 16.0
 var _anchor: Vector3 = Vector3.ZERO
 var _snapped: bool = false
+var _clear_shot: bool = false
 var _camera: Camera3D
 
 
@@ -59,6 +60,22 @@ func frame_companion() -> void:
 	fov = 36.0
 	_distance = 5.4
 	_distance_target = 5.4
+	if _camera != null:
+		_camera.fov = fov
+		_camera.near = 0.05
+	snap()
+
+
+## Close view of the three companions standing in a short row.
+func frame_lineup() -> void:
+	_clear_shot = true
+	min_distance = 3.0
+	pitch_degrees = 48.0
+	look_height = 0.05
+	look_ahead = 2.3
+	fov = 36.0
+	_distance = 7.8
+	_distance_target = 7.8
 	if _camera != null:
 		_camera.fov = fov
 		_camera.near = 0.05
@@ -181,6 +198,8 @@ func _step_radians() -> float:
 
 
 func _resolve_collision(from: Vector3, to: Vector3) -> Vector3:
+	if _clear_shot:
+		return to
 	var player := _player()
 	if player == null or player.get_world_3d() == null:
 		return to

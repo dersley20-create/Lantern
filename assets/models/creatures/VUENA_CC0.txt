@@ -1,0 +1,13 @@
+Vuena / Popyca — Cute Pets FREE Sample
+https://vuena.itch.io/blocky-pets-free
+Licence: CC0 1.0
+
+These three companions are restyled from that free sample only.
+The paid pack was not used. Vendor source files are not in this repo.
+
+fox_hearthvale.glb — animal_fox.glb, mobile LOD1, Hearthvale Nestkin
+cat_glimmerwood.glb — animal_cat.glb, mobile LOD1, Glimmerwood Nestkin
+owl_cloudloft.glb — animal_owl.glb, mobile LOD1, Cloudloft Nestkin
+
+Original rigs and all 12 clips are unchanged.
+1 unit = 1 metre. These GLBs are already about 0.6–0.7 m tall.

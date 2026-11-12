@@ -1,0 +1,445 @@
+{
+  "kit": "creatures",
+  "unit": "1 unit = 1 metre. Companions are authored at real size (0.4-0.7 m). Wild endemic Quaternius bases are authored at ~3.5 m and should be instanced at 0.33.",
+  "up_axis_gltf": "Y",
+  "licence": "Companion bases: Vuena / Popyca Cute Pets FREE Sample, CC0 1.0. Wild endemic bases: Quaternius Ultimate Monsters, CC0. Do not redistribute vendor files.",
+  "assets": [
+    {
+      "id": "cactoro_nestkin",
+      "file": "cactoro_nestkin.glb",
+      "base": "Quaternius Cactoro",
+      "reimport": "OK",
+      "issues": [],
+      "triangles": 2388,
+      "size_m": {
+        "x": 4.074,
+        "y_depth": 3.669,
+        "height": 3.574
+      },
+      "base_z": 0.0,
+      "bones": [
+        "Body",
+        "Head",
+        "Head2",
+        "Head3"
+      ],
+      "clips": [
+        "CharacterArmature|Yes",
+        "CharacterArmature|Walk",
+        "CharacterArmature|No",
+        "CharacterArmature|Jump",
+        "CharacterArmature|Idle",
+        "CharacterArmature|HitRecieve",
+        "CharacterArmature|Death",
+        "CharacterArmature|Dance",
+        "CharacterArmature|Bite_Front"
+      ],
+      "actions": [
+        "CharacterArmature|Bite_Front_CharacterArmature",
+        "CharacterArmature|Dance_CharacterArmature",
+        "CharacterArmature|Death_CharacterArmature",
+        "CharacterArmature|HitRecieve_CharacterArmature",
+        "CharacterArmature|Idle_CharacterArmature",
+        "CharacterArmature|Jump_CharacterArmature",
+        "CharacterArmature|No_CharacterArmature",
+        "CharacterArmature|Walk_CharacterArmature",
+        "CharacterArmature|Yes_CharacterArmature"
+      ],
+      "walk_deformed": true,
+      "meshes": [
+        "Cactoro_Blob",
+        "Cactoro_Blob.001"
+      ],
+      "materials": [
+        "NK_Arm",
+        "NK_Band",
+        "NK_Cactus",
+        "NK_EyeDark",
+        "NK_EyeWhite",
+        "NK_Thatch"
+      ]
+    },
+    {
+      "id": "mushnub_nestkin",
+      "file": "mushnub_nestkin.glb",
+      "base": "Quaternius Mushnub",
+      "reimport": "OK",
+      "issues": [],
+      "triangles": 1248,
+      "size_m": {
+        "x": 2.751,
+        "y_depth": 2.751,
+        "height": 3.296
+      },
+      "base_z": -0.051,
+      "bones": [
+        "Body",
+        "Head",
+        "Head2",
+        "Head3"
+      ],
+      "clips": [
+        "CharacterArmature|Yes",
+        "CharacterArmature|Walk",
+        "CharacterArmature|No",
+        "CharacterArmature|Jump",
+        "CharacterArmature|Idle",
+        "CharacterArmature|HitRecieve",
+        "CharacterArmature|Death",
+        "CharacterArmature|Dance",
+        "CharacterArmature|Bite_Front"
+      ],
+      "actions": [
+        "CharacterArmature|Bite_Front_CharacterArmature",
+        "CharacterArmature|Dance_CharacterArmature",
+        "CharacterArmature|Death_CharacterArmature",
+        "CharacterArmature|HitRecieve_CharacterArmature",
+        "CharacterArmature|Idle_CharacterArmature",
+        "CharacterArmature|Jump_CharacterArmature",
+        "CharacterArmature|No_CharacterArmature",
+        "CharacterArmature|Walk_CharacterArmature",
+        "CharacterArmature|Yes_CharacterArmature"
+      ],
+      "walk_deformed": true,
+      "meshes": [
+        "Mushnub_Blob"
+      ],
+      "materials": [
+        "NK_Cap",
+        "NK_EyeDark",
+        "NK_EyeWhite",
+        "NK_Stem"
+      ]
+    },
+    {
+      "id": "fox_hearthvale",
+      "file": "fox_hearthvale.glb",
+      "role": "companion",
+      "biome": "Hearthvale",
+      "base": "Vuena / Popyca animal_fox.glb LOD1",
+      "licence": "CC0 1.0",
+      "compare": "fox_hearthvale_compare.png",
+      "triangles": 4768,
+      "size_m": {
+        "x": 0.428,
+        "y_depth": 0.939,
+        "height": 0.681
+      },
+      "base_z": -0.0,
+      "bones": [
+        "Root",
+        "Hips",
+        "Spine",
+        "Neck",
+        "Head",
+        "Jaw",
+        "Lids",
+        "Ear_L",
+        "Ear_R",
+        "FrontUpperLeg_L",
+        "FrontLowerLeg_L",
+        "FrontUpperLeg_R",
+        "FrontLowerLeg_R",
+        "Tail_1",
+        "Tail_2",
+        "BackUpperLeg_L",
+        "BackLowerLeg_L",
+        "BackUpperLeg_R",
+        "BackLowerLeg_R"
+      ],
+      "clips": [
+        "walk",
+        "sleep",
+        "sit",
+        "run",
+        "jump",
+        "idle",
+        "idle_alt",
+        "hit",
+        "eat",
+        "death",
+        "call",
+        "attack"
+      ],
+      "actions": [
+        "attack_fox",
+        "call_fox",
+        "death_fox",
+        "eat_fox",
+        "hit_fox",
+        "idle_alt_fox",
+        "idle_fox",
+        "jump_fox",
+        "run_fox",
+        "sit_fox",
+        "sleep_fox",
+        "walk_fox"
+      ],
+      "deform": {
+        "walk:Tail_2": {
+          "ok": true,
+          "delta": 0.0651
+        },
+        "run:Tail_2": {
+          "ok": true,
+          "delta": 0.009
+        },
+        "walk:Head": {
+          "ok": true,
+          "delta": 0.0104
+        },
+        "idle->sleep:Head": {
+          "ok": true,
+          "delta": 0.2793
+        },
+        "idle->sleep:Tail_2": {
+          "ok": true,
+          "delta": 0.3166
+        }
+      },
+      "meshes": [
+        "fox_hearthvale"
+      ],
+      "materials": [
+        "NK_Blush",
+        "NK_Cream",
+        "NK_EyeDark",
+        "NK_Flower",
+        "NK_Glimmer",
+        "NK_Highlight",
+        "NK_Leaf",
+        "NK_LeafLit",
+        "NK_Meadow",
+        "NK_Nose",
+        "NK_Paw",
+        "NK_Petal",
+        "NK_PetalSoft",
+        "NK_Stem"
+      ],
+      "reimport": "OK",
+      "issues": [],
+      "deform_note": "sleep is a held lying pose (no mid-clip motion); idle->sleep moves Head and Tail_2. walk/run deform the new tail and crown."
+    },
+    {
+      "id": "cat_glimmerwood",
+      "file": "cat_glimmerwood.glb",
+      "role": "companion",
+      "biome": "Glimmerwood",
+      "base": "Vuena / Popyca animal_cat.glb LOD1",
+      "licence": "CC0 1.0",
+      "compare": "cat_glimmerwood_compare.png",
+      "triangles": 4680,
+      "size_m": {
+        "x": 0.396,
+        "y_depth": 0.559,
+        "height": 0.616
+      },
+      "base_z": -0.0,
+      "bones": [
+        "Root",
+        "Hips",
+        "Spine",
+        "Neck",
+        "Head",
+        "Jaw",
+        "Lids",
+        "Ear_L",
+        "Ear_R",
+        "FrontUpperLeg_L",
+        "FrontLowerLeg_L",
+        "FrontUpperLeg_R",
+        "FrontLowerLeg_R",
+        "Tail_1",
+        "Tail_2",
+        "BackUpperLeg_L",
+        "BackLowerLeg_L",
+        "BackUpperLeg_R",
+        "BackLowerLeg_R"
+      ],
+      "clips": [
+        "walk",
+        "sleep",
+        "sit",
+        "run",
+        "jump",
+        "idle",
+        "idle_alt",
+        "hit",
+        "eat",
+        "death",
+        "call",
+        "attack"
+      ],
+      "actions": [
+        "attack_cat",
+        "call_cat",
+        "death_cat",
+        "eat_cat",
+        "hit_cat",
+        "idle_alt_cat",
+        "idle_cat",
+        "jump_cat",
+        "run_cat",
+        "sit_cat",
+        "sleep_cat",
+        "walk_cat"
+      ],
+      "deform": {
+        "walk:Tail_2": {
+          "ok": true,
+          "delta": 0.0277
+        },
+        "run:Tail_2": {
+          "ok": true,
+          "delta": 0.048
+        },
+        "walk:Head": {
+          "ok": true,
+          "delta": 0.0104
+        },
+        "idle->sleep:Head": {
+          "ok": true,
+          "delta": 0.2487
+        },
+        "idle->sleep:Tail_2": {
+          "ok": true,
+          "delta": 0.1471
+        }
+      },
+      "meshes": [
+        "cat_glimmerwood"
+      ],
+      "materials": [
+        "NK_Amber",
+        "NK_Blush",
+        "NK_EyeDark",
+        "NK_Glimmer",
+        "NK_Glowcap",
+        "NK_Highlight",
+        "NK_Leaf",
+        "NK_LeafLit",
+        "NK_Moss",
+        "NK_MossShadow",
+        "NK_PetalSoft",
+        "NK_Silk",
+        "NK_Stem"
+      ],
+      "reimport": "OK",
+      "issues": [],
+      "deform_note": "sleep is a held lying pose (no mid-clip motion); idle->sleep moves Head and Tail_2. walk/run deform the new tail and crown."
+    },
+    {
+      "id": "owl_cloudloft",
+      "file": "owl_cloudloft.glb",
+      "role": "companion",
+      "biome": "Cloudloft",
+      "base": "Vuena / Popyca animal_owl.glb LOD1",
+      "licence": "CC0 1.0",
+      "compare": "owl_cloudloft_compare.png",
+      "triangles": 4768,
+      "size_m": {
+        "x": 0.465,
+        "y_depth": 0.405,
+        "height": 0.674
+      },
+      "base_z": -0.0011,
+      "bones": [
+        "Root",
+        "Hips",
+        "Neck",
+        "Head",
+        "Jaw",
+        "Lids",
+        "Tail_1",
+        "Wing_L",
+        "Leg_L",
+        "Foot_L",
+        "Wing_R",
+        "Leg_R",
+        "Foot_R"
+      ],
+      "clips": [
+        "walk",
+        "sleep",
+        "sit",
+        "jump",
+        "idle",
+        "idle_alt",
+        "hit",
+        "fly",
+        "eat",
+        "death",
+        "call",
+        "attack"
+      ],
+      "actions": [
+        "attack_owl",
+        "call_owl",
+        "death_owl",
+        "eat_owl",
+        "fly_owl",
+        "hit_owl",
+        "idle_alt_owl",
+        "idle_owl",
+        "jump_owl",
+        "sit_owl",
+        "sleep_owl",
+        "walk_owl"
+      ],
+      "deform": {
+        "walk:Head": {
+          "ok": true,
+          "delta": 0.0326
+        },
+        "fly:Wing_L": {
+          "ok": true,
+          "delta": 0.0273
+        },
+        "walk:Tail_1": {
+          "ok": true,
+          "delta": 0.0076
+        },
+        "idle->sleep:Head": {
+          "ok": true,
+          "delta": 0.1282
+        }
+      },
+      "meshes": [
+        "owl_cloudloft"
+      ],
+      "materials": [
+        "NK_Bark",
+        "NK_Blush",
+        "NK_Crystal",
+        "NK_EyeDark",
+        "NK_Glimmer",
+        "NK_Heather",
+        "NK_Highlight",
+        "NK_Leaf",
+        "NK_LeafLit",
+        "NK_Pine",
+        "NK_PineShadow",
+        "NK_Slate",
+        "NK_Wool"
+      ],
+      "reimport": "OK",
+      "issues": [],
+      "deform_note": "sleep is a held pose (no mid-clip motion); idle->sleep moves Head. walk deforms the head and tail; fly deforms the new wing leaves."
+    }
+  ],
+  "contact_sheet": "contact-sheet.png",
+  "roles": {
+    "companions": [
+      "fox_hearthvale (done)",
+      "cat_glimmerwood (done)",
+      "owl_cloudloft (done)"
+    ],
+    "wild_endemic": [
+      "cactoro_nestkin (to be reshaped)",
+      "mushnub_nestkin (to be reshaped)"
+    ]
+  },
+  "fox_hearthvale_compare": "fox_hearthvale_compare.png",
+  "cat_glimmerwood_compare": "cat_glimmerwood_compare.png",
+  "owl_cloudloft_compare": "owl_cloudloft_compare.png"
+}
